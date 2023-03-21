@@ -19,10 +19,11 @@
 \section{Introduction}
 
 % Battery energy storage systems(BESS) 被用在新能源汽车、风力发电站等场景中，为设备提供高品位电能的保存和释放。
-Battery Energy Storage Systems (BESSs) are used to store and release high quality electrical energy in a timely manner in scenarios such as electric vehicles and wind power turbines.
-A large number of individual battery cells are interconnected in groups by circuitry to form the main body of BESSs and achieve the required capacity and voltage for the application. 
-However, the large number of cells also poses a challenge to the reliability of BESS: capacity and lifetime of the system depends mainly on the least healthy battery cells, known as the cask effect. 
-As the multiple charge/discharge cycles of BESSs exacerbate the inconsistency of individual cells, the unhealthy batteries will appear early in operation.
+Battery Energy Storage Systems (BESSs) are used to store and release high quality electrical energy  in scenarios such as electric vehicles and wind power turbines.
+The main body of BESSs consists of a large number of individual battery cells which are interconnected by series-parallel circuitry to provide the required charge storage capacity and output voltage for application.
+However, the increasing number of cells also poses a challenge to the reliability of BESSs: the system's capacity of energy storage and operation safety mainly  depend on the least healthy battery cells in the body, known as the cask effect. 
+In addition, the unhealthy batteries will appear early in operation because the multiple charge/discharge cycles may exacerbate further deterioration of  cells in poor condition.
+For traditional BESSs with fixed circuitry, these limitations and issues cannot be aovided and restrict their practical applications.
 
 
 % 【RBS的先进性、现状】
@@ -31,12 +32,21 @@ As the multiple charge/discharge cycles of BESSs exacerbate the inconsistency of
 % 通过动态改变电路，调控或隔离不良电池，有助于提升系统整体可靠性。
 % 但是，重构也增加了设计、分析和控制的难度。
 % 当前，系统有成百上千的电池，平均每个电池由3~5个开关控制，形成了庞大的状态空间。
-Reconfigurable Battery System (RBS), which can dynamically change the connections between batteries and switch between different circuit configurations as required, is expected to solve the above problem. 
-Unlike fixed configurations, reconfigurable circuits have additional switches connected to battery cells in specific topological patterns. 
-Series/parallel switching relationships and even the isolation of unhealthy batteries can be achieved by controlling the states of these switches (open or closed). 
-From the point of view of the battery cells, RBS has a higher reliability than conventional configurable battery systems. 
-However, it also increases the complexity of design and control.
-Each battery in RBS is controlled by an average of 3 to 5 switches. When the system has hundreds or thousands of cells, there is a huge state space waits to solve.
+Reconfigurable Battery System (RBS), which can dynamically  switch between different circuit configurations as required, is expected to solve the above problem. 
+Unlike fixed BESSs, reconfigurable circuits use additional switches to change the series/parallel relationship between batteries.
+Figure 1 illustrates one of the classic architecture proposed by Visairo et al.(ref:18). % #TODO : ref check
+When the longitudinal switches are cloesd and the diagonal switches are open, the batteries are connected in parallel; conversely, they are connected in series.
+And any battery in the Figure can be disconnected to isolated the unhealthy one or to provide redundancy.
+Based on the reconfiguration, RBSs are available to isolated the unhealthy batteries timely and balance the degradation differents between individual cells as required.
+However, the reconfiguration also increases the complexity of system design and control.
+Each battery in RBSs is controlled by an average of 3 to 5 switches according to reported architectures(ref:13-20).
+When the system has hundreds or thousands of cells, there is a huge state space waits to solve.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{../attachments/fig1.png}
+    \caption{The physical model (a), circuit model (b) and figure model(c) of the classic architecture reported by ref. (d) The overall framework of our method.}
+\end{figure}
 
 
 % 【快速评估系统最大电流的作用和意义、文献现状】
@@ -68,20 +78,6 @@ Section III solves an example proposed in \cite{kimDESADependableEfficient2012}a
 Finally, Section IV provides concluding remarks and directions forjk future work.
 
 \section{Method}
-% \subsection{model building}
-
-% Graph model has been uesd in the past to represent the connectivity of batteries in the RBS.
-% In the study by He et al. \cite{heExploringAdaptiveReconfiguration2013} the batteries in system are represented as the vertices in the graph, and the connectivity between them are expressed as the edges.
-% \begin{figure}[htbp]
-%     \centering
-%     \includegraphics[width=\textwidth]{../attachments/graph_model.png} % #TODO: redraw figure c
-%     \caption{A typical RBS architecture and its two common graph models. 
-%             (a) RBS architecture \cite{kimDESADependableEfficient2012}, (b) graph model focused on connectivity \cite{heExploringAdaptiveReconfiguration2013}, (c) graph model used in this paper.}
-%     \label{fig:graph_model}
-% \end{figure}
-% Figure \ref{fig:graph_model}(b) illustrates one example of the connectiviy model of a typical RBS architecture(Figure \ref{fig:graph_model}(a)).
-% The additional vertices + and - in the figure represent the cathode and anode of the RBS, respectively, and the directed edges between the neighboring nodes represent the possible flows of current.
-% However, this graph model % 写不下去了，我们的图模型能做的，He 的图模型基本也能做，甚至还要清晰
 
 \subsection{circuit model}
 
@@ -198,16 +194,17 @@ We therefore propose a greedy algorithm to solve this model.
 % 贪心策略，当系统中越多的电池被以最短路径联入电路，外电路电流越大。
 % 短路，检查
 % 组合，逐一
-If the battery $i$ is connected to the anode $v_1$ and the cathode $v_N$ of the RBS by a certain line with the minimum number of battery cells on the path,
-we call this path the shortest path ($SP_i$) for the battery $i$.
-Since batteries can provide more total current when connected in parallel than in series, $SP_i$ is the path where battery $i$ contributes the most current to the system output.
-Our solution greedily addresses the issue mentioned in the previous subsection: we greedily allow as many cells as possible to be connected to the overall circuit via $SP$.
-We cannot guarantee that all cells will be connected into the circuit via their $SP$s at the same time, so we ues the following strategies to select $SP$s:
-\begin{enumerate}[(1)]
-    \item Recude the total number of $SP$s selected, when none of the valid circuits can be formed under the current number of $SP$s. 
-    \item Calculate each combination on $SP$s one by one to obtain the $\eta$ under the given number of $SP$s. 
-\end{enumerate}
-We recommend using the dichotomy method to find the right number of selected $SP$s faster in our experience.
+First, we define the battery $i$'s shortest path ($SP_i$).
+When the battery $i$ is connected to the anode $v_1$ and the cathode $v_N$ of the RBS by the path $p$ in the graph model, the distance $\omega$ of $p$ is defined by the following equation:
+\begin{equation}
+    \omega(p) = N_s \cdot n_b (p) + n_s (p),
+\end{equation}
+where $N_s$ is the total number of switches in the system; $n_b(p)$ and $n_s(p)$ are number of batteries and switches in the path $p$ respectively.
+$SP_i$ is defined as the path with the minimum $\omega$ for battery $i$.
+According to the definition, $SP_i$ gives the simplest strategy by which the control of battery $i$ is achieved with a minimum of switches while minimising the influence of other batteries.
+From the perspective of series/parallel, the more batteries are connected into circuit via their $SP$s, the more batteries are connected in parallel.
+Since batteries can provide more total output current when connected in parallel than in series, we greedily allow as many cells as possible to be connected into to the overall circuit via their $SP$s to obtain the MAC.
+The dichotomy method is also performed to faster find the right number of $SP$s.
 
 
 % 【总体流程（二分查找）】
@@ -222,52 +219,32 @@ We recommend using the dichotomy method to find the right number of selected $SP
 % 	给出外电路电流和所有电池电流的最大值，计算比率
 % （伪代码结束）
 % 电池电流Ib不超过ub/rb，未短路，合法（电池电流Ib受外电路Ro影响，考虑设一个固定值Ibmax，表示电池最大许用电流）
-(TODO: this part is rubbish and wait to be revised)
-The specific steps for calculating $\max \eta$ of a given RBS architecture $G(V,E)$ are described below:
-\begin{enumerate}[\textbf{Step} 1:]
-    \item Get $SP_i$(s) for each battery $i\in E_b$ using Depth-First Search.
-    \item Get $\bm{A}$ of $G(V,E)$ by Equation \ref{eq:A}.
-    \item Determine the number $N_{sel}$ of selected $SP$s: the initial value is $N_b$, after which the value is calculated by dichotomy.
-    When $N_{sel}$ is no longer changing, go to \textbf{Step }8.
-    \item Select $N_{sel}$ batteries from total $N_b$ for combination, and select the $SP$s of the selected cells for further combination. 
-    The set of combinations about $SP_i$s of $N_{sel}$ batteries is denoted as $C_p(N_{sel})$. 
-    For all $c_p$s in $C_p(N_{sel})$, determine whether the corresponding circuits meet the requirements and calculate the $\eta$s by the following \textbf{Step }5,6 and 7.
-    \item For a $c_p\in C_p(N_{sel})$, let the switch $j$'s state variable be 1 if $j$ in the $c_p$; 0 otherwise. The $\bm{X}$ for the $c_p$ is further obtained by Equation \ref{eq:X}.
-    If all $c_p$s in $C_p(N_{sel})$ have been selected, return to \textbf{Step }3.
-    \item Calculate $\bm{Y}_n$ by \ref{eq:Yn} and determine whether the $Y_n$ is invertible.
-    If so, perform the next step; otherwise, return to \textbf{Step }5 and select another $c_p$.
-    \item Calculate output current $I_o$ and batteries's currents $\bm{I}_b$ by Equations \ref{eq:I_o} and \ref{eq:I_b}.
-    Check if the max current of batteries $\max(\bm{I}_b)$ exceeds the permissible value $I_m$.
-    If it does not exceed, calculate the ratio $I_o/\max(\bm{I}_b)$, i.e. $\eta$; otherwise, return to \textbf{Step }5 and select another $c_p$.
-    \item Choose the largest one from all the calculated $\eta$s as the output.
-\end{enumerate}
-
-
 The pseudo-code of the algorithm is as follows:
 \begin{algorithm}
-    \caption{Get the max currents ratio of a certain RBS}\label{alg:eta_RBS}
+    \caption{Get the max available currents of a certain RBS}\label{alg:eta_RBS}
     \KwData{Directed graph model $G(V,E)$ of the RBS}
     \KwResult{$\max \eta$}
-    \For{$i \in E_b$}{$P_i \leftarrow \{path| \text{starts at $v_1$ and ends at $v_n$} \wedge \text{has the fewest edges $\in E_b$}\}$.}
+    \For{$i \in E_b$}{
+        $P_i \leftarrow \{path| \text{starts at $v_1$ and ends at $v_n$} \}$\;
+        $SP_i \leftarrow p_i \text{ which has the minimum}~\omega(p_i)~\text{among all}~p_i \in P_i. $
+        }
     get $\bm{A}$ by Equation \ref{eq:A}\;
     \While{not yet determine $\max \eta$ }
         {
             $N_{sel} \leftarrow \text{number of selected $SP$s calculated by dichotomy}$\;
             $C_b    \leftarrow \text{set of all combinations of $N_{sel} $~batteries from $N_b$}$\;
             \For{$c_b \in C_b$}{
-                $C_p  \leftarrow \text{set of all combinations of $p_{ij}\in P_i$ from $\{P_i|i\in c_b\}$} $\;
-                \For{$c_p \in C_p$}{
-                    $\bm{x}_s \leftarrow \text{list of all switches' state: $x_s[j]=1$ if $ j \in c_p$ else 0}$\;
-                    $\bm{X} \leftarrow diag[1,1,\cdots,1,\bm{x}_s] $\;
-                    get $\bm{Y}_n$ by Equation \ref{eq:Yn}\;
-                    \eIf{$\bm{Y}_n$ is invertible}{
-                        get $I_o$ by Equation \ref{eq:I_o}\;
-                        get $\bm{I}_b$ by Equation \ref{eq:I_b}\;
-                        \eIf{$\max(\bm{I}_b)\leq I_m$}{
-                            $\eta \leftarrow I_o/\max(\bm{I}_b)$\;
-                        }{break}
+                % $P_{selected} \leftarrow \bigcup_{i\in c_b}SP_i$\;
+                $\bm{x}_s \leftarrow \text{list of all switches' state: $x_s[j]=1$ if $ j \in \bigcup_{i\in c_b}SP_i $ else 0}$\;
+                $\bm{X} \leftarrow diag[1,1,\cdots,1,\bm{x}_s] $\;
+                get $\bm{Y}_n$ by Equation \ref{eq:Yn}\;
+                \eIf{$\bm{Y}_n$ is invertible}{
+                    get $I_o$ by Equation \ref{eq:I_o}\;
+                    get $\bm{I}_b$ by Equation \ref{eq:I_b}\;
+                    \eIf{$\max(\bm{I}_b)\leq I_m$}{
+                        $\eta \leftarrow I_o/\max(\bm{I}_b)$\;
                     }{break}
-                }
+                }{break}
             }
         }
 \end{algorithm}
