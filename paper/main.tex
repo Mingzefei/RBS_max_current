@@ -1,3 +1,5 @@
+% 从现在起，你将扮演一位科研工作者，有着丰富的论文写作经验。现在有学生向你请教论文写作的问题。可能会给你一段话，你将这段话用英文润色；也可能是直接请教你一些表达或科技论文的框架。你的最终目的是，指导该学生写出一篇优秀的、可发表的科技论文。
+
 \documentclass{article}
 \usepackage{graphicx} % Required for inserting images
 \usepackage{enumerate}
@@ -19,11 +21,12 @@
 \section{Introduction}
 
 % Battery energy storage systems(BESS) 被用在新能源汽车、风力发电站等场景中，为设备提供高品位电能的保存和释放。
-Battery Energy Storage Systems (BESSs) are used to store and release high quality electrical energy  in scenarios such as electric vehicles and wind power turbines.
-The main body of BESSs consists of a large number of individual battery cells which are interconnected by series-parallel circuitry to provide the required charge storage capacity and output voltage for application.
-However, the increasing number of cells also poses a challenge to the reliability of BESSs: the system's capacity of energy storage and operation safety mainly  depend on the least healthy battery cells in the body, known as the cask effect. 
-In addition, the unhealthy batteries will appear early in operation because the multiple charge/discharge cycles may exacerbate further deterioration of  cells in poor condition.
-For traditional BESSs with fixed circuitry, these limitations and issues cannot be aovided and restrict their practical applications.
+Battery Energy Storage Systems (BESSs) are widely used to store and supply high-quality electrical energy in various applications, including electric vehicles and wind power turbines. 
+Typically, a BESS consists of a large number of battery cells that are interconnected by series-parallel circuitry to provide the required charge storage capacity and output voltage. 
+However, as the number of cells increases, the reliability of the system becomes a major concern. 
+The capacity and safety of the BESS are mainly determined by the least healthy battery cells, a phenomenon known as the cask effect. 
+Furthermore, the degradation of cells in poor condition is accelerated by multiple charge/discharge cycles, which can lead to early failure of the unhealthy cells. 
+These limitations and issues are particularly problematic for traditional BESSs with fixed circuitry, which hinder their practical applications. 
 
 
 % 【RBS的先进性、现状】
@@ -34,7 +37,7 @@ For traditional BESSs with fixed circuitry, these limitations and issues cannot 
 % 当前，系统有成百上千的电池，平均每个电池由3~5个开关控制，形成了庞大的状态空间。
 Reconfigurable Battery System (RBS), which can dynamically  switch between different circuit configurations as required, is expected to solve the above problem. 
 Unlike fixed BESSs, reconfigurable circuits use additional switches to change the series/parallel relationship between batteries.
-Figure 1 illustrates one of the classic architecture proposed by Visairo et al.(ref:18). % #TODO : ref check
+Figure 1 illustrates one of the classic architecture proposed by Visairo et al.\cite{visairoReconfigurableBatteryPack2008}.
 When the longitudinal switches are cloesd and the diagonal switches are open, the batteries are connected in parallel; conversely, they are connected in series.
 And any battery in the Figure can be disconnected to isolated the unhealthy one or to provide redundancy.
 Based on the reconfiguration, RBSs are available to isolated the unhealthy batteries timely and balance the degradation differents between individual cells as required.
@@ -46,6 +49,7 @@ When the system has hundreds or thousands of cells, there is a huge state space 
     \centering
     \includegraphics[width=\textwidth]{../attachments/fig1.png}
     \caption{The physical model (a), circuit model (b) and figure model(c) of the classic architecture reported by ref. (d) The overall framework of our method.}
+    \label{fig:1}
 \end{figure}
 
 
@@ -79,7 +83,7 @@ Finally, Section IV provides concluding remarks and directions forjk future work
 
 \section{Method}
 
-\subsection{circuit model}
+\subsection{graph model and circuit model}
 
 A typical RBS circuit consists of battery cells and switches.
 We first transform them into ideal components under reasonable assumptions to establish a processable circuit.
@@ -150,7 +154,11 @@ $\bm{Y}$ is the admittance matrix of the circuit, and $\bm{X}$ is the state matr
         1,  
         \underbrace{1, \cdots, 1}_{N_b~\text{of}~1}, 
         \underbrace{1, 0 \cdots, 1}_{N_s~\text{of}~0/1}
-    ).
+    )
+    =\begin{bmatrix}
+        \bm{I} &\\
+         & \bm{X}_s
+    \end{bmatrix}.
 \end{equation}
 
 
@@ -158,14 +166,21 @@ In addition to the equivalent circuit assumptions, we also assume that all batte
 Then the output current $I_o$ and each battery's current $\bm{I}_b$ can be given by solving the simultaneous Equations \ref{eq:Kirchhoffs_law} and \ref{eq:generalized_branches} eventually.
 Let
 \begin{equation}\label{eq:Yn}
-    \bm{Y}_n (\bm{X}) = \frac{1}{R_o} \bm{A}_o\bm{A}_o^\T + \frac{1}{r_b} \bm{A}_b\bm{A}_b^\T + \frac{1}{r_s}\bm{A}_s\bm{X}\bm{A}_s^\T,
+    \bm{Y}_n (\bm{X}) = \frac{1}{R_o} \bm{A}_o\bm{A}_o^\T + \frac{1}{r_b} \bm{A}_b\bm{A}_b^\T + \frac{1}{r_s}\bm{A}_s\bm{X}_s\bm{A}_s^\T,
 \end{equation}
+% \begin{equation}\label{eq:Yn}
+%     \bm{Y}_n (\bm{X}_s) = \frac{1}{R_o} \bm{A}_o\bm{A}_o^\T + \bm{A}_b \bm{Y}_b \bm{A}_b^\T + \bm{A}_s \bm{Y}_s \bm{X}_s \bm{A}_s^\T
+% \end{equation}
 where $R_o$ is the equivalent resistance of the external circuit.
 Then, if $\bm{Y}_n$ is an invertible matrix, 
 \begin{align}
     I_o(\bm{X})      & = \frac{u_b}{R_o r_b} \bm{A}_o^\T \bm{Y}_n^{-1}(\bm{X}) \bm{A}_b \bm{I}_{N_b\times 1};\label{eq:I_o}\\
     \bm{I}_b(\bm{X}) & = \frac{u_b}{r_b^2}[\bm{A}_b^\T \bm{Y}_n^{-1}(\bm{X}) \bm{A}_b\bm{I}_{N_b \times 1}  -r_b \bm{I}_{N_b \times 1}],\label{eq:I_b}
 \end{align}
+% \begin{align}
+%     I_o(\bm{X}_s)      & = \frac{1}{R_o}\bm{A}_o^\T\bm{Y}_n^{-1}(\bm{X}_s)\bm{A}_b\bm{Y}_b\bm{U}_b;\label{eq:I_o}\\
+%     \bm{I}_b(\bm{X}_s) & = \bm{Y}_b\bm{A}_b^\T\bm{Y}_n^{-1}(\bm{X}_s)\bm{A}_b\bm{Y}_b\bm{U}_b-\bm{Y}_b\bm{U}_b,\label{eq:I_b}
+% \end{align}
 where $\bm{I}_{N_b\times 1}$ is a column vector with all terms being one.
 
 
@@ -250,12 +265,86 @@ The pseudo-code of the algorithm is as follows:
 \end{algorithm}
 
 \section{An example and discussions}
-% 经典结构
-% 建模
-% 求解
-% 正确性
+% 经典结构  visairoReconfigurableBatteryPack2008 验证我们方法的有效性，这个结构的设计目的和应用，我们的验证基于不同规模
+% 建模：物理结构，图模型，电路模型
+% 求解及讨论：模型的正确性，不同规模的效率
+In this section, we evaluate the propoesd algorithm of MAC based on a reconfigurable structure \cite{visairoReconfigurableBatteryPack2008} that has been applied.
+We first build the graph model and equivalent circuit model based on the structure's physical model, as mentioned in section II.
+Then, the accuracy of the result and the efficiency of the algorithm at different scales are discussed.
+
+\subsection{Module building}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{../attachments/fig2.png}
+    \caption{The physical model (a), circuit model (b) and figure model(c) of the reconfigurable architecture propoesd by Visairo \cite{visairoReconfigurableBatteryPack2008}}
+    \label{fig:2}
+\end{figure}
+
+\subsubsection{physical model}
+
+The reconfigurable architecture proposed by Visairo et al.\cite{visairoReconfigurableBatteryPack2008} is shown in Figure \ref{fig:2}(a).
+In this architecture, each cell is controlled by about 3 switches on average.
+Excepted for two switches ($S_1$ and $S_10$ in Figure \ref{fig:2}(a)) controlling the total circuit, the vertical switches (e.g. $S_2$ and $S_7$ in Figure \ref{fig:2}(a)) allow the batteries to be directly connected to the main circuit, and the switches($S_5$ for example) in the diagonal direction can realize connecting the batteries in series.
+Thus, it can dynamically change the output voltage and current as needed.
+The architecture in Figure \ref{fig:2}(a) only has 3 batteries, but in practice it can add new branches containing batteries and switches to deal with large-scale batteries.
+
+\subsection{graph model}
+
+Figure \ref{fig:2}(b) shows the graph model based on the physical model, as shown in Figure \ref{fig:2}(a), with rules mentioned in section II.
+This model captures the connection relationship between the batteries and switches, where vertex 1 and 10 represent the anode and cathode of the RBS respectively, and other vertexes represent the nodes connecting batteries and/or switches.
+The directed edges marked 1, 2 and 3 refer to the corresponding batteries.
+And the edges with two opposite directions represent switches.
+Taking the external electrical equipment in the output circuit as a whole, a directed edge segment from $v_1$ to $v_{10}$ can be obtained. 
+
+\subsection{circuit model}
+
+According to the assumptions about batteries and switches in section II, an equivalent circuit model can be obtained, as shown in Figure \ref{fig:2}(c).
+Based on Equation \ref{eq:A}, we can get its incidence matrix $\bm{A}$:\
+{\setlength{\arraycolsep}{4pt}
+\begin{equation}
+\begin{array}{cc}
+    &  \begin{array}{c c ccc cccccccccc} & e_o &e_{b1}  &e_{b2} & e_{b3} & e_{s1} & e_{s2} & e_{s3} & e_{s4} & e_{s5} & e_{s6} & e_{s7} & e_{s8} & e_{s9} & e_{s10} \end{array}\\
+        \begin{array}{c} v_1\\v_2\\v_3\\v_4\\v_5\\v_6\\v_7\\v_8\\v_9\end{array} & \left[
+    \begin{array}{c|ccc|cccccccccc}
+        -1  &0 &0 &0   &1 &0 &0 &0 &0 &0 &0 &0 &0 &0\\
+        0   &0 &0 &0   &-1&1 &1 &1 &0 &0 &0 &0 &0 &0\\
+        0   &1 &0 &0   &0 &-1&0 &0 &1 &0 &0 &0 &0 &0\\
+        0   &0 &1 &0   &0 &0 &-1&0 &0 &1 &0 &0 &0 &0\\
+        0   &0 &0 &1   &0 &0 &0 &-1&0 &0 &0 &0 &0 &0\\
+        0   &-1&0 &0   &0 &0 &0 &0 &0 &0 &1 &0 &0 &0\\
+        0   &0 &-1&0   &0 &0 &0 &0 &-1&0 &0 &1 &0 &0\\
+        0   &0 &0 &-1  &0 &0 &0 &0 &0 &-1&0 &0 &1 &0\\
+        0   &0 &0 &0   &0 &0 &0 &0 &0 &0 &-1&-1&-1&1\\
+    \end{array} \right]
+\end{array},
+\end{equation}
+}
+where the rows correspond to vertexes in the graph model, and the first column, second to fourth columns, and last ten columns correspond to external electrical equipment, 3 batteries, and 10 switches, respectively.
+According to the above classification of the columns, the matrix $\bm{A}$ can be divided into $\bm{A}_o$, $\bm{A}_b$, and $\bm{A}_s$.
+
+
+The state matrix $\bm{X}$ is determined by the switches' state, that is, the specific configuration of the RBS.
+For example, when switch $S_1$, $S_2$, $S_3$, $S_4$ , $S_7$, $S_8$, $S_9$ and $S_{10}$ are closed, and switch $S_5$ and $S_6$ are open, that is , battery $B_1$, $B_2$ and $B_3$ are connected in parallel to supply power to the external circuit, the state matrix $\bm{X}$ is given by
+\begin{equation}
+    \bm{X} = diag(
+        1,  
+        \underbrace{1,1,1}_{\text{batteries}}, 
+        \underbrace{1,1,1,1,0,0,1,1,1,1}_{\text{switches}}
+    ).
+\end{equation}
+
+
+For the rest of the parameters, such as $R_o$, $r_b$ and $u_b$, this subsection still uses symbols for calculations.
+Their specific value will be explained and discussed at the end of the solution.
+
+\subsection{Module solving and discussing}
 
 \section{Conclusion}
+
+
+
+
 
 \bibliographystyle{ieeetr}
 \bibliography{../attachments/my_ref}
