@@ -1,23 +1,27 @@
 %% basic setting
-% take care : num_b, s_s, t_s
+% take care : num_b, s_s, t_s, node_pos_x/y
 
-num_b = 3;
+num_b = 5;
 num_s = 3*num_b+1;
 num_n = 2*num_b+4;
+
+% node: positon
+node_pos_x=[0,1,1:num_b,1:num_b,1,0];
+node_pos_y=[0,0,ones(1,num_b),2*ones(1,num_b),3,3];
 
 % edge: out
 s_o = num_n;
 t_o = 1;
-weight_o = 10;
+weight_o = 1+num_b*num_s+num_s;
 
 % edge: battery
 s_b = 3:(3+num_b-1);
 t_b = (3+num_b):(3+2*num_b-1);
 weight_b = num_s*ones(1,num_b);
 
-% edge: switch TODO:rewrite s_s and t_s
-s_s = [1,2,2,2,3,4,6,7,8,9];
-t_s = [2,3,4,5,7,8,9,9,9,10];
+% edge: switch 
+s_s = [1, 2*ones(1,num_b), 3:1+num_b, 3+num_b:2+2*num_b,num_n-1];
+t_s = [2, 3:2+num_b, 4+num_b:2+2*num_b, (3+2*num_b)*ones(1,num_b), num_n];
 weight_s = ones(1,num_s);
 
 %% graph model
@@ -28,9 +32,9 @@ t_total = [t_o, t_b, t_s, s_s];
 weight_total = [weight_o, weight_b, weight_s, weight_s];
 % G: total
 G_total = digraph(s_total,t_total,weight_total);
-node_pos=[0,0;1,0;1,1;2,1;3,1;1,2;2,2;3,2;1,3;0,3];
+
 plot(G_total, ...
-    'XData',node_pos(:,1), 'YData',node_pos(:,2), ...
+    'XData',node_pos_x, 'YData',node_pos_y, ...
     'EdgeLabel',G_total.Edges.Weight);
 % get x_s
 x_s = zeros(1,num_s);
@@ -58,9 +62,8 @@ t_dege = [t_o, t_b, t_s];
 weight_dege = [weight_o, weight_b, weight_s];
 % G and incidence: degenerate
 G_dege = digraph(s_dege,t_dege,weight_dege);
-node_pos=[0,0;1,0;1,1;2,1;3,1;1,2;2,2;3,2;1,3;0,3];
 plot(G_dege, ...
-    'XData',node_pos(:,1), 'YData',node_pos(:,2), ...
+    'XData',node_pos_x, 'YData',node_pos_y, ...
     'EdgeLabel',G_dege.Edges.Weight);
 G_o = digraph(s_o,t_o,weight_o);
 G_b = digraph(s_b,t_b,weight_b);
