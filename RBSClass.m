@@ -14,6 +14,10 @@ classdef RBSClass
         s_s
         t_s
         weight_s
+        Ro=sym('Ro','positive'); % for out
+        rb=sym('rb','positive'); % battery internal resistance
+        rs=sym('rs','positive'); % switch resistance
+        ub=sym('ub','positive'); % battery electric potential
         G_total
         SPs
         G_dege
@@ -63,10 +67,17 @@ classdef RBSClass
                 rbs.weight_s];
             G_total = digraph(s_total,t_total,weight_total);
         end
-        function plot_G_total(rbs)
-            plot(rbs.G_total, ...
+        function p=plot_G_total(rbs)
+            p=plot(rbs.G_total, ...
                 'XData',rbs.node_pos_x, 'YData',rbs.node_pos_y, ...
-                'EdgeLabel',rbs.G_total.Edges.Weight);
+                'LineWidth',2,'EdgeColor','#666666', ...
+                'MarkerSize',5);
+            highlight(p,[rbs.num_n 1],'LineStyle','--')
+            for node=1:length(rbs.s_b)
+                highlight(p,[rbs.s_b(node),rbs.t_b(node)], ...
+                    'EdgeColor','#006837','LineWidth',2);
+            end
+            axis off;
         end
         function SPs = get_SPs(rbs)
             SPs = cell(rbs.num_b,1);
@@ -98,11 +109,31 @@ classdef RBSClass
             weight_dege = [rbs.weight_o, rbs.weight_b, rbs.weight_s];
             G_dege = digraph(s_dege,t_dege,weight_dege);
         end
-        function plot_G_dege(rbs)
-            plot(rbs.G_dege, ...
+        function p=plot_G_dege(rbs)
+            p=plot(rbs.G_dege, ...
                 'XData',rbs.node_pos_x, 'YData',rbs.node_pos_y, ...
-                'EdgeLabel',rbs.G_dege.Edges.Weight);
+                'LineWidth',2,'EdgeColor','#666666', ...
+                'MarkerSize',5);
+            highlight(p,[rbs.num_n 1],'LineStyle','--')
+            for node=1:length(rbs.s_b)
+                highlight(p,[rbs.s_b(node),rbs.t_b(node)], ...
+                    'EdgeColor','#006837','LineWidth',2);
+            end
+            axis off;
         end
+        function p=plot_G_dege_hl_swithch(rbs,x_s)
+            p=rbs.plot_G_dege;
+            for i=1:length(x_s)
+                if x_s(i)
+                    highlight(p,[rbs.s_s(i),rbs.t_s(i)], ...
+                        'EdgeColor','#e41a1c','LineWidth',2);
+                end
+            end
+            axis off;
+        end
+%         function save_plot_dege(rbs,file_name)
+%             saveas(rbs.plot_G_dege, file_name)
+%         end
         function A = get_A(rbs)
             G_o = digraph(rbs.s_o,rbs.t_o,rbs.weight_o);
             Ao = full(-incidence(G_o));
@@ -117,23 +148,84 @@ classdef RBSClass
             As(end,:)=[];
             A = [Ao, Ab, As];
         end
-        function [Io_ideal, Ib_ideal, rate]=get_current(rbs,x_s)
-            Ro=sym('Ro','positive'); % for out
-            rb=sym('rb','positive'); % battery internal resistance
-            rs=sym('rs','positive'); % switch resistance
-            ub=sym('ub','positive'); % battery electric potential
-            Us=[0,-ub*ones(1,rbs.num_b),zeros(1,rbs.num_s)]';
-            Y=diag([1/Ro,ones(1,rbs.num_b)/rb,x_s/rs]);
+        function [out_current_ideal, ...
+                isnot_short_circuit, ...
+                Io_ideal,Ib_ideal]=get_current(rbs,x_s)
+
+            Us=[0,-rbs.ub*ones(1,rbs.num_b),zeros(1,rbs.num_s)]';
+            Y=diag([1/rbs.Ro,ones(1,rbs.num_b)/rbs.rb,x_s/rbs.rs]);
             Yn=rbs.A*Y*rbs.A';
             Isn=rbs.A*Y*Us;
+            warning('off','all');
             Un=Yn\Isn;
             U=rbs.A'*Un;
             I=Y*U-Y*Us;
             Io=simplify(I(1));
             Ib=simplify(I(2:rbs.num_b+1));
-            Io_ideal=subs(Io,rs,0);
-            Ib_ideal=subs(Ib,rs,0);
-            rate=Io_ideal/my_max(Ib_ideal);
+            Io_ideal=subs(Io,rbs.rs,0);
+            Ib_ideal=subs(Ib,rbs.rs,0);
+            % whether battery short circuit
+            isnot_short_circuit=1;
+            for ib_ideal = Ib_ideal
+                if ib_ideal == rbs.ub/rbs.rb
+                    isnot_short_circuit=0;
+                end
+            end
+            % out current
+            if my_max(Ib) == 0
+                out_current=0;
+            else
+                out_current=simplify(Io_ideal/my_max(Ib));
+            end
+            out_current_ideal=subs(out_current,rbs.rs,0);
+        end
+        function [mac_under_b,xs_mac] = get_mac_under_b(rbs, under_b)
+            % count mac with given numbers(under_b) batteries
+            all_choose = nchoosek(1:rbs.num_b, under_b);
+            all_out_current_ideal = zeros(1,size(all_choose,1));
+            all_isnot_short_circuit = ones(1,size(all_choose,1));
+            for i = 1:size(all_choose,1)
+                choose = all_choose(i,:);
+                x_s = rbs.get_x_s(choose);
+                [all_out_current_ideal(i), ...
+                    all_isnot_short_circuit(i), ...
+                    ]=rbs.get_current(x_s);
+            end
+            all_current = all_out_current_ideal .* all_isnot_short_circuit;
+            mac_under_b = my_max(all_current);
+            all_i_mac = find(all_current == mac_under_b); % index of mac
+            xs_mac = rbs.get_x_s(all_choose(all_i_mac(1),:));
+        end
+        function [mac, xs] = get_mac(rbs)
+            n_left = 1;
+            n_right = rbs.num_b;
+            while (n_left <= n_right)
+                n_mid = fix((n_left + n_right) / 2);
+
+                val_left = rbs.get_mac_under_b(n_left);
+                val_mid = rbs.get_mac_under_b(n_mid);
+                val_right = rbs.get_mac_under_b(n_right);
+
+                if (val_left > val_mid)
+                    n_right = n_mid - 1;
+                elseif (val_right > val_mid)
+                    n_left = n_mid + 1;
+                else
+                    n = n_mid;
+                    [mac, xs] = rbs.get_mac_under_b(n);
+                    return
+                end
+            end
+            [mac, xs] = rbs.get_mac_under_b(n_left);
+        end
+    end
+    methods (Static)
+        function save_plot(p, file_name)
+            saveas(p,file_name)
+        end
+        function save_fig(p, file_name)
+            show(p);
+            print(file_name,'-dpng','-r600')
         end
     end
 end
@@ -142,9 +234,9 @@ end
 
 function m=my_max(list)
     m=list(1);
-    for v = list(2:end)
-        if isAlways(m<v)
-            m=v;
+    for i = 2:length(list)
+        if isAlways(m<list(i))
+            m=list(i);
         end
     end
 end

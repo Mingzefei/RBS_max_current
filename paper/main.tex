@@ -1,9 +1,11 @@
 % 从现在起，你将扮演一位科研工作者，有着丰富的论文写作经验。现在有学生向你请教论文写作的问题。可能会给你一段话，你将这段话用英文润色；也可能是直接请教你一些表达或科技论文的框架。你的最终目的是，指导该学生写出一篇优秀的、可发表的科技论文。
 
 \documentclass{article}
-\usepackage{graphicx} % Required for inserting images
+\usepackage{graphicx}
+\usepackage{subcaption}
 \usepackage{enumerate}
 \usepackage{amsmath}
+\usepackage{multirow}
 \usepackage{bm}
 \usepackage[ruled,linesnumbered]{algorithm2e}
 
@@ -211,7 +213,7 @@ We therefore propose a greedy algorithm to solve this model.
 % 组合，逐一
 First, we define the battery $i$'s shortest path ($SP_i$).
 When the battery $i$ is connected to the anode $v_1$ and the cathode $v_N$ of the RBS by the path $p$ in the graph model, the distance $\omega$ of $p$ is defined by the following equation:
-\begin{equation}
+\begin{equation}\label{eq:weight}
     \omega(p) = N_s \cdot n_b (p) + n_s (p),
 \end{equation}
 where $N_s$ is the total number of switches in the system; $n_b(p)$ and $n_s(p)$ are number of batteries and switches in the path $p$ respectively.
@@ -254,95 +256,319 @@ The pseudo-code of the algorithm is as follows:
                 $\bm{X} \leftarrow diag[1,1,\cdots,1,\bm{x}_s] $\;
                 get $\bm{Y}_n$ by Equation \ref{eq:Yn}\;
                 \eIf{$\bm{Y}_n$ is invertible}{
-                    get $I_o$ by Equation \ref{eq:I_o}\;
-                    get $\bm{I}_b$ by Equation \ref{eq:I_b}\;
-                    \eIf{$\max(\bm{I}_b)\leq I_m$}{
-                        $\eta \leftarrow I_o/\max(\bm{I}_b)$\;
-                    }{break}
+                }{construct an effective solution}
+                get $I_o$ by Equation \ref{eq:I_o}\;
+                get $\bm{I}_b$ by Equation \ref{eq:I_b}\;
+                \eIf{$\max(\bm{I}_b)\leq I_m$}{
+                    $\eta \leftarrow I_o/\max(\bm{I}_b)$\;
                 }{break}
             }
         }
 \end{algorithm}
 
-\section{An example and discussions}
+\section{Examples and discussions}
 % 经典结构  visairoReconfigurableBatteryPack2008 验证我们方法的有效性，这个结构的设计目的和应用，我们的验证基于不同规模
 % 建模：物理结构，图模型，电路模型
 % 求解及讨论：模型的正确性，不同规模的效率
-In this section, we evaluate the propoesd algorithm of MAC based on a reconfigurable structure \cite{visairoReconfigurableBatteryPack2008} that has been applied.
-We first build the graph model and equivalent circuit model based on the structure's physical model, as mentioned in section II.
-Then, the accuracy of the result and the efficiency of the algorithm at different scales are discussed.
 
-\subsection{Module building}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{../attachments/fig2.png}
-    \caption{The physical model (a), circuit model (b) and figure model(c) of the reconfigurable architecture propoesd by Visairo \cite{visairoReconfigurableBatteryPack2008}}
-    \label{fig:2}
+% 1. 以f4结构为例，example
+% 描述试验过程，包括物理模型（结构）、图模型（有向图、SP）、电路模型（关联矩阵和状态向量）
+% 描述试验结果，根据求解算法，当SPs取xxx时，电路输出电流达到MAC（图，红色表示开关闭合），各电池电流、输出电流的符号运算结果
+% 讨论结果，关联矩阵A的可逆性讨论；影响输出电流的因素，对MAC定义的讨论，对“许用”的说明；
+% 2. 为进一步说明模型和算法的有效性，我们对不同结构、不同电池规模进行求解
+% a). 在e4、f4、e2f2结构上验证算法有效性
+% b). 在f2、f4、f6、f12 上验证有效性
+% （图）物理模型、求解后模型、求解结果：红色表示开关闭合
+% （图）说明电池数量增加的示意图
+% （表）结构、求解结果（Io，Ibmax，MAC）
+% （表）电池数量、求解结果（Io，Ibmax，MAC）
+% 准确性：算法MAC求解结果与电路定律符合
+% 正确性：模型将电池的物理模型等效为恒压源和电阻，外电路等效为电阻，验证该假设的合理性——分析ub、rb等对结果的影响
+% 3. 该方法的优点和未来改进方向：
+% a) 可以获得电路的所有信息，用于其他可重构电路指标的计算，如输出电压等
+% b) 可对电池等效模型进行修改，如引入电容，分析暂态
+
+
+In this section, we evaluate the algorithm and models for MAC mentioned earlier, based on some previously reported structures. 
+Firstly, we provide a specific example for the algorithm and models proposed in Section II using the structure proposed by Visairo and discuss the model and computation process.
+Next, we further verify the applicability of our method on RBSs with different structures and sizes. 
+Finally, we highlight the advantages of our method and suggest directions for future improvements.
+
+
+\subsection{An specific example}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{../attachments/f4-phy.png}
+    \caption{}
+    \label{fig:f4-phy}
+  \end{subfigure}
+  \hspace{0.05\textwidth}
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{../attachments/f4-gra.png}
+    \caption{}
+    \label{fig:f4-gra}
+  \end{subfigure}
+  \\
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{../attachments/f-dege-4-modify.png}
+    \caption{}
+    \label{fig:f4-circ}
+  \end{subfigure}
+  \hspace{0.05\textwidth}
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{../attachments/f-dege-mac-4.png}
+    \caption{}
+    \label{fig:f4-mac}
+  \end{subfigure}
+    
+  \caption{the physical model (a), circuit model (b) and figure model(c) of the reconfigurable architecture propoesd by visairo \cite{visairoReconfigurableBatteryPack2008}(d) is the result}
+  \label{fig:f4-all}
 \end{figure}
 
-\subsubsection{physical model}
 
-The reconfigurable architecture proposed by Visairo et al.\cite{visairoReconfigurableBatteryPack2008} is shown in Figure \ref{fig:2}(a).
+The reconfigurable architecture proposed by Visairo et al.\cite{visairoReconfigurableBatteryPack2008} is shown in Figure \ref{fig:f4-phy}.
 In this architecture, each cell is controlled by about 3 switches on average.
-Excepted for two switches ($S_1$ and $S_10$ in Figure \ref{fig:2}(a)) controlling the total circuit, the vertical switches (e.g. $S_2$ and $S_7$ in Figure \ref{fig:2}(a)) allow the batteries to be directly connected to the main circuit, and the switches($S_5$ for example) in the diagonal direction can realize connecting the batteries in series.
+Excepted for two switches ($S_1$ and $S_{13}$ in Figure \ref{fig:f4-phy}) controlling the total circuit, the vertical switches (e.g. $S_2$ and $S_9$ in Figure \ref{fig:f4-phy}) allow the batteries to be directly connected to the main circuit, and the switches($S_6$ for example) in the diagonal direction can realize connecting the batteries in series.
 Thus, it can dynamically change the output voltage and current as needed.
-The architecture in Figure \ref{fig:2}(a) only has 3 batteries, but in practice it can add new branches containing batteries and switches to deal with large-scale batteries.
+The architecture in Figure \ref{fig:f4-phy} only has 4 batteries, but in practice it can add new branches containing batteries and switches to deal with large-scale batteries\cite{kimDependableEfficientScalable2010}.
 
-\subsection{graph model}
 
-Figure \ref{fig:2}(b) shows the graph model based on the physical model, as shown in Figure \ref{fig:2}(a), with rules mentioned in section II.
-This model captures the connection relationship between the batteries and switches, where vertex 1 and 10 represent the anode and cathode of the RBS respectively, and other vertexes represent the nodes connecting batteries and/or switches.
-The directed edges marked 1, 2 and 3 refer to the corresponding batteries.
-And the edges with two opposite directions represent switches.
-Taking the external electrical equipment in the output circuit as a whole, a directed edge segment from $v_1$ to $v_{10}$ can be obtained. 
+The graph in Figure \ref{fig:f4-gra} represents a graphical model based on the physical model(Figure \ref{fig:f4-phy}). 
+The model is presented in the form of a directed graph, capturing the connection relationship between the battery and switch in the circuit. 
+Vertex 1 and 12 represent the ancode and cathode of the RBS, respectively; 
+the remaining vertices represent the connection nodes between the batteries and switches. 
+Battery 1, 2, 3, and 4 are represented by green directed edges in the graph, while switches are represented by gray directed edges with opposite directions. 
+The external electrical appliance is considered as a directed edge from node 12 to node 1. 
+In the graph model, the directionality of the edges is strictly specified to ensure that there is no reverse flow of current in the battery and external electrical appliance, which could damage the appliance. 
 
-\subsection{circuit model}
 
-According to the assumptions about batteries and switches in section II, an equivalent circuit model can be obtained, as shown in Figure \ref{fig:2}(c).
-Based on Equation \ref{eq:A}, we can get its incidence matrix $\bm{A}$:\
-{\setlength{\arraycolsep}{4pt}
+According to Equation \ref{eq:weight}, the weight of the edge corresponding to the battery is the total number of switches, which is 13; 
+the weight of the edge corresponding to the switch is 1. 
+By setting the weight in this way, on the one hand, it avoids the simultaneous occurrence of multiple batteries in a single SP, weakening the influence between different batteries; 
+on the other hand, it minimizes the number of switches on the path, which means that only a few switches (i.e., the switches on the SP) need to be closed to connect the battery to the main circuit. 
+By using the depth-first search algorithm, the SP of battery 1 can be calculated as the node list $[1, 2, 3, 7, 11, 12]$, and the SPs of the other batteries are shown in Figure \ref{fig:f4-gra}. 
+The SPs provide a basis for selecting variables when solving the MAC through the circuit model in the future.
+
+
+The equivalent circuit model, as shows in Figure \ref{fig:f4-circ}, can be obtained based on the assumptions in Section II. 
+In this model, the batteries and switches are treated as branches, where the battery is regarded as a branch consisting of a voltage source $u_b$ in series with a resistor $r_b$, and the switch is regarded as a branch controlled by a state variable $x_s$ to short or open the circuit.
+Difference from the directed graph model, only one directed edge is used to represent the branch in the circuit, regardless of whether it represents a battery or a switch. 
+The direction of the edge is defined as pointing from the node with the smaller number to the  larger . 
+The direction of the edge is only a preset direction used to calculate the current and voltage. 
+When the computed current or voltage value is negative, it indicates that the direction of the battery or potential difference is opposite to the preset direction. 
+Based on the node-edge relationship in Figure \ref{fig:f4-circ}, the incidence matrix $\bm{A}$: can be obtained according to Equation \ref{eq:A}:
+% {\setlength{\arraycolsep}{4pt}
+% \begin{equation}
+% \begin{array}{cc}
+%     &  \begin{array}{c c ccc cccccccccc} & e_o &e_{b1}  &e_{b2} & e_{b3} & e_{s1} & e_{s2} & e_{s3} & e_{s4} & e_{s5} & e_{s6} & e_{s7} & e_{s8} & e_{s9} & e_{s10} \end{array}\\
+%         \begin{array}{c} v_1\\v_2\\v_3\\v_4\\v_5\\v_6\\v_7\\v_8\\v_9\end{array} & \left[
+%     \begin{array}{c|ccc|cccccccccc}
+%         -1  &0 &0 &0   &1 &0 &0 &0 &0 &0 &0 &0 &0 &0\\
+%         0   &0 &0 &0   &-1&1 &1 &1 &0 &0 &0 &0 &0 &0\\
+%         0   &1 &0 &0   &0 &-1&0 &0 &1 &0 &0 &0 &0 &0\\
+%         0   &0 &1 &0   &0 &0 &-1&0 &0 &1 &0 &0 &0 &0\\
+%         0   &0 &0 &1   &0 &0 &0 &-1&0 &0 &0 &0 &0 &0\\
+%         0   &-1&0 &0   &0 &0 &0 &0 &0 &0 &1 &0 &0 &0\\
+%         0   &0 &-1&0   &0 &0 &0 &0 &-1&0 &0 &1 &0 &0\\
+%         0   &0 &0 &-1  &0 &0 &0 &0 &0 &-1&0 &0 &1 &0\\
+%         0   &0 &0 &0   &0 &0 &0 &0 &0 &0 &-1&-1&-1&1\\
+%     \end{array} \right]
+% \end{array},
+% \end{equation}
+% }
+{\setlength{\arraycolsep}{2pt}
 \begin{equation}
 \begin{array}{cc}
-    &  \begin{array}{c c ccc cccccccccc} & e_o &e_{b1}  &e_{b2} & e_{b3} & e_{s1} & e_{s2} & e_{s3} & e_{s4} & e_{s5} & e_{s6} & e_{s7} & e_{s8} & e_{s9} & e_{s10} \end{array}\\
-        \begin{array}{c} v_1\\v_2\\v_3\\v_4\\v_5\\v_6\\v_7\\v_8\\v_9\end{array} & \left[
-    \begin{array}{c|ccc|cccccccccc}
-        -1  &0 &0 &0   &1 &0 &0 &0 &0 &0 &0 &0 &0 &0\\
-        0   &0 &0 &0   &-1&1 &1 &1 &0 &0 &0 &0 &0 &0\\
-        0   &1 &0 &0   &0 &-1&0 &0 &1 &0 &0 &0 &0 &0\\
-        0   &0 &1 &0   &0 &0 &-1&0 &0 &1 &0 &0 &0 &0\\
-        0   &0 &0 &1   &0 &0 &0 &-1&0 &0 &0 &0 &0 &0\\
-        0   &-1&0 &0   &0 &0 &0 &0 &0 &0 &1 &0 &0 &0\\
-        0   &0 &-1&0   &0 &0 &0 &0 &-1&0 &0 &1 &0 &0\\
-        0   &0 &0 &-1  &0 &0 &0 &0 &0 &-1&0 &0 &1 &0\\
-        0   &0 &0 &0   &0 &0 &0 &0 &0 &0 &-1&-1&-1&1\\
+    &  \begin{array}{c c cccc ccccccccccccc} & e_o &e_{b1}  &e_{b2} & e_{b3} & e_{b4} & e_{s1} & e_{s2} & e_{s3} & e_{s4} & e_{s5} & e_{s6} & e_{s7} & e_{s8} & e_{s9} & e_{s10} & e_{s11} & e_{s12} & e_{s13} \end{array}\\
+        \begin{array}{c} v_1\\v_2\\v_3\\v_4\\v_5\\v_6\\v_7\\v_8\\v_9\\v_{10}\\v_{11}\\v_{12}\end{array} & \left[
+    \begin{array}{c|cccc|ccccccccccccc}
+    -1  &  0  &  0  &  0  &  0  &  1  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0\\
+     0  &  0  &  0  &  0  &  0  & -1  &  1  &  1  &  1  &  1  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0\\
+     0  &  1  &  0  &  0  &  0  &  0  & -1  &  0  &  0  &  0  &  1  &  0  &  0  &  0  &  0  &  0  &  0  &  0\\
+     0  &  0  &  1  &  0  &  0  &  0  &  0  & -1  &  0  &  0  &  0  &  1  &  0  &  0  &  0  &  0  &  0  &  0\\
+     0  &  0  &  0  &  1  &  0  &  0  &  0  &  0  & -1  &  0  &  0  &  0  &  1  &  0  &  0  &  0  &  0  &  0\\
+     0  &  0  &  0  &  0  &  1  &  0  &  0  &  0  &  0  & -1  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0\\
+     0  & -1  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  1  &  0  &  0  &  0  &  0\\
+     0  &  0  & -1  &  0  &  0  &  0  &  0  &  0  &  0  &  0  & -1  &  0  &  0  &  0  &  1  &  0  &  0  &  0\\
+     0  &  0  &  0  & -1  &  0  &  0  &  0  &  0  &  0  &  0  &  0  & -1  &  0  &  0  &  0  &  1  &  0  &  0\\
+     0  &  0  &  0  &  0  & -1  &  0  &  0  &  0  &  0  &  0  &  0  &  0  & -1  &  0  &  0  &  0  &  1  &  0\\
+     0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  & -1  & -1  & -1  & -1  &  1\\
     \end{array} \right]
 \end{array},
 \end{equation}
 }
-where the rows correspond to vertexes in the graph model, and the first column, second to fourth columns, and last ten columns correspond to external electrical equipment, 3 batteries, and 10 switches, respectively.
+where the rows correspond to vertexes in the graph model, and the first column, second to fourth columns, and last ten columns correspond to external electrical equipment, 4 batteries, and 13 switches, respectively.
 According to the above classification of the columns, the matrix $\bm{A}$ can be divided into $\bm{A}_o$, $\bm{A}_b$, and $\bm{A}_s$.
 
 
 The state matrix $\bm{X}$ is determined by the switches' state, that is, the specific configuration of the RBS.
-For example, when switch $S_1$, $S_2$, $S_3$, $S_4$ , $S_7$, $S_8$, $S_9$ and $S_{10}$ are closed, and switch $S_5$ and $S_6$ are open, that is , battery $B_1$, $B_2$ and $B_3$ are connected in parallel to supply power to the external circuit, the state matrix $\bm{X}$ is given by
+For example, when switch
+% $S_1$, $S_2$, $S_3$, $S_4$ , $S_7$, $S_8$, $S_9$ and $S_{10}$  % for f3
+$S_1$, $S_2$, $S_3$, $S_4$, $S_5$, $S_9$, $S_{10}$, $S_{11}$, $S_{12}$ and $S_{13}$ 
+are closed, and switch $S_6$, $S_7$ and $S_8$ are open, that is , battery $B_1$, $B_2$, $B_3$ and $_4$ are connected in parallel to supply power to the external circuit, the state matrix $\bm{X}$ is given by
 \begin{equation}
+%     \bm{X} = diag(
+%         1,  
+%         \underbrace{1,1,1}_{\text{batteries}}, 
+%         \underbrace{1,1,1,1,0,0,1,1,1,1}_{\text{switches}}
+%     ).
     \bm{X} = diag(
         1,  
-        \underbrace{1,1,1}_{\text{batteries}}, 
-        \underbrace{1,1,1,1,0,0,1,1,1,1}_{\text{switches}}
+        \underbrace{1,1,1,1}_{\text{batteries}}, 
+        \underbrace{1,1,1,1,1,0,0,0,1,1,1,1,1}_{\text{switches}}
     ).
 \end{equation}
 
 
-For the rest of the parameters, such as $R_o$, $r_b$ and $u_b$, this subsection still uses symbols for calculations.
-Their specific value will be explained and discussed at the end of the solution.
+When using Algorithm 1 to solve the MAC, we may encounter the situation where the matrix $\bm{Y}_n$ is not full rank, and we cannot directly obtain its inverse matrix. 
+This is because some switches are open, causing some branches with voltage sources to be independent of the main circuit and form new circuits. 
+These circuits have infinite possible values for potential difference between them, since they are not connected to each other. 
+In other words, there are theoretically infinite solutions for potential. 
+However, all of these solutions will satisfy the voltage and current laws required by the equation. 
+On the one hand, for the main circuit, since the model specifies node 12 as the reference point for potential at the beginning (i.e., the associated matrix $\bm{A}$ is reduced by one row corresponding to node 12), the submatrix of $\bm{Y}_n$ formed by the edges on the main circuit path must be full rank, so there is no problem as described above. 
+On the other hand, since the new circuit is independent of the main circuit, it will not affect the output currents of the main circuit and the battery currents. 
+Therefore, any solution can be used for subsequent calculations.
+Here, we can choose the solution where the potential at the node with the smallest number in the independent branch is 0.
 
-\subsection{Module solving and discussing}
+% MAC of RBS_f(4): 4.00
+% Io_ideal: (4*ub)/(4*Ro + rb)
+% Ib_ideal(1): ub/(4*Ro + rb)
+% Ib_ideal(2): ub/(4*Ro + rb)
+% Ib_ideal(3): ub/(4*Ro + rb)
+% Ib_ideal(4): ub/(4*Ro + rb)
+% those switches are close: 1 2 3 4 5 9 10 11 12 13 
+The final calculation result of $\eta$ for the structure in Figure \ref{fig:f4-phy} is 4. 
+The corresponding currents of output and each battery are shown in Table \ref{tab:1}. 
+The red edges in Figure \ref{fig:f4-mac} represent the closed switches.
+\begin{table}[h]
+    \caption{TODO}
+    \label{tab:1}
+    \begin{tabular}{ccc}
+        \hline
+        output current $I_o$       & battery current $\bm{I}_b$       & $\eta$        \\ 
+        \hline\\
+        $\displaystyle\frac{4u_b}{4R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b}\right]$   & $4.00$ \\ 
+        \\
+        \hline
+    \end{tabular}
+\end{table}
+For this structure, when all batteries are connected to the main circuit through the switches in the vertical direction in Figure \ref{fig:f4-phy} and the batteries are connected in parallel, the output current is maximum, which is the sum of the currents of the four batteries. 
+From the specific results of the output current $I_o$ and battery currents $\bm{I}_b$, both are related to the battery voltage $u_b$, internal resistance $r_b$, and external circuit resistance $R_o$. 
+This means that even for the same structure, the output current will change when the external circuit  or the battery specifications  change. 
+By dividing the output current by the sum of the battery currents, we obtain $\eta$, in which the effects of these variables cancel out.
+Thanks to the linearity of the studied structure, when the battery specifications change, the output current also changes proportionally, such as doubling the battery voltage would also double the output current. 
+This variable can reflect the characteristics of the structure itself, regardless of the batteries used. 
+Therefore, using $\eta$ as the metric for the MAC is better than using the output current directly.
+
+\subsection{Difference structures and sizes}
+
+To further demonstrate the effectiveness of the model and algorithm, we solve for different structures and RBSs of different sizes.
+
+TODO: 
+% 贪婪算法
+
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{../attachments/f-dege-mac-4.png}
+    \caption{}
+    \label{fig:f4-mac}
+  \end{subfigure}
+  \hspace{0.05\textwidth}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{../attachments/e-dege-mac-4.png}
+    \caption{}
+    \label{fig:e4-mac}
+  \end{subfigure}
+  \hspace{0.05\textwidth}
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{../attachments/e2f2-dege-mac.png}
+    \caption{}
+    \label{fig:e2f2-mac}
+  \end{subfigure}
+    
+  \caption{TODO}
+  \label{fig:d-structure}
+\end{figure}
+
+
+\begin{table}[h]
+    \caption{TODO}
+    \label{tab:d-structure}
+    \begin{tabular}{cccc}
+        \hline
+        structure &  output current $I_o$       & battery current $\bm{I}_b$       & $\eta$        \\ 
+        \hline\\
+        f &  $\displaystyle\frac{4u_b}{4R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b}\right]$   & $2.00$ \\ 
+        \\
+        e &  $\displaystyle\frac{u_b}{R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{R_o + r_b},0,0,0\right]$   & $4.00$ \\ 
+        \\ 
+        e2f2 &  $\displaystyle\frac{2u_b}{2R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{2R_o + r_b},\frac{u_b}{2R_o + r_b},0,0\right]$   & $6.00$ \\ 
+        \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{../attachments/f-dege-mac-2.png}
+    \caption{}
+    \label{fig:f2-mac}
+  \end{subfigure}
+  \hspace{0.05\textwidth}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{../attachments/f-dege-mac-4.png}
+    \caption{}
+    \label{fig:f4-mac}
+  \end{subfigure}
+  \hspace{0.05\textwidth}
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{../attachments/f-dege-mac-6.png}
+    \caption{}
+    \label{fig:f6-mac}
+  \end{subfigure}
+    
+  \caption{TODO}
+  \label{fig:d-sizes}
+\end{figure}
+
+\begin{table}[h]
+    \caption{TODO}
+    \label{tab:d-structure}
+    \begin{tabular}{cccc}
+        \hline
+        size &  output current $I_o$       & battery current $\bm{I}_b$       & $\eta$        \\ 
+        \hline\\
+        2 &  $\displaystyle\frac{2u_b}{2R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{2R_o + r_b},\frac{u_b}{2R_o + r_b},\frac{u_b}{2R_o + r_b},\frac{u_b}{2R_o + r_b}\right]$   & $4.00$ \\ 
+        \\
+        4 &  $\displaystyle\frac{4u_b}{4R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b}\right]$   & $4.00$ \\ 
+        \\
+        6 &  $\displaystyle\frac{6u_b}{6R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{6R_o + r_b},\frac{u_b}{6R_o + r_b},\frac{u_b}{6R_o + r_b},\frac{u_b}{6R_o + r_b}\right]$   & $4.00$ \\ 
+        \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Advantages and future improvements}
+
+
+
+Our proposed method can obtain comprehensive information about the battery system, including the voltage, current, power, and energy of each battery, as well as the output voltage and current of the system.
+This information can be used for various reconfigurable circuit metrics, such as output voltage regulation, power balancing, and fault diagnosis. 
+By using this method, engineers and researchers can obtain a better understanding of the behavior and performance of battery systems, and optimize their designs and operations accordingly.
+
+To further enhance the usefulness of our method, we can modify the equivalent battery model by introducing capacitance to analyze the transient behavior of the battery system. 
+This modification can capture the dynamic response of the battery system to sudden changes in load or input voltage, and enable more accurate simulations of battery systems under transient conditions.
+By incorporating these models and techniques, we can achieve more accurate and realistic simulations of battery systems, and enable more advanced analysis and design of battery systems.
+
 
 \section{Conclusion}
 
-
+In conclusion, we have successfully addressed the problem of estimating the maximum allowable current (MAC) for RBS. First, we established a directed graph model to describe the connection relationship between the battery and the switch based on the physical model and solved the shortest path (SP) for the battery to connect to the main circuit. Then, we established a circuit model by equivalently representing the battery as a series voltage source and resistance and used switch state variables (X_s) to describe RBS reconstruction. Based on a greedy algorithm, we used SP to provide a search strategy for X_s and proposed using the ratio of output current to maximum battery current to describe MAC. The effectiveness of this method has been verified on RBS with different structures and scales. Our model can provide information on current and voltage in each branch of the circuit and is expandable.
 
 
 

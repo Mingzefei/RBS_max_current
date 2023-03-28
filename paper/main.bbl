@@ -10,4 +10,11 @@ H.~Kim and K.~G. Shin, ``{{DESA}}: {{Dependable}}, {{Efficient}}, {{Scalable
   Architecture}} for {{Management}} of {{Large-Scale Batteries}},'' {\em IEEE
   Transactions on Industrial Informatics}, vol.~8, pp.~406--417, May 2012.
 
+\bibitem{kimDependableEfficientScalable2010}
+H.~Kim and K.~G. Shin, ``Dependable, efficient, scalable architecture for
+  management of large-scale batteries,'' in {\em Proceedings of the 1st
+  {{ACM}}/{{IEEE International Conference}} on {{Cyber-Physical Systems}}},
+  {{ICCPS}} '10, ({New York, NY, USA}), pp.~178--187, {Association for
+  Computing Machinery}, Apr. 2010.
+
 \end{thebibliography}

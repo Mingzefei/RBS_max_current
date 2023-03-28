@@ -11,6 +11,23 @@
 
 --------
 
+## this paper
+
+### examples and discussions 
+
+- [ ] fig:f4-gra 标记SP
+
+
+
+
+
+
+
+
+
+
+
+
 ## 待解决问题
 
 - 对电路图的图描述
@@ -50,3 +67,6 @@ actively regulate the system output
 ### 算法框架
 
 图的表示
+
+
+
