@@ -1,4 +1,4 @@
-% 从现在起，你将扮演一位科研工作者，有着丰富的论文写作经验。现在有学生向你请教论文写作的问题。可能会给你一段话，你将这段话用英文润色；也可能是直接请教你一些表达或科技论文的框架。你的最终目的是，指导该学生写出一篇优秀的、可发表的科技论文。
+% 从现在起，你将扮演一位科研工作者，有着丰富的论文写作经验。现在有学生向你请教论文写作的问题。可能会给你一段话，你将这段话用英文润色；也可能是直接请教你一些表达或科技论文的框架。你的最终目的是，指导该学生写出一篇优秀的、可发表的科技论文。其中一些内容以latex格式存在，你可以选择忽视。
 
 \documentclass{article}
 \usepackage{graphicx}
@@ -20,14 +20,25 @@
 
 \maketitle
 
+\begin{abstract}
+    Traditional battery systems are limited by their dependence on the worst-performing battery cell, which negatively impacts their performance and lifespan.
+    To overcome this limitation, Reconfigurable Battery Systems (RBSs) have emerged as a promising alternative, with the ability to dynamically adjust the circuit configuration to optimize the charging and discharging strategies of battery cells. 
+    However, due to their reconfigurability, RBSs require new performance indicators to evaluate their performance.
+    This paper proposes an approach to estimate the Maximum Allowable Current (MAC), which is a crucial indicator for evaluating or optimizing the performance of RBSs.
+    The proposed method utilizes a greedy algorithm based on a graph model and an equivalent circuit model. 
+    By searching for the shortest path for battery cells to connect to the main circuit in the graph model, a greedy search strategy is provided for the equivalent circuit model to describe the switch state variables. 
+    We validate the effectiveness of the proposed method on RBS structures of different sizes and configurations. 
+    Our results also show that the ratio of the output current to the maximum battery current could better reflect the structural performance of RBS than the output current alone. 
+\end{abstract}
+
 \section{Introduction}
 
 % Battery energy storage systems(BESS) 被用在新能源汽车、风力发电站等场景中，为设备提供高品位电能的保存和释放。
-Battery Energy Storage Systems (BESSs) are widely used to store and supply high-quality electrical energy in various applications, including electric vehicles and wind power turbines. 
+Battery Energy Storage Systems (BESSs) are widely used to store and supply high-quality electrical energy in various applications, including electric vehicles and wind power turbines\cite{desiqueiraControlStrategySmooth2021,karandehTwoStageAlgorithmOptimal2019,yangBatteryEnergyStorage2018,choCommercialResearchBattery2015}. 
 Typically, a BESS consists of a large number of battery cells that are interconnected by series-parallel circuitry to provide the required charge storage capacity and output voltage. 
 However, as the number of cells increases, the reliability of the system becomes a major concern. 
 The capacity and safety of the BESS are mainly determined by the least healthy battery cells, a phenomenon known as the cask effect. 
-Furthermore, the degradation of cells in poor condition is accelerated by multiple charge/discharge cycles, which can lead to early failure of the unhealthy cells. 
+Furthermore, the degradation of cells in poor condition is accelerated by multiple charge/discharge cycles, which can lead to early failure of the unhealthy cells\cite{yangUnbalancedDischargingAging2016,fengPropagationMechanismsDiagnosis2019}. 
 These limitations and issues are particularly problematic for traditional BESSs with fixed circuitry, which hinder their practical applications. 
 
 
@@ -37,20 +48,20 @@ These limitations and issues are particularly problematic for traditional BESSs 
 % 通过动态改变电路，调控或隔离不良电池，有助于提升系统整体可靠性。
 % 但是，重构也增加了设计、分析和控制的难度。
 % 当前，系统有成百上千的电池，平均每个电池由3~5个开关控制，形成了庞大的状态空间。
-Reconfigurable Battery System (RBS), which can dynamically  switch between different circuit configurations as required, is expected to solve the above problem. 
+Reconfigurable Battery System (RBS), which can dynamically  switch between different circuit configurations as required, is expected to solve the above problem\cite{hanNextGenerationBatteryManagement2020a}. 
 Unlike fixed BESSs, reconfigurable circuits use additional switches to change the series/parallel relationship between batteries.
-Figure 1 illustrates one of the classic architecture proposed by Visairo et al.\cite{visairoReconfigurableBatteryPack2008}.
+Figure \ref{fig:1} illustrates one of the classic architecture proposed by Visairo et al.\cite{visairoReconfigurableBatteryPack2008}.
 When the longitudinal switches are cloesd and the diagonal switches are open, the batteries are connected in parallel; conversely, they are connected in series.
 And any battery in the Figure can be disconnected to isolated the unhealthy one or to provide redundancy.
-Based on the reconfiguration, RBSs are available to isolated the unhealthy batteries timely and balance the degradation differents between individual cells as required.
+Based on the reconfiguration, RBSs are available to isolated the unhealthy batteries timely and balance the degradation differences between individual cells as required.
 However, the reconfiguration also increases the complexity of system design and control.
-Each battery in RBSs is controlled by an average of 3 to 5 switches according to reported architectures(ref:13-20).
-When the system has hundreds or thousands of cells, there is a huge state space waits to solve.
+Each battery in RBSs is controlled by an average of 3 to 5 switches according to reported architectures\cite{taesickimSeriesconnectedSelfreconfigurableMulticell2012,heReconfigurationassistedChargingLargescale2014,lawsonSoftwareConfigurableBattery2012,kimBalancedReconfigurationStorage2011,kimDependableEfficientScalable2010}visairoReconfigurableBatteryPack2008.
+When the system has hundreds or thousands of cells, there is a huge value range waits to be solve.
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{../attachments/fig1.png}
-    \caption{The physical model (a), circuit model (b) and figure model(c) of the classic architecture reported by ref. (d) The overall framework of our method.}
+    \includegraphics[width=\textwidth]{../attachments/fig1-v2.png}
+    \caption{Diagram of our proposed method. It includes a graph model and an equivalent circuit model based on the physical model, and the maximum allowable current is obtained by using a greedy algorithm.}
     \label{fig:1}
 \end{figure}
 
@@ -63,12 +74,10 @@ When the system has hundreds or thousands of cells, there is a huge state space 
 % 但是没有严谨研究最大电流。（直接说没有）
 % del: 一些研究使用了过度的简化，不准；（具体文献？）:led
 % del: 只针对小数量的电池和特定的结构，不普适（具体文献，容易找到）:led
-The importance of the Maximum Allowable Current (MAC), defined as the maximum current that the system can output to external electrical equipment when the currents of all the batteries in the system do not exceed the specified value, is beginning to be recognised in RBS research. 
-From the definition it can be seen that MAC determines the maximum output current of the RBS during normal operation at the design stage and of the reconfigured system when the failed batteries are isolated during the run-in phase. 
-MAC is therefore one of the key indicators used in the study for the design and evaluation of RBSs.
-% (#TODO: 一些考虑最大许用电流的构建结构的策略)
-(TODO: Some literature on strategies for RBS that take MAC into account)
-However, none of the existing literature on RBS provides a method for calculating the MAC.
+Maximum Allowable Current (MAC) is a critical parameter in the design and evaluation of reconfigurable battery systems (RBSs). 
+MAC determines the maximum current that the RBS can output to external electrical equipment without exceeding a specified current limit for batteries.
+This parameter is important for ensuring the safe and reliable operation of RBSs during normal operation and when failed batteries are isolated. 
+Despite its importance, existing literature on RBSs does not provide a method for calculating MAC, which poses a challenge for the design and evaluation of these systems.
 
 
 % 【本文的主要内容和结构】
@@ -76,21 +85,26 @@ However, none of the existing literature on RBS provides a method for calculatin
 The purpose of this paper is to propose an effective and efficient algorithm based on the greedy search strategy to solve the MAC of RBSs. 
 A mathematical model of MAC is constructed and the optimal solution is searched in the state space of switches using maximising the number of cells directly connected in parallel as the strategy.
 
+Our main contribution is the development of a mathematical model that describes the problem of calculating the Maximum Allowable Current (MAC) in reconfigurable battery systems (RBSs). 
+As shown in Figure \ref{fig:1}, the graph model is used to describe the structure of the RBS and determine the shortest paths (SPs) of battery connections to the main circuit with minimal cost;
+the circuit model represents the batteries and switches in an actual RBS as equivalent circuit branches that can be processed;
+based on a greedy strategy that selects the SPs to determine the switch state $X_s$, we can solve for the optimal MAC. 
+Our proposed method provides an efficient and effective way to calculate MAC, which can help to improve the design and evaluation of RBSs and ensure their safe and reliable operation in various applications.
+
 
 % 文章组织：section 2，算法的框架和细节；section 3，案例，讨论和验证；section 4 总结。
 This paper is organized as follows. 
-Section II presents the mathematical model and the algorithm in detail.
-Section III solves an example proposed in \cite{kimDESADependableEfficient2012}and discusses the results. 
-Finally, Section IV provides concluding remarks and directions forjk future work.
+Section II presents the graph model and circuit model, and the algorithm in detail.
+In Section III, we apply the proposed method to solves an example proposed in \cite{kimDESADependableEfficient2012} and further validated its on RBSs of different structures and scales.
+Finally, we provides concluding remarks and discuss potential directions for future work.
 
 \section{Method}
 
 \subsection{graph model and circuit model}
 
-A typical RBS circuit consists of battery cells and switches.
-We first transform them into ideal components under reasonable assumptions to establish a processable circuit.
-Then the circuit structure is described in matrix form and the related equations are given.
-
+A typical RBS circuit is composed of battery cells and switches. 
+To establish a processable circuit, we transform these components into ideal elements under reasonable assumptions. 
+The resulting circuit structure is then described in matrix form, and the related equations are provided.
 
 % 【电路，有向图，规定，假设】
 % node，连接battery和switch，编号顺序
@@ -103,12 +117,13 @@ Then the circuit structure is described in matrix form and the related equations
 % 假设均一化，矩阵分块
 % 在导纳矩阵非奇异的条件下
 % 推导出输出电流Io和电池电流Ib
-The normal equivalent circuit of a battery consists of a voltage source in series with a resistor, and a capacitor in parallel with another resistor to simulate the polarisation in batteries.
-As the main aim of this research is to calculate the stable MAC offered by a given RBS architecture, only the steady-state behaviour of the circuit is taken into account, while transient effects are ignored in this research.
-Thus, we equate the battery $i$ as a constant voltage source $u_{b,i}$ in series with a resistor $r_{b,i}$.
-A binary variable $x_j$ is used to represent the state of the switch $j$: 0 and 1 mean open and closed respectively.
-To simplify the calculation, the closed switch is considered as a resistor with a very small resistance value $r_s$, which will be treated as zero in the final result.
-In the following derivation, the product of the conductance $1/r_s$ and the variable $x_j$ is used to characterize the state of the switch $j$.
+
+The normal equivalent circuit for a battery consists of a voltage source in series with a resistor, and a capacitor in parallel with another resistor to simulate the polarization in batteries. 
+Since our main objective is to calculate the stable MAC offered by a given RBS architecture, we only consider the steady-state behavior of the circuit, ignoring transient effects. 
+Therefore, we model the battery $i$ as a constant voltage source $u_{b,i}$ in series with a resistor $r_{b,i}$. 
+And we use a binary variable $x_j$ to represent the state of switch $j$, where 0 and 1 indicate open and closed, respectively. 
+To simplify the calculation, we consider a closed switch as a resistor with a very small resistance value $r_s$, which we treat as zero in the final result. 
+In the following derivation, we use the product of the conductance $1/r_s$ and the variable $x_j$ to characterize the state of switch $j$.
 
 
 Before obtaining the incidence matrix representing the structure of the circuit, a directed graph model $G(V,E)$ for the RBS is constructed in such a way that
@@ -224,6 +239,7 @@ Since batteries can provide more total output current when connected in parallel
 The dichotomy method is also performed to faster find the right number of $SP$s.
 
 
+
 % 【总体流程（二分查找）】
 % 对于给定结构和最大许用电流通过如下步骤得到：
 % （伪代码开始）
@@ -323,8 +339,7 @@ Finally, we highlight the advantages of our method and suggest directions for fu
     \caption{}
     \label{fig:f4-mac}
   \end{subfigure}
-    
-  \caption{the physical model (a), circuit model (b) and figure model(c) of the reconfigurable architecture propoesd by visairo \cite{visairoReconfigurableBatteryPack2008}(d) is the result}
+  \caption{ RBS structure proposed by Visairo\cite{visairoReconfigurableBatteryPack2008} with 4 batteries. (a) Physical model, (b) graph model, (c) equivalent circuit model, and (d) results obtained by using the proposed method. The red highlighted lines indicate the open/close states of switches.}
   \label{fig:f4-all}
 \end{figure}
 
@@ -444,7 +459,7 @@ The final calculation result of $\eta$ for the structure in Figure \ref{fig:f4-p
 The corresponding currents of output and each battery are shown in Table \ref{tab:1}. 
 The red edges in Figure \ref{fig:f4-mac} represent the closed switches.
 \begin{table}[h]
-    \caption{TODO}
+    \caption{Detailed results of the proposed method for the RBS structure proposed by Visairo\cite{visairoReconfigurableBatteryPack2008} with 4 batteries, including the output current, current of each battery, and $\eta$.}
     \label{tab:1}
     \begin{tabular}{ccc}
         \hline
@@ -456,6 +471,7 @@ The red edges in Figure \ref{fig:f4-mac} represent the closed switches.
     \end{tabular}
 \end{table}
 For this structure, when all batteries are connected to the main circuit through the switches in the vertical direction in Figure \ref{fig:f4-phy} and the batteries are connected in parallel, the output current is maximum, which is the sum of the currents of the four batteries. 
+The MAC of this structure is correctly estimated by our greedy algorithm.
 From the specific results of the output current $I_o$ and battery currents $\bm{I}_b$, both are related to the battery voltage $u_b$, internal resistance $r_b$, and external circuit resistance $R_o$. 
 This means that even for the same structure, the output current will change when the external circuit  or the battery specifications  change. 
 By dividing the output current by the sum of the battery currents, we obtain $\eta$, in which the effects of these variables cancel out.
@@ -467,95 +483,102 @@ Therefore, using $\eta$ as the metric for the MAC is better than using the outpu
 
 To further demonstrate the effectiveness of the model and algorithm, we solve for different structures and RBSs of different sizes.
 
-TODO: 
-% 贪婪算法
 
+Figure \ref{fig:d-structure} illustrates three architectures, each consisting of four batteries with different interconnections.
+Architecture \ref{fig:d-structure-f4}, previously described in the subsection, was proposed by Visairo\cite{visairoReconfigurableBatteryPack2008}. 
+Architecture \ref{fig:d-structure-e4}, proposed by Lawson \cite{lawsonSoftwareConfigurableBattery2012}, allows for the disconnection of any battery to isolate a faulty one or to provide redundancy, and requires significantly fewer switches than \ref{fig:d-structure-e4}. 
+Architecture \ref{fig:d-structure-e2f2} is a novel structure obtained by combining the features of both \ref{fig:d-structure-f4} and \ref{fig:d-structure-e4}. 
+The final solution obtained by the greedy algorithm is shown in Figure \ref{fig:d-structure} and summarized in Table \ref{tab:d-structure}.
 \begin{figure}[htbp]
   \centering
   \begin{subfigure}[b]{0.3\textwidth}
     \includegraphics[width=\textwidth]{../attachments/f-dege-mac-4.png}
     \caption{}
-    \label{fig:f4-mac}
+    \label{fig:d-structure-f4}
   \end{subfigure}
   \hspace{0.05\textwidth}
   \begin{subfigure}[b]{0.3\textwidth}
     \includegraphics[width=\textwidth]{../attachments/e-dege-mac-4.png}
     \caption{}
-    \label{fig:e4-mac}
+    \label{fig:d-structure-e4}
   \end{subfigure}
   \hspace{0.05\textwidth}
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{../attachments/e2f2-dege-mac.png}
     \caption{}
-    \label{fig:e2f2-mac}
+    \label{fig:d-structure-e2f2}
   \end{subfigure}
-    
-  \caption{TODO}
+  \caption{Results obstained by our method on (a) structure proposed by Visairo\cite{visairoReconfigurableBatteryPack2008}, (b) structure proposed by Lawson\cite{lawsonSoftwareConfigurableBattery2012}, and (c) structure combining Visairo's and Lawson's structure. The red highlighted lines indicate the open/close states of switches.}
   \label{fig:d-structure}
 \end{figure}
 
 
 \begin{table}[h]
-    \caption{TODO}
+    \centering
+    \caption{detailed results of the proposed method for the rbs structure with 4 batteries (a) proposed by visairo\cite{visairoReconfigurableBatteryPack2008}, (b) proposed by lawson\cite{lawsonSoftwareConfigurableBattery2012} and (c) combining both  , including the output current, current of each battery, and $\eta$.}
     \label{tab:d-structure}
     \begin{tabular}{cccc}
         \hline
         structure &  output current $I_o$       & battery current $\bm{I}_b$       & $\eta$        \\ 
         \hline\\
-        f &  $\displaystyle\frac{4u_b}{4R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b}\right]$   & $2.00$ \\ 
+        Visairo\cite{visairoReconfigurableBatteryPack2008} &  $\displaystyle\frac{4u_b}{4R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b}\right]$   & $2.00$ \\ 
         \\
-        e &  $\displaystyle\frac{u_b}{R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{R_o + r_b},0,0,0\right]$   & $4.00$ \\ 
+        Lawson\cite{lawsonSoftwareConfigurableBattery2012} &  $\displaystyle\frac{u_b}{R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{R_o + r_b},0,0,0\right]$   & $4.00$ \\ 
         \\ 
-        e2f2 &  $\displaystyle\frac{2u_b}{2R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{2R_o + r_b},\frac{u_b}{2R_o + r_b},0,0\right]$   & $6.00$ \\ 
+        combining both &  $\displaystyle\frac{2u_b}{2R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{2R_o + r_b},\frac{u_b}{2R_o + r_b},0,0\right]$   & $6.00$ \\ 
         \\
         \hline
     \end{tabular}
 \end{table}
+
+Figure \ref{fig:d-size} presents the structures proposed by Visairo \cite{visairoReconfigurableBatteryPack2008} with varying numbers of batteries. 
+We applied our method to solve structures with 2, 4, and 6 batteries, and the results are shown in Figure \ref{fig:d-size} and summarized in Table \ref{tab:d-size}.
 
 \begin{figure}[htbp]
   \centering
   \begin{subfigure}[b]{0.3\textwidth}
     \includegraphics[width=\textwidth]{../attachments/f-dege-mac-2.png}
     \caption{}
-    \label{fig:f2-mac}
+    \label{fig:d-size-2}
   \end{subfigure}
   \hspace{0.05\textwidth}
   \begin{subfigure}[b]{0.3\textwidth}
     \includegraphics[width=\textwidth]{../attachments/f-dege-mac-4.png}
     \caption{}
-    \label{fig:f4-mac}
+    \label{fig:d-size-4}
   \end{subfigure}
   \hspace{0.05\textwidth}
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{../attachments/f-dege-mac-6.png}
     \caption{}
-    \label{fig:f6-mac}
+    \label{fig:d-size-6}
   \end{subfigure}
     
-  \caption{TODO}
-  \label{fig:d-sizes}
+  \caption{Results obstained by our method on structure proposed by Visairo\cite{visairoReconfigurableBatteryPack2008} with (a)2, (b)4 and (c) 6 batteries.  The red highlighted lines indicate the open/close states of switches.}
+  \label{fig:d-size}
 \end{figure}
 
 \begin{table}[h]
-    \caption{TODO}
-    \label{tab:d-structure}
+    \caption{detailed results of the proposed method for the rbs structure  proposed by visairo\cite{visairoReconfigurableBatteryPack2008} with (a)2, (b)4 and (c) 6 batteries , including the output current, current of each battery, and $\eta$.}
+    \label{tab:d-size}
     \begin{tabular}{cccc}
         \hline
         size &  output current $I_o$       & battery current $\bm{I}_b$       & $\eta$        \\ 
         \hline\\
-        2 &  $\displaystyle\frac{2u_b}{2R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{2R_o + r_b},\frac{u_b}{2R_o + r_b},\frac{u_b}{2R_o + r_b},\frac{u_b}{2R_o + r_b}\right]$   & $4.00$ \\ 
+        2 &  $\displaystyle\frac{2u_b}{2R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{2R_o + r_b},\frac{u_b}{2R_o + r_b},\frac{u_b}{2R_o + r_b},\frac{u_b}{2R_o + r_b}\right]$   & $2.00$ \\ 
         \\
         4 &  $\displaystyle\frac{4u_b}{4R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b}\right]$   & $4.00$ \\ 
         \\
-        6 &  $\displaystyle\frac{6u_b}{6R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{6R_o + r_b},\frac{u_b}{6R_o + r_b},\frac{u_b}{6R_o + r_b},\frac{u_b}{6R_o + r_b}\right]$   & $4.00$ \\ 
+        6 &  $\displaystyle\frac{6u_b}{6R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{6R_o + r_b},\frac{u_b}{6R_o + r_b},\frac{u_b}{6R_o + r_b},\frac{u_b}{6R_o + r_b}\right]$   & $6.00$ \\ 
         \\
         \hline
     \end{tabular}
 \end{table}
 
+Our greedy algorithm provided accurate estimates of the structure MAC and generated safe and effective switch control strategies, as indicated by the results shown in Figure \ref{fig:d-structure} and \ref{fig:d-size}, where the highlighted red switches denote the closed positions. 
+Furthermore, the current solutions obtained from the control strategies in Table \ref{tab:d-structure} and \ref{tab:d-size} show that the output current is influenced by the external circuit resistance, battery potential, and internal resistance, but is linearly related to the battery current, consistent with the conclusion about $\eta$ in the previous subsection.
+
 \subsection{Advantages and future improvements}
-
-
 
 Our proposed method can obtain comprehensive information about the battery system, including the voltage, current, power, and energy of each battery, as well as the output voltage and current of the system.
 This information can be used for various reconfigurable circuit metrics, such as output voltage regulation, power balancing, and fault diagnosis. 
@@ -568,8 +591,14 @@ By incorporating these models and techniques, we can achieve more accurate and r
 
 \section{Conclusion}
 
-In conclusion, we have successfully addressed the problem of estimating the maximum allowable current (MAC) for RBS. First, we established a directed graph model to describe the connection relationship between the battery and the switch based on the physical model and solved the shortest path (SP) for the battery to connect to the main circuit. Then, we established a circuit model by equivalently representing the battery as a series voltage source and resistance and used switch state variables (X_s) to describe RBS reconstruction. Based on a greedy algorithm, we used SP to provide a search strategy for X_s and proposed using the ratio of output current to maximum battery current to describe MAC. The effectiveness of this method has been verified on RBS with different structures and scales. Our model can provide information on current and voltage in each branch of the circuit and is expandable.
-
+In conclusion, we successfully estimated the Maximum Allowable Current (MAC) of the Rechargeable Battery Systems (RBSs), which is an important performance indicator for evaluating the RBSs. 
+We developed both a graph model and a circuit model and used a greedy strategy to solve the MAC. 
+Our method was validated for RBS structures of different sizes and configurations, demonstrating its effectiveness for handling complex models in practice. 
+This work provides an effective approach for designing and evaluating the output current performance of RBS. 
+Our model can be used to obtain current and voltage information for different nodes and branches, and is scalable for larger systems.
+Future work could focus on : 
+a) using current and voltage information to construct new performance indicators for evaluating RBS performance, and 
+b) modifying the equivalent model of the battery for circuit model applications, such as transient analysis.
 
 
 \bibliographystyle{ieeetr}

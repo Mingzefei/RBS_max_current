@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.7.10)  29 MAR 2023 02:54
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.7.10)  29 MAR 2023 12:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -195,23 +195,7 @@ File: l3backend-xetex.def 2022-02-07 L3 backend support: XeTeX
 \g__pdf_backend_object_int=\count281
 \g__pdf_backend_annotation_int=\count282
 \g__pdf_backend_link_int=\count283
-) (./main.aux
-
-LaTeX Warning: Label `fig:f4-mac' multiply defined.
-
-
-LaTeX Warning: Label `sub@fig:f4-mac' multiply defined.
-
-
-LaTeX Warning: Label `fig:f4-mac' multiply defined.
-
-
-LaTeX Warning: Label `sub@fig:f4-mac' multiply defined.
-
-
-LaTeX Warning: Label `tab:d-structure' multiply defined.
-
-)
+) (./main.aux)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
@@ -236,11 +220,12 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
 LaTeX Font Info:    ... okay on input line 19.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-File: ../attachments/fig1.png Graphic file (type bmp)
-<../attachments/fig1.png>
  [1
 
-] [2] [3] [4]
+]
+File: ../attachments/fig1-v2.png Graphic file (type bmp)
+<../attachments/fig1-v2.png>
+ [2] [3] [4] [5] [6]
 File: ../attachments/f4-phy.png Graphic file (type bmp)
 <../attachments/f4-phy.png>
 File: ../attachments/f4-gra.png Graphic file (type bmp)
@@ -249,8 +234,8 @@ File: ../attachments/f-dege-4-modify.png Graphic file (type bmp)
 <../attachments/f-dege-4-modify.png>
 File: ../attachments/f-dege-mac-4.png Graphic file (type bmp)
 <../attachments/f-dege-mac-4.png>
- [5] [6] [7]
-Overfull \hbox (2.69884pt too wide) detected at line 401
+ [7]
+Overfull \hbox (2.69884pt too wide) detected at line 416
 [][]\OML/cmm/m/it/10 ;
  []
 
@@ -262,9 +247,12 @@ File: ../attachments/e-dege-mac-4.png Graphic file (type bmp)
 File: ../attachments/e2f2-dege-mac.png Graphic file (type bmp)
 <../attachments/e2f2-dege-mac.png>
 
-Overfull \hbox (21.40182pt too wide) in paragraph at lines 498--510
-[][] 
+Overfull \hbox (50.19183pt too wide) in paragraph at lines 520--532
+ [][] 
  []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 File: ../attachments/f-dege-mac-2.png Graphic file (type bmp)
 <../attachments/f-dege-mac-2.png>
@@ -275,18 +263,19 @@ File: ../attachments/f-dege-mac-6.png Graphic file (type bmp)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-(./main.bbl [10] [11]) [12] (./main.aux)
+[10] [11] [12]
+Overfull \hbox (2.20201pt too wide) in paragraph at lines 594--602
+\TU/lmr/m/n/10 In conclusion, we successfully estimated the Maximum Allowable Current (MAC)
+ []
 
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
+[13] (./main.bbl [14]) [15] (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 4506 strings out of 476179
- 79669 string characters out of 5809544
+ 4525 strings out of 476179
+ 80339 string characters out of 5809544
  409414 words of memory out of 5000000
- 25201 multiletter control sequences out of 15000+600000
- 478745 words of font info for 72 fonts, out of 8000000 for 9000
+ 25218 multiletter control sequences out of 15000+600000
+ 478753 words of font info for 73 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  67i,20n,77p,612b,578s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.pdf (12 pages).
+Output written on main.pdf (15 pages).
