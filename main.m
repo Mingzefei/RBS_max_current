@@ -1,7 +1,7 @@
 delete main.out
 diary('main.out');
 %% RBS-f
-for i = [2,4,6,8]
+for i = [2,4,6]
     % 创建RBSClass_f对象
     rbs_f = RBSClass_f(i);
     % 绘制并保存对象结构

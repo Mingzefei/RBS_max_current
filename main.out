@@ -22,64 +22,6 @@ Ib_ideal(5): ub/(6*Ro + rb)
 Ib_ideal(6): ub/(6*Ro + rb)
 those switches are close: 1 2 3 4 5 6 7 13 14 15 16 17 18 19 
 
-{操作在以下过程中被用户终止 <a href="matlab:matlab.internal.language.introspective.errorDocCallback('sym/privBinaryOp', 'C:\Program Files\MATLAB\R2021b\toolbox\symbolic\symbolic\@sym\sym.m', 1136)" style="font-weight:bold">sym/privBinaryOp</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2021b\toolbox\symbolic\symbolic\@sym\sym.m',1136,0)">第 1136 行</a>)
-
-
-位置 <a href="matlab:matlab.internal.language.introspective.errorDocCallback('sym/mldivide', 'C:\Program Files\MATLAB\R2021b\toolbox\symbolic\symbolic\@sym\sym.m', 497)" style="font-weight:bold"> \ </a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2021b\toolbox\symbolic\symbolic\@sym\sym.m',497,0)">第 497 行</a>)
-        X = privBinaryOp(A, B, 'symobj::mldivide');
-
-位置 <a href="matlab:matlab.internal.language.introspective.errorDocCallback('RBSClass/get_current', 'C:\Users\Hua\Desktop\Xu\RBSClass.m', 152)" style="font-weight:bold">RBSClass/get_current</a> (<a href="matlab: opentoline('C:\Users\Hua\Desktop\Xu\RBSClass.m',152,0)">第 152 行</a>)
-            Un=Yn\Isn;
-
-位置 <a href="matlab:matlab.internal.language.introspective.errorDocCallback('RBSClass/get_mac_under_b', 'C:\Users\Hua\Desktop\Xu\RBSClass.m', 184)" style="font-weight:bold">RBSClass/get_mac_under_b</a> (<a href="matlab: opentoline('C:\Users\Hua\Desktop\Xu\RBSClass.m',184,0)">第 184 行</a>)
-                    ]=rbs.get_current(x_s);
-
-位置 <a href="matlab:matlab.internal.language.introspective.errorDocCallback('RBSClass/get_mac', 'C:\Users\Hua\Desktop\Xu\RBSClass.m', 199)" style="font-weight:bold">RBSClass/get_mac</a> (<a href="matlab: opentoline('C:\Users\Hua\Desktop\Xu\RBSClass.m',199,0)">第 199 行</a>)
-                val_right = rbs.get_mac_under_b(n_right);
-
-位置 <a href="matlab:matlab.internal.language.introspective.errorDocCallback('main', 'C:\Users\Hua\Desktop\Xu\main.m', 11)" style="font-weight:bold">main</a> (<a href="matlab: opentoline('C:\Users\Hua\Desktop\Xu\main.m',11,0)">第 11 行</a>)
-    [mac, x_s] = rbs_f.get_mac();
-
-位置 <a href="matlab:matlab.internal.language.introspective.errorDocCallback('run', 'C:\Program Files\MATLAB\R2021b\toolbox\matlab\lang\run.m', 91)" style="font-weight:bold">run</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2021b\toolbox\matlab\lang\run.m',91,0)">第 91 行</a>)
-evalin('caller', strcat(script, ';'));
-} 
- run main.m
-MAC of RBS_f(2): 2.00
-Io_ideal: (2*ub)/(2*Ro + rb)
-Ib_ideal(1): ub/(2*Ro + rb)
-Ib_ideal(2): ub/(2*Ro + rb)
-those switches are close: 1 2 3 5 6 7 
-
-MAC of RBS_f(4): 4.00
-Io_ideal: (4*ub)/(4*Ro + rb)
-Ib_ideal(1): ub/(4*Ro + rb)
-Ib_ideal(2): ub/(4*Ro + rb)
-Ib_ideal(3): ub/(4*Ro + rb)
-Ib_ideal(4): ub/(4*Ro + rb)
-those switches are close: 1 2 3 4 5 9 10 11 12 13 
-
-MAC of RBS_f(6): 6.00
-Io_ideal: (6*ub)/(6*Ro + rb)
-Ib_ideal(1): ub/(6*Ro + rb)
-Ib_ideal(2): ub/(6*Ro + rb)
-Ib_ideal(3): ub/(6*Ro + rb)
-Ib_ideal(4): ub/(6*Ro + rb)
-Ib_ideal(5): ub/(6*Ro + rb)
-Ib_ideal(6): ub/(6*Ro + rb)
-those switches are close: 1 2 3 4 5 6 7 13 14 15 16 17 18 19 
-
-MAC of RBS_f(8): 8.00
-Io_ideal: (8*ub)/(8*Ro + rb)
-Ib_ideal(1): ub/(8*Ro + rb)
-Ib_ideal(2): ub/(8*Ro + rb)
-Ib_ideal(3): ub/(8*Ro + rb)
-Ib_ideal(4): ub/(8*Ro + rb)
-Ib_ideal(5): ub/(8*Ro + rb)
-Ib_ideal(6): ub/(8*Ro + rb)
-Ib_ideal(7): ub/(8*Ro + rb)
-Ib_ideal(8): ub/(8*Ro + rb)
-those switches are close: 1 2 3 4 5 6 7 8 9 17 18 19 20 21 22 23 24 25 
-
 MAC of RBS_e(2): 1.00
 Io_ideal: ub/(Ro + rb)
 Ib_ideal(1): ub/(Ro + rb)

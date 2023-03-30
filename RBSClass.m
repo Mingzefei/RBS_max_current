@@ -221,7 +221,9 @@ classdef RBSClass
     end
     methods (Static)
         function save_plot(p, file_name)
-            saveas(p,file_name)
+            % saveas(p,file_name)
+            
+            print(file_name, '-dpng', '-r300')
         end
         function save_fig(p, file_name)
             show(p);
