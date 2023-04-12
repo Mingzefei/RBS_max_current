@@ -70,12 +70,12 @@ classdef RBSClass
         function p=plot_G_total(rbs)
             p=plot(rbs.G_total, ...
                 'XData',rbs.node_pos_x, 'YData',rbs.node_pos_y, ...
-                'LineWidth',2,'EdgeColor','#666666', ...
-                'MarkerSize',5);
+                'LineWidth',2.5,'EdgeColor','#000000', ...
+                'MarkerSize',6);
             highlight(p,[rbs.num_n 1],'LineStyle','--')
             for node=1:length(rbs.s_b)
                 highlight(p,[rbs.s_b(node),rbs.t_b(node)], ...
-                    'EdgeColor','#006837','LineWidth',2);
+                    'EdgeColor','#00a300','LineWidth',3);
             end
             axis off;
         end
@@ -112,12 +112,12 @@ classdef RBSClass
         function p=plot_G_dege(rbs)
             p=plot(rbs.G_dege, ...
                 'XData',rbs.node_pos_x, 'YData',rbs.node_pos_y, ...
-                'LineWidth',2,'EdgeColor','#666666', ...
-                'MarkerSize',5);
+                'LineWidth',3,'EdgeColor','#000000', ...
+                'MarkerSize',6);
             highlight(p,[rbs.num_n 1],'LineStyle','--')
             for node=1:length(rbs.s_b)
                 highlight(p,[rbs.s_b(node),rbs.t_b(node)], ...
-                    'EdgeColor','#006837','LineWidth',2);
+                    'EdgeColor','#00a300','LineWidth',3);
             end
             axis off;
         end
@@ -126,7 +126,7 @@ classdef RBSClass
             for i=1:length(x_s)
                 if x_s(i)
                     highlight(p,[rbs.s_s(i),rbs.t_s(i)], ...
-                        'EdgeColor','#e41a1c','LineWidth',2);
+                        'EdgeColor','#c00000','LineWidth',3);
                 end
             end
             axis off;

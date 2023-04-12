@@ -1,5 +1,5 @@
 % 0403 修改要点
-% 1. 原图1 更换实物图、更换风格、对比度，放到method部分
+% 1.(done) 原图1 更换实物图、更换风格、对比度，放到method部分
 % 2. 新的图1，典型结构的电路图
 % 3. introduction 第二段 RBS 修改（增加的典型结构），列点的形式说明亮点，其余以删除为主
 % 4. method 部分，最开始添一小段，结合原图1介绍流程
@@ -7,7 +7,7 @@
 % 6. conclusion 重写，包含展望
 % 7. 全文主语的修改，逐段润色，caption的修改
 % 8. abstract 修改
-% 9. 转为 word
+% 9. 转为 word（proref 更新）
 
 
 
@@ -23,7 +23,7 @@
 \def\T{\mathrm{T}}
 
 
-\title{Greedy-based RBS maximum allowable current calculation method}
+\title{Greedy-based RBS maximum allowable current calculation method} % # TODO: 修改标题
 \author{3057761608 }
 \date{March 2023}
 
@@ -109,6 +109,14 @@ In Section III, we apply the proposed method to solves an example proposed in \c
 Finally, we provides concluding remarks and discuss potential directions for future work.
 
 \section{Method}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{../attachments/fig-main-v3.png}
+    \caption{Diagram of our proposed method. It includes a graph model and an equivalent circuit model based on the physical model, and the maximum allowable current is obtained by using a greedy algorithm.}
+    \label{fig:main}
+\end{figure}
 
 \subsection{graph model and circuit model}
 
