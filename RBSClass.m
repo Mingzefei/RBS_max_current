@@ -223,7 +223,9 @@ classdef RBSClass
         function save_plot(p, file_name)
             % saveas(p,file_name)
             
-            print(file_name, '-dpng', '-r300')
+            % print(file_name, '-dpng', '-r300')
+            cmd = sprintf('export_fig %s -transparent -m2',file_name);
+            eval(cmd);
         end
         function save_fig(p, file_name)
             show(p);

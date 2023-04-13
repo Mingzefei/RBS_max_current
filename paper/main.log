@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.7.10)  30 MAR 2023 17:04
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.7.10)  13 APR 2023 20:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -221,59 +221,69 @@ File: l3backend-xetex.def 2022-02-07 L3 backend support: XeTeX
 ) (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 19.
-LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 1
-9.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 33.
+LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 3
+3.
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
+File: ../attachments/arch-e.png Graphic file (type bmp)
+<../attachments/arch-e.png>
+File: ../attachments/arch-f.png Graphic file (type bmp)
+<../attachments/arch-f.png>
+File: ../attachments/arch-fe.png Graphic file (type bmp)
+<../attachments/arch-fe.png>
  [1
 
-]
-File: ../attachments/fig1-v2.png Graphic file (type bmp)
-<../attachments/fig1-v2.png>
- [2] [3]
-[4] [5] [6]
+] [2]
+File: ../attachments/main-v4.png Graphic file (type bmp)
+<../attachments/main-v4.png>
+ [3]
+[4] [5] [6] [7]
 File: ../attachments/f4-phy.png Graphic file (type bmp)
 <../attachments/f4-phy.png>
-File: ../attachments/f4-gra.png Graphic file (type bmp)
-<../attachments/f4-gra.png>
+File: ../attachments/v3-new-main-2.png Graphic file (type bmp)
+<../attachments/v3-new-main-2.png>
 File: ../attachments/f-dege-4-modify.png Graphic file (type bmp)
 <../attachments/f-dege-4-modify.png>
 File: ../attachments/f-dege-mac-4.png Graphic file (type bmp)
 <../attachments/f-dege-mac-4.png>
- [7]
-Overfull \hbox (2.69884pt too wide) detected at line 416
+ [8]
+Overfull \hbox (2.69884pt too wide) detected at line 353
 [][]\OML/cmm/m/it/10 ;
  []
 
-[8] [9]
-File: ../attachments/f-dege-mac-4.png Graphic file (type bmp)
-<../attachments/f-dege-mac-4.png>
+[9]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[10]
 File: ../attachments/e-dege-mac-4.png Graphic file (type bmp)
 <../attachments/e-dege-mac-4.png>
+File: ../attachments/f-dege-mac-4.png Graphic file (type bmp)
+<../attachments/f-dege-mac-4.png>
 File: ../attachments/e2f2-dege-mac.png Graphic file (type bmp)
 <../attachments/e2f2-dege-mac.png>
 
-Overfull \hbox (50.19183pt too wide) in paragraph at lines 520--532
+Overfull \hbox (50.19183pt too wide) in paragraph at lines 444--456
  [][] 
  []
 
@@ -289,20 +299,14 @@ File: ../attachments/f-dege-mac-6.png Graphic file (type bmp)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[10] [11] [12] [13]
-Overfull \hbox (2.20201pt too wide) in paragraph at lines 594--602
-\TU/lmr/m/n/10 In conclusion, we successfully estimated the Maximum Allowable C
-urrent (MAC)
- []
-
-(./main.bbl [14]) [15] (./main.aux) ) 
+[11] [12] [13] (./main.bbl [14]) [15] (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 4525 strings out of 476179
- 80339 string characters out of 5809544
- 409414 words of memory out of 5000000
- 25218 multiletter control sequences out of 15000+600000
+ 4552 strings out of 476179
+ 80985 string characters out of 5809544
+ 407414 words of memory out of 5000000
+ 25242 multiletter control sequences out of 15000+600000
  478753 words of font info for 73 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 67i,20n,77p,616b,578s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 67i,20n,77p,623b,578s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on main.pdf (15 pages).
