@@ -1,0 +1,52 @@
+#!/bin/bash
+
+#SBATCH -J HyparSns
+
+#SBATCH -p v6_384
+
+#SBATCH -N 1
+
+#SBATCH -n 35
+
+#SBATCH -o ./jobout.txt
+
+#SBATCH -e ./joberrs.txt
+
+source /public1/soft/modules/module.sh
+module load anaconda/3-Python-3.8.3-phonopy-phono3py
+source activate topo_opti
+
+parallel -vk ::: \
+'python -c "import task; task.T_hpar_sns(0,0)"' \
+'python -c "import task; task.T_hpar_sns(0,1)"' \
+'python -c "import task; task.T_hpar_sns(0,2)"' \
+'python -c "import task; task.T_hpar_sns(0,3)"' \
+'python -c "import task; task.T_hpar_sns(0,4)"' \
+'python -c "import task; task.T_hpar_sns(1,0)"' \
+'python -c "import task; task.T_hpar_sns(1,1)"' \
+'python -c "import task; task.T_hpar_sns(1,2)"' \
+'python -c "import task; task.T_hpar_sns(1,3)"' \
+'python -c "import task; task.T_hpar_sns(1,4)"' \
+'python -c "import task; task.T_hpar_sns(2,0)"' \
+'python -c "import task; task.T_hpar_sns(2,1)"' \
+'python -c "import task; task.T_hpar_sns(2,2)"' \
+'python -c "import task; task.T_hpar_sns(2,3)"' \
+'python -c "import task; task.T_hpar_sns(2,4)"' \
+'python -c "import task; task.T_hpar_sns(3,0)"' \
+'python -c "import task; task.T_hpar_sns(3,1)"' \
+'python -c "import task; task.T_hpar_sns(3,2)"' \
+'python -c "import task; task.T_hpar_sns(3,3)"' \
+'python -c "import task; task.T_hpar_sns(3,4)"' \
+'python -c "import task; task.T_hpar_sns(4,0)"' \
+'python -c "import task; task.T_hpar_sns(4,1)"' \
+'python -c "import task; task.T_hpar_sns(4,2)"' \
+'python -c "import task; task.T_hpar_sns(4,3)"' \
+'python -c "import task; task.T_hpar_sns(4,4)"' \
+'python -c "import task; task.T_hpar_sns(5,0)"' \
+'python -c "import task; task.T_hpar_sns(5,1)"' \
+'python -c "import task; task.T_hpar_sns(5,2)"' \
+'python -c "import task; task.T_hpar_sns(5,3)"' \
+'python -c "import task; task.T_hpar_sns(5,4)"' \
+
+
+

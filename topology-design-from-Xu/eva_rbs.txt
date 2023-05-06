@@ -1,0 +1,82 @@
+#!/bin/bash
+
+#SBATCH -J EvaRbs
+
+#SBATCH -p v6_384
+
+#SBATCH -N 1
+
+#SBATCH -n 40
+
+#SBATCH -o ./jobout.txt
+
+#SBATCH -e ./joberrs.txt
+
+source activate topo_opti
+
+parallel -vk ::: \
+'python -c "import task; task.T_eva_rbs(\"a\",3)"' \
+'python -c "import task; task.T_eva_rbs(\"b\",3)"' \
+'python -c "import task; task.T_eva_rbs(\"c\",3)"' \
+'python -c "import task; task.T_eva_rbs(\"d\",3)"' \
+'python -c "import task; task.T_eva_rbs(\"f\",3)"' \
+'python -c "import task; task.T_eva_rbs(\"g\",3)"' \
+'python -c "import task; task.T_eva_rbs(\"h\",3)"' \
+'python -c "import task; task.T_eva_rbs(\"i\",3)"' \
+'python -c "import task; task.T_eva_rbs(\"j\",3)"' \
+'python -c "import task; task.T_eva_rbs(\"a\",4)"' \
+'python -c "import task; task.T_eva_rbs(\"b\",4)"' \
+'python -c "import task; task.T_eva_rbs(\"c\",4)"' \
+'python -c "import task; task.T_eva_rbs(\"d\",4)"' \
+'python -c "import task; task.T_eva_rbs(\"f\",4)"' \
+'python -c "import task; task.T_eva_rbs(\"g\",4)"' \
+'python -c "import task; task.T_eva_rbs(\"h\",4)"' \
+'python -c "import task; task.T_eva_rbs(\"i\",4)"' \
+'python -c "import task; task.T_eva_rbs(\"j\",4)"' \
+'python -c "import task; task.T_eva_rbs(\"a\",5)"' \
+'python -c "import task; task.T_eva_rbs(\"b\",5)"' \
+'python -c "import task; task.T_eva_rbs(\"c\",5)"' \
+'python -c "import task; task.T_eva_rbs(\"d\",5)"' \
+'python -c "import task; task.T_eva_rbs(\"f\",5)"' \
+'python -c "import task; task.T_eva_rbs(\"g\",5)"' \
+'python -c "import task; task.T_eva_rbs(\"h\",5)"' \
+'python -c "import task; task.T_eva_rbs(\"i\",5)"' \
+'python -c "import task; task.T_eva_rbs(\"j\",5)"' \
+'python -c "import task; task.T_eva_rbs(\"a\",6)"' \
+'python -c "import task; task.T_eva_rbs(\"b\",6)"' \
+'python -c "import task; task.T_eva_rbs(\"c\",6)"' \
+'python -c "import task; task.T_eva_rbs(\"d\",6)"' \
+'python -c "import task; task.T_eva_rbs(\"f\",6)"' \
+'python -c "import task; task.T_eva_rbs(\"g\",6)"' \
+'python -c "import task; task.T_eva_rbs(\"h\",6)"' \
+'python -c "import task; task.T_eva_rbs(\"i\",6)"' \
+'python -c "import task; task.T_eva_rbs(\"j\",6)"' \
+'python -c "import task; task.T_eva_rbs(\"a\",7)"' \
+'python -c "import task; task.T_eva_rbs(\"b\",7)"' \
+'python -c "import task; task.T_eva_rbs(\"c\",7)"' \
+'python -c "import task; task.T_eva_rbs(\"d\",7)"' \
+'python -c "import task; task.T_eva_rbs(\"f\",7)"' \
+'python -c "import task; task.T_eva_rbs(\"g\",7)"' \
+'python -c "import task; task.T_eva_rbs(\"h\",7)"' \
+'python -c "import task; task.T_eva_rbs(\"i\",7)"' \
+'python -c "import task; task.T_eva_rbs(\"j\",7)"' \
+'python -c "import task; task.T_eva_rbs(\"a\",8)"' \
+'python -c "import task; task.T_eva_rbs(\"b\",8)"' \
+'python -c "import task; task.T_eva_rbs(\"c\",8)"' \
+'python -c "import task; task.T_eva_rbs(\"d\",8)"' \
+'python -c "import task; task.T_eva_rbs(\"f\",8)"' \
+'python -c "import task; task.T_eva_rbs(\"g\",8)"' \
+'python -c "import task; task.T_eva_rbs(\"h\",8)"' \
+'python -c "import task; task.T_eva_rbs(\"i\",8)"' \
+'python -c "import task; task.T_eva_rbs(\"j\",8)"' \
+'python -c "import task; task.T_eva_rbs(\"a\",9)"' \
+'python -c "import task; task.T_eva_rbs(\"b\",9)"' \
+'python -c "import task; task.T_eva_rbs(\"c\",9)"' \
+'python -c "import task; task.T_eva_rbs(\"d\",9)"' \
+'python -c "import task; task.T_eva_rbs(\"f\",9)"' \
+'python -c "import task; task.T_eva_rbs(\"g\",9)"' \
+'python -c "import task; task.T_eva_rbs(\"h\",9)"' \
+'python -c "import task; task.T_eva_rbs(\"i\",9)"' \
+'python -c "import task; task.T_eva_rbs(\"j\",9)"' \
+
+

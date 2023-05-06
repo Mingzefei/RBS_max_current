@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#SBATCH -J Opti3
+
+#SBATCH -p v6_384
+
+#SBATCH -N 1
+
+#SBATCH -n 5
+
+#SBATCH -o ./jobout.txt
+
+#SBATCH -e ./joberrs.txt
+
+source /public1/soft/modules/module.sh
+module load anaconda/3-Python-3.8.3-phonopy-phono3py
+source activate topo_opti
+
+parallel -vk ::: \
+'python -c "import task; task.T_opti(3,15,1)"' \
+'python -c "import task; task.T_opti(3,15,2)"' \
+

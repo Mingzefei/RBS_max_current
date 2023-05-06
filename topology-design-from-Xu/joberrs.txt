@@ -1,0 +1,150 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/public5/home/sch8853/topology_design/task.py", line 73, in T_hpar_sns
+    pc = pc_hpar[pc_ind]
+NameError: name 'pc_hpar' is not defined
