@@ -1,10 +1,6 @@
 % 0519 修改
-% 背景介绍：随着RBS的结构复杂度的增长，特别是当有电池隔离的情况出现，人工MAC判断越来也困难，需要具有普适性的算法
-% 模型：保留电路模型的相关推导；旧版两个图统一为一个拓扑模型图 topologic model
-% 讨论：电池组拓扑设计新思路，新的复杂结构（仅作验证）；电池隔离（尽量写）
-% 保留电路模型的相关推导
 % 图片：重画所有图，用ppt，注意字体大小、元素含义统一
-% 专有名词的统一：structure, external electrical appliance, components
+% 专有名词的统一：structure, external electrical appliance
 % 伪代码：修改后放附录
 
 \documentclass{article}
@@ -41,6 +37,8 @@
 \end{abstract}
 
 \section{Introduction}
+
+% TODO 提到后面讨论部分的场景
 
 Battery Energy Storage Systems (BESSs) are widely used to store and supply high-quality electrical energy in various applications, such as smart grids and wind power plants \cite{desiqueiraControlStrategySmooth2021,karandehTwoStageAlgorithmOptimal2019,yangBatteryEnergyStorage2018,choCommercialResearchBattery2015}.
 Typically, a BESS consists of numerous battery cells that are interconnected by series-parallel circuitry to provide the required charge storage capacity and output voltage.
@@ -395,6 +393,8 @@ Finally, the MAC of this structure is $\eta=2$, and the related result is shown 
 
 \subsection{Discussion}
 
+% TODO 添加文献，各种结构的
+
 The correctness of the results shown in Fig. \ref{fig:ef-mac} is obvious. 
 When B1 and B2 or B3 and B4 are connected in parallel, the RBS can output the maximum current, which is $\eta=2$, i.e. twice the current output of a single battery in RBS.
 While adding more batteries to the main circuit can only form a series structure and will not improve the MAC.
@@ -415,30 +415,29 @@ The method proposed in this paper can effectively solve any RBS structure and es
 % 相应的，每个电池的电流也更大。
 % 此时，如果仅使用 Io 作为目标函数，则  （） TODO：讨论怎么说
 
-% 对电池隔离场景的讨论
-% 当系统中存在被隔离的电池时，该方法可用于判断RBS的输出能否依然满足要求。
-% 对隔离电池后形成的新结构按前文算法进行计算即可得到隔离操作后的MAC。
-% 对L的结构、V的结构和我们的结构，不同隔离电池数下的MAC进行计算
-% L：1~3，eta=1；4，eta=0
-% V：1~4，eta=4~0
-% new：1~4，eta=2，2，1，0
-% 画个图，new（最好情况，最坏情况），L，V
-% 说明最好情况、最坏情况。
-% L的结构，在电池全被隔离前都能提供eta=1的MAC；V的结构，MAC随电池隔离数增加而迅速下降；new的结构，MAC的减少情况介于两者之间。
 
-
-% 对于
-
+When the RBS has isolated battery cells, the original topology of the structure is altered. 
+However, the method proposed in this paper can still be used to calculate the MAC of the new structure. 
+The MAC after the isolation operation can be obtained by calculating the new structure following the procedures described in the previous subsection.
+During the calculation process, the isolated battery cell(s) do not participate in the calculation, i.e., their nodes, edges, and $SP$s are not considered. 
+The MACs under various isolated battery cell(s) are calculated on the structures proposed by Lawson et al. (Fig. \ref{fig:arch-e}), Visairo et al. (Fig. \ref{fig:arch-f}), and the new structure that integrates the previous two structures (Fig. \ref{fig:ef-topo}), as shown in Fig. \ref{fig:isolated_mac}. %TODO: 不同隔离电池数，三种结构，MAC
+For the structure proposed by Lawson et al., the MAC remains the same as that without isolated battery cells, i.e., $\eta=1$, when the number of isolated battery cells increases, until all the cells in the RBS are isolated.
+For the structure proposed by Visairo et al., the MAC decreases as the number of isolated battery cells increases, until $\eta=0$.
+While the new structure has two cases of isolating two cells, one is to isolate two cells within the same substructure, in which case $\eta=2$; the other is to isolate one cell in each of the two substructures, in which case $\eta=1$. 
+Overall, the MAC of the new structure is positioned between the structures proposed by Lawson et al. and Visairo et al..
+It can be seen that the MAC of the structure in Fig. \ref{fig:arch-e} is the most stable, and the structure has advantages in isolation and redundancy backup, but its MAC is the smallest. 
+The structure proposed shown by Fig. \ref{fig:arch-f} can output the largest MAC but is susceptible to the number of isolated battery cells. 
+However, the structure proposed by this paper has certain advantages in both aspects, being insensitive to the number of isolated battery cells while simultaneously achieving a larger MAC.
 
 \section{Conclusion}
 
-A graph model and a circuit model were developed, and a greedy strategy was employed to solve the MAC. 
-The proposed method was tested on RBSs of varying structures and sizes. 
-Additionally, an indicator, denoted by $\eta$ , was introduced to evaluate the performance of the RBS's output current. 
-This work presents an effective approach for designing and evaluating the output current performance of RBS. 
+This paper firstly proposes a method to calculation the MAC of RBS according to its architecture. 
+To find the circuit in RBS that enable the MAC, a greedy strategy incorporate with the topologic model is developed to. 
+The effectiveness of proposed method is tested on a more complex RBS structure based on two proposed structure.
+This work presents an effective approach to evaluate the MAC of RBS, which is essential for design and management of the RBS. 
 Future research could focus on developing new performance indicators for evaluating RBS performance using the currents and voltages obtained by this method, as well as modifying the equivalent model of the battery to enable more accurate simulations of RBS, including transient analysis.
 
-\section{Appendix}
+\section{Appendix} %TODO 待修改
 \begin{algorithm}
     \caption{Get the max available currents of a certain RBS}\label{alg:eta_RBS}
     \KwData{Directed graph model $G(V,E)$ of the RBS}
