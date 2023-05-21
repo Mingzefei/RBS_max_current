@@ -362,7 +362,7 @@ The above gives the procedure for calculating the current and $\eta$ when the sp
 However, in order to calculate the MAC of the structure, i.e. the maximum $\eta$, it is necessary to find the corresponding switch state using a greedy strategy, as mentioned in subsection \ref{subsec:greedy_solution}.
 
 Firstly, the weight $N_s$ in Eq. \ref{eq:weight} represents the total number of switches in the system, which is 19. 
-By using this formula and the Dijkstra search strategy, the $SP$s of each cell can be obtained, as shown in Fig 1.  % TODO: fig 4 个cell的SP
+By using this formula and the Dijkstra search strategy, the $SP$s of each cell can be obtained, as shown in Figs. \ref{fig:sp1} to \ref{fig:sp4}.  % TODO: fig 4 个cell的SP（fig:sp1,2,3,4），最终求解结果 fig:ef-mac
 According to the greedy strategy, as many $SP$s as possible should be selected to get the MAC. 
 In the first iteration, the $SP$s of all four batteries are selected, and the switch states on the paths are set to ON. 
 The corresponding $\bm{X}_s$ are calculated using the previous method, and the currents of the batteries are obtained as $u_b/r_b$, $u_b/r_b$, $u_b/r_b$, and $u_b/r_b$. 
@@ -372,7 +372,7 @@ Assuming that the selected combinations are $(B1, B2)$, the $\bm{X}_s$ obtained 
 This solution meets the condition. 
 After that, the case of selecting three cells is considered. 
 By similar calculations, it is determined that all solutions do not satisfy the constraint when three cells are selected. 
-Finally, the MAC of this structure is $\eta=2$, and the related results are shown in Tab. \ref{tab:find_mac}.
+Finally, the MAC of this structure is $\eta=2$, and the related result is shown in Fig. \ref{fig:ef-mac} and Tab. \ref{tab:find_mac}.
 
 \begin{table}[htbp]
   \centering
@@ -395,113 +395,40 @@ Finally, the MAC of this structure is $\eta=2$, and the related results are show
 
 \subsection{Discussion}
 
+The correctness of the results shown in Fig. \ref{fig:ef-mac} is obvious. 
+When B1 and B2 or B3 and B4 are connected in parallel, the RBS can output the maximum current, which is $\eta=2$, i.e. twice the current output of a single battery in RBS.
+While adding more batteries to the main circuit can only form a series structure and will not improve the MAC.
+It is worth noting that when solving for MAC, $\eta$ is used as the objective function instead of $I_o$, which makes the result of MAC more reasonable. 
+According to the results shown in Tab. \ref{tab:find_mac}, $I_o$ and $\bm{I}_b$ are affected by the equivalent resistance $R_o$ of external electrical appliance, the battery's electromotive force $u_b$, and internal resistance $r_b$. 
+This means that if $I_o$ is used as the objective function, even for the same RBS structure, the MAC result and corresponding switch state could be changed due to different external electrical appliances. 
+This increases the difficulty and uncertainty in RBS structure design. 
+On the contrary, by using $\eta$ as the objective function, which dividing $I_o$ and $\max\bm{I}_b$, the influence of these factors on the results is eliminated, as shown in Tabs. \ref{tab:given_x} and \ref{tab:find_mac}.
+$\eta$ only reflects the maximum output current capability of the RBS structure.
+Assuming that the maximum allowed current of battery cells in the RBS is $I_m$, the maximum output current of the RBS structure can be calculated as $\eta I_m$ by calculating the $\eta$ of the structure. 
+Therefore, compared to $I_o$, $\eta$ is more suitable for structure design. 
+Most of the currently proposed RBS structures have simple topological characteristics, and the calculation of MACs are relatively simple, even intuitive. 
+However, when complex and flexible structures need to be designed for application scenarios such as equalization or isolation of specific battery cells, the estimation of MAC will become complex and complicated. 
+The method proposed in this paper can effectively solve any RBS structure and estimate MAC universally, paving the way for the structure design of more complex and flexible RBSs.
+
+% 对比Tab. 1和 Tab. 2，可以发现，对于这两种开关状态 $\bm{X}_s$，在电阻和电动势相同的情况下，前者的Io更大。
+% 这主要是由于在Tab. 1的情形下，四个电池以两并两串的形式接入主电路，提供了更多的电动势。
+% 相应的，每个电池的电流也更大。
+% 此时，如果仅使用 Io 作为目标函数，则  （） TODO：讨论怎么说
+
+% 对电池隔离场景的讨论
+% 当系统中存在被隔离的电池时，该方法可用于判断RBS的输出能否依然满足要求。
+% 对隔离电池后形成的新结构按前文算法进行计算即可得到隔离操作后的MAC。
+% 对L的结构、V的结构和我们的结构，不同隔离电池数下的MAC进行计算
+% L：1~3，eta=1；4，eta=0
+% V：1~4，eta=4~0
+% new：1~4，eta=2，2，1，0
+% 画个图，new（最好情况，最坏情况），L，V
+% 说明最好情况、最坏情况。
+% L的结构，在电池全被隔离前都能提供eta=1的MAC；V的结构，MAC随电池隔离数增加而迅速下降；new的结构，MAC的减少情况介于两者之间。
 
 
+% 对于
 
-
-
-
-From the specific results of the output current $I_o$ and battery currents $\bm{I}_b$, both are related to the battery voltage $u_b$, internal resistance $r_b$, and external circuit resistance $R_o$.
-This means that even for the same structure, the output current will change when the external circuit  or the battery specifications  change.
-By dividing the output current by the sum of the battery currents, the obtained $\eta$ does not include items affected by external circuit and batteries.
-This characteristic is guaranteed by the linear nature of the RBS circuit.
-
-\subsection{Different structures and sizes}
-
-To further demonstrate the effectiveness of the models and algorithm, RBSs with different structures and sizes are considered.
-On the one hand, the modeling and solving of the three battery structures in Figure \ref{fig:arch} are carried out, where the structure in Figure \ref{fig:arch-e} is proposed by Visairo\cite{visairoReconfigurableBatteryPack2008}, the structure in Figure \ref{fig:arch-f} is proposed by Lawson\cite{lawsonSoftwareConfigurableBattery2012}, and the structure in Figure \ref{fig:arch-ef} is a combination of the two. All three structures have 4 battery cells.
-On the other hand, the modeling and solving of the battery structures proposed by Visairo\cite{visairoReconfigurableBatteryPack2008} with different numbers of battery cells (2, 4, and 6 cells) are also carried out.
-
-The greedy algorithm provided accurate estimates of the structure MAC and generated safe and effective switch control strategies, as indicated by the results shown in Figure \ref{fig:d-structure} and \ref{fig:d-size}, where the highlighted red switches denote the closed positions.
-Furthermore, the results about currents in Table \ref{tab:d-structure} and \ref{tab:d-size} show that the output currents are influenced by the external circuit resistance, battery potential, and internal resistance, but are linearly related to the battery currents, consistent with the conclusion about $\eta$ in the previous subsection.
-
-\begin{figure}[htbp]
-    \centering
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/e-dege-mac-4.png}
-        \caption{}
-        \label{fig:d-structure-f4}
-    \end{subfigure}
-    \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/f-dege-mac-4.png}
-        \caption{}
-        \label{fig:d-structure-e4}
-    \end{subfigure}
-    \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/e2f2-dege-mac.png}
-        \caption{}
-        \label{fig:d-structure-e2f2}
-    \end{subfigure}
-    \caption{
-        The switches state when the output current is MAC on structure (a) proposed by Lawson\cite{lawsonSoftwareConfigurableBattery2012}, (b) proposed by Visairo\cite{visairoReconfigurableBatteryPack2008}, and (c) combining  Lawson's and Visairo's structure. 
-        The red highlighted lines indicate the open/close states of switches.
-        }
-    \label{fig:d-structure}
-\end{figure}
-
-\begin{table}[h]
-    \centering
-    \caption{
-        detailed results of the proposed method for the RBS with 4 batteries (a) proposed by lawson\cite{lawsonSoftwareConfigurableBattery2012}, (b) proposed by  visairo\cite{visairoReconfigurableBatteryPack2008} and (c) combining both  , including the output current, current of each battery, and $\eta$.}
-    \label{tab:d-structure}
-    \begin{tabular}{cccc}
-        \hline
-        structure &  output current $I_o$       & battery current $\bm{I}_b$       & $\eta$        \\
-        \hline\\
-        Lawson\cite{lawsonSoftwareConfigurableBattery2012} &  $\displaystyle\frac{u_b}{R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{R_o + r_b},0,0,0\right]$   & $1.00$ \\
-        \\
-        Visairo\cite{visairoReconfigurableBatteryPack2008} &  $\displaystyle\frac{4u_b}{4R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b}\right]$   & $4.00$ \\
-        \\
-        combining both &  $\displaystyle\frac{2u_b}{2R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{2R_o + r_b},\frac{u_b}{2R_o + r_b},0,0\right]$   & $2.00$ \\
-        \\
-        \hline
-    \end{tabular}
-\end{table}
-
-\begin{figure}[htbp]
-    \centering
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/f-dege-mac-2.png}
-        \caption{}
-        \label{fig:d-size-2}
-    \end{subfigure}
-    \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/f-dege-mac-4.png}
-        \caption{}
-        \label{fig:d-size-4}
-    \end{subfigure}
-    \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/f-dege-mac-6.png}
-        \caption{}
-        \label{fig:d-size-6}
-    \end{subfigure}
-    \caption{
-        The switches state when the output current is MAC on structure proposed by Visairo\cite{visairoReconfigurableBatteryPack2008} with (a)2, (b)4 and (c) 6 batteries.  
-        The red highlighted lines indicate the open/close states of switches.
-        }
-    \label{fig:d-size}
-\end{figure}
-
-\begin{table}[h]
-    \caption{detailed results of the proposed method for the RBS proposed by visairo\cite{visairoReconfigurableBatteryPack2008} with (a)2, (b)4 and (c) 6 batteries , including the output current, current of each battery, and $\eta$.}
-    \label{tab:d-size}
-    \begin{tabular}{cccc}
-        \hline
-        size &  output current $I_o$       & battery current $\bm{I}_b$       & $\eta$        \\
-        \hline\\
-        2 &  $\displaystyle\frac{2u_b}{2R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{2R_o + r_b},\frac{u_b}{2R_o + r_b},\frac{u_b}{2R_o + r_b},\frac{u_b}{2R_o + r_b}\right]$   & $2.00$ \\
-        \\
-        4 &  $\displaystyle\frac{4u_b}{4R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b}\right]$   & $4.00$ \\
-        \\
-        6 &  $\displaystyle\frac{6u_b}{6R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{6R_o + r_b},\frac{u_b}{6R_o + r_b},\frac{u_b}{6R_o + r_b},\frac{u_b}{6R_o + r_b}\right]$   & $6.00$ \\
-        \\
-        \hline
-    \end{tabular}
-\end{table}
 
 \section{Conclusion}
 
