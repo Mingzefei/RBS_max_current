@@ -7,18 +7,17 @@
 % 专有名词的统一：structure, external electrical appliance, components
 % 伪代码：修改后放附录
 
-
-
-
-
 \documentclass{article}
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{enumerate}
 \usepackage{amsmath}
+\DeclareMathOperator{\diag}{diag}
 \usepackage{multirow}
+\usepackage{booktabs}
 \usepackage{bm}
 \usepackage[ruled,linesnumbered]{algorithm2e}
+\setcounter{MaxMatrixCols}{20}
 
 \def\T{\mathrm{T}}
 
@@ -141,7 +140,7 @@ For a given RBS structure, the topologic model for the RBS is constructed as a d
 The constraints and objective function are obtained by analyzing the currents of batteries and external electrical appliance, as following.
 Based on the above directed graph which has $N$ nodes and $N_b+2N_s+1$ directed edges, its incidence matrix $\bm{A}$ is defined as
 \begin{align}\label{eq:A}
-    $a_{ij}$=
+    a_{ij}=
     \begin{cases}
         1,  & \text{edge  $j$ leaves vertex $i$},\\
         -1, & \text{edge $j$ enters vertex $i$},\\
@@ -163,8 +162,8 @@ By divided as batteries, switches and external electrical appliance, $A$ is rewr
 $N_b+N_s+1$ edges' currents $\bm{I}_{(N_b+N_s+1)\times 1}$ and voltages $\bm{U}_{(N_b+N_s+1)\times 1}$, and $N-1$ nodes' voltages $\bm{U}_{n, (N-1)\times 1}$ have following relationships from Kirchhoffs law
 \begin{align}\label{eq:Kirchhoffs_law}
     \begin{cases}
-        $\bm{A} \bm{I} = \bm{0}$, \\
-        $\bm{U}        = \bm{A}^\T \bm{U}_n.$
+        \bm{A} \bm{I} = \bm{0}, \\
+        \bm{U}        = \bm{A}^\T \bm{U}_n.
     \end{cases}
 \end{align}
 These directed edges are treated as generalized branches and expressed in matrix form as follows
@@ -180,8 +179,9 @@ $\bm{Y}$ is the admittance matrix of the circuit, and $\bm{X}$ is the state matr
     \underbrace{1, 0 \cdots, 1}_{N_s~\text{of}~0/1},
     1)
     =\begin{bmatrix}
-        \bm{X}_s &\\
-        & \bm{I}
+        \bm{I} & & \\
+        & \bm{X}_s &\\
+        & &\bm{I}
     \end{bmatrix}.
 \end{equation}
 
@@ -190,13 +190,13 @@ In addition to the equivalent circuit assumptions, we also assume that all batte
 Then the output current $I_o$ and each battery's current $\bm{I}_b$ can be given by solving the simultaneous Eq. \ref{eq:Kirchhoffs_law} and \ref{eq:generalized_branches} eventually.
 Let
 \begin{equation}\label{eq:Yn}
-    \bm{Y}_n (\bm{X}) = \frac{1}{R_o} \bm{A}_o\bm{A}_o^\T + \frac{1}{r_b} \bm{A}_b\bm{A}_b^\T + \frac{1}{r_s}\bm{A}_s\bm{X}_s\bm{A}_s^\T,
+    \bm{Y}_n (\bm{X}_s) = \frac{1}{R_o} \bm{A}_o\bm{A}_o^\T + \frac{1}{r_b} \bm{A}_b\bm{A}_b^\T + \frac{1}{r_s}\bm{A}_s\bm{X}_s\bm{A}_s^\T,
 \end{equation}
 where $R_o$ is the equivalent resistance of the external circuit.
 Then, if $\bm{Y}_n$ is an invertible matrix,
 \begin{align}
-    I_o(\bm{X})      & = \frac{u_b}{R_o r_b} \bm{A}_o^\T \bm{Y}_n^{-1}(\bm{X}) \bm{A}_b \bm{I}_{N_b\times 1};\label{eq:I_o}\\
-    \bm{I}_b(\bm{X}) & = \frac{u_b}{r_b^2}[\bm{A}_b^\T \bm{Y}_n^{-1}(\bm{X}) \bm{A}_b\bm{I}_{N_b \times 1}  -r_b \bm{I}_{N_b \times 1}],\label{eq:I_b}
+    I_o(\bm{X}_s)      & = \frac{u_b}{R_o r_b} \bm{A}_o^\T \bm{Y}_n^{-1}(\bm{X}) \bm{A}_b \bm{I}_{N_b\times 1};\label{eq:I_o}\\
+    \bm{I}_b(\bm{X}_s) & = \frac{u_b}{r_b^2}[\bm{A}_b^\T \bm{Y}_n^{-1}(\bm{X}) \bm{A}_b\bm{I}_{N_b \times 1}  -r_b \bm{I}_{N_b \times 1}],\label{eq:I_b}
 \end{align}
 where $\bm{I}_{N_b\times 1}$ is a column vector with all equal to 1.
 
@@ -207,17 +207,24 @@ In this study, the ratio of $I_o$ and $\max (\bm{I}_b)$ is used to characterize 
 \end{equation}
 The discussion in the next section will show that the $\eta$ reflects the ability of the RBS architecture itself to deliver current, regardliess of the battery cells used by the RBS.
 Finally the problem in RBS can be formulated as
-\begin{align}\label{eq:max_eta}
+\begin{align}
     & \max \eta \label{eq:max_eta}\\
-    & \max (\bm{I}_b) \leq I_m,
+    \text{s.t.} & \max (\bm{I}_b) \leq I_m, \label{eq:Ib_leq_Im}
 \end{align}
 where $I_m$ is the maximum allowable current of the battery; $\eta$ can be calculated by Eq. \ref{eq:eta}; $I_o$ and $\bm{I}_b$ can be calculated by Eq. \ref{eq:I_o} and \ref{eq:I_b}.
 However, it is computationally difficult to solve \ref{eq:max_eta} directly because of the presence of matrix $\bm{Y}_n^{-1}$.
 As the number of batteries and switches in the RBS increase, the order of the matrix increases, and the time costed to compute increases sharply.
-A greedy algorithm is proposed to solve this problem in the next subsection.
+A greedy algorithm will be proposed to solve this problem in the next subsection.
 
 
-\subsection{Greedy Solution}
+The integrability of the matrix $\bm{Y}_n$ is explained here.
+Although the above solution procedure requires the matrix $\bm{Y}_n$ to be invertible, it is still possible to encounter integrable $\bm{Y}_n$ in the calculation.
+The physical meaning of this case corresponds to the fact that due to the excessive number of switches in OFF, the solved circuit structure forms circuit branches independent of the main circuit, i.e., the circuit connected to the anode and cathode of the RBS. 
+Since these independent branches are not connected to the main circuit, the voltage potentials of these branches cannot be determined and theoretically an infinite number of sets of solutions exist. 
+Benfit from the independence, these solutions have no influence on the results of the main circuit. 
+Since only the currents and voltages of the main circuit are of interest, only one of these solutions needs to be chosen for subsequent calculation.
+
+\subsection{Greedy Solution}\label{subsec:greedy_solution}
 
 In this subsection, a greedy algorithm is proposed based on shortest paths ($SP$s), which is given here firstly.
 When the battery $i$ is connected to the anode $v_1$ and the cathode $v_N$ of the RBS by the path $p$ in the graph model, the distance $\omega$ of $p$ is defined by the following equation:
@@ -227,7 +234,7 @@ When the battery $i$ is connected to the anode $v_1$ and the cathode $v_N$ of th
 where $N_s$ is the total number of switches in the system; $n_b(p)$ and $n_s(p)$ are number of batteries and switches in the path $p$ respectively.
 $SP_i$ is defined as the path with the minimum $\omega$ for battery $i$.
 \begin{equation}
-    SP_i = \argmin_{p \in P_i} \omega(p),
+    SP_i = \mathop{\arg\min}_{p \in P_i} \omega(p),
 \end{equation}
 where $P_i$ is the set of all paths from $v_1$ to $v_N$ and passed through the directed edge $i$ in the direction of it.
 Specifically, the Dijkstra algorithm can be used to implement the $SP_i$.
@@ -242,139 +249,156 @@ The overall flowchart is shown in Fig. \ref{fig:flowchart}, and the correspondin
 
 \section{Case Study}
 
-This section verifies the effectiveness of the above model and algorithm on several structures.
-Firstly, the detailed modeling and solving process of a specific RBS structure (proposed by \cite{visairoReconfigurableBatteryPack2008}) with four battery cells is given.
-Then, the effectiveness is verified on RBSs with different structures and sizes.
-This section also explains the advantages of using $\eta$ to characterize MAC.
+This section presents a case study to demonstrate the effectiveness of the proposed method.
+A more intricate structure, which integrates the two previously proposed structures, is proposed.
+The effectiveness of the aforementioned algorithm is substantiated on this structure to confirm its applicability in practical scenarios.
+Moreover, the algorithm's versatility is also established through its application in complex cases such as the presence of isolated battery cell.
 
-\subsection{An specific example}
+\subsection{Determination of a new RBS structure}
 
-\begin{figure}[htbp]
-    \centering
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/f4-phy.png}
-        \caption{}
-        \label{fig:f4-phy}
-    \end{subfigure}
-    \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/v3-new-main-2.png}
-        \caption{}
-        \label{fig:f4-gra}
-    \end{subfigure}
-    \\
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/f-dege-4-modify.png}
-        \caption{}
-        \label{fig:f4-circ}
-    \end{subfigure}
-    \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/f-dege-mac-4.png}
-        \caption{}
-        \label{fig:f4-mac}
-    \end{subfigure}
-    \caption{ 
-        RBS structure proposed by Visairo\cite{visairoReconfigurableBatteryPack2008} with 4 batteries. 
-        (a) Physical model, (b) graph model, (c) equivalent circuit model, and (d) results obtained by using the proposed method.
-        The blue highlighted lines indicate the SPs. 
-        The red highlighted lines indicate the open/close states of switches.
-        }
-    \label{fig:f4-all}
-\end{figure}
+% TODO: 图，我们的结构；以及与之前两种结构的关系
+% fig:arch-ef
 
+The RBS structure proposed by Lawson et al\cite{lawsonSoftwareConfigurableBattery2012}, shown in Fig. \ref{fig:arch-e}, easily enables the isolation of arbitrary cells or the addition of redundant cells to the system, but these cells are limited to being connected in series only and the switch between cells connection modes is not flexible. 
+In contrast, the structure proposed by Visairo et al\cite{visairoReconfigurableBatteryPack2008}, shown in Fig. \ref{fig:arch-f}, allows the flexibility to switch the cells between series, parallel and mixed series-parallel modes, thus allowing dynamic voltage adjustment according to the external load and improving energy conversion efficiency, but is not as simple as the structure by Lawson et al in terms of isolating cells or adding redundancy.
+In order to combine the advantages of both structures, a new structure is obtained by replacing the batteries in Fig. \ref{fig:arch-e} with the structure in Fig. \ref{fig:arch-f}, as shown in Fig. \ref{fig:arch-ef}.
+This more complex structure has the structure of Lawson et al.\cite{lawsonSoftwareConfigurableBattery2012} as the main frame and the structure of Visairo et al.\cite{visairoReconfigurableBatteryPack2008} as the substructure.
+In this way, the circuit topology of the substructure (i.e. the structure in the box in Fig. \ref{fig:arch-ef}) can be changed to enable dynamic and flexible voltage adjustment according to the load, while at the same time taking advantage of the ease of battery isolation and increased redundancy of the main frame.
+The next subsections will use this structure with 4 battery cells and 19 switches as an example to demonstrate the effectiveness of the proposed algorithm.
 
-The reconfigurable architecture proposed by Visairo et al.\cite{visairoReconfigurableBatteryPack2008} is shown in Figure \ref{fig:f4-phy}.
-In this architecture, each cell is controlled by about 3 switches on average.
-Excepted for two switches ($S_1$ and $S_{13}$ in Figure \ref{fig:f4-phy}) controlling the total circuit, the vertical switches (e.g. $S_2$ and $S_9$ in Figure \ref{fig:f4-phy}) allow the batteries to be directly connected to the main circuit, and the switches($S_6$ for example) in the diagonal direction can realize connecting the batteries in series.
-Thus, it can dynamically change the output voltage and current as needed.
-The architecture in Figure \ref{fig:f4-phy} only has 4 batteries, but in practice it can add new branches containing batteries and switches to deal with large-scale batteries\cite{kimDependableEfficientScalable2010}.
+\subsection{Calculation details and result}
 
+% TODO: 图，结构的有向图，注意颜色，绿色、灰色、蓝色
+% fig:ef-topo
 
-The graph in Figure \ref{fig:f4-gra} represents a graphical model based on the physical model(Figure \ref{fig:f4-phy}).
+The graph in Fig. \ref{fig:ef-topo} represents the topologic model based on the new RBS structure mentioned in the last subsection (Fig. \ref{fig:arch-ef}).
 The model is presented in the form of a directed graph, capturing the connection relationship between the battery and switch in the circuit.
-Vertex 1 and 12 represent the ancode and cathode of the RBS, respectively;
-the remaining vertices represent the connection nodes between the batteries and switches.
-Battery 1, 2, 3, and 4 are represented by green directed edges in the graph, while switches are represented by gray directed edges with opposite directions.
-The external electrical appliance is considered as a directed edge from node 12 to node 1.
-In the graph model, the directionality of the edges is strictly specified to ensure that there is no reverse flow of current in the battery and external electrical appliance.
+Battery cell 1, 2, 3, and 4 are represented by green directed edges in the graph, while nineteen switches are represented by gray directed edges with opposite directions.
+The external electrical appliance is considered as a directed edge from the cathode of the RBS ( node $18$ in the graph) to the anode ( node $1$ in the graph), represented as the blue directed edge in the graph.
+Totally, there are 19 nodes and 43 edges in the graph.
 
 
-According to Equation \ref{eq:weight}, the weight of the edge corresponding to the battery is the total number of switches, which is 13;
-the weight of the edge corresponding to the switch is 1.
-By setting the weight in this way, on the one hand, it avoids the simultaneous occurrence of multiple batteries in a single SP, weakening the influence between different batteries;
-on the other hand, it minimizes the number of switches on the path, which means that only a few switches (i.e., the switches on the SP) need to be closed to connect the battery to the main circuit.
-By using the depth-first search algorithm, the SP of battery 1 can be calculated as the node list $[1, 2, 3, 7, 11, 12]$, and the SPs of the other batteries are shown in Figure \ref{fig:f4-gra}.
-
-
-The equivalent circuit model, as shows in Figure \ref{fig:f4-circ}, can be obtained based on the assumptions in Section II.
-In this model, the batteries and switches are treated as branches, where the battery is regarded as a branch consisting of a voltage source $u_b$ in series with a resistor $r_b$, and the switch is regarded as a branch controlled by a state variable $x_s$ to short or open the circuit.
-The branches are represented as direction edges, whose direction is from the node with the smaller number to the larger. 
-When the computed current or voltage value is negative, it indicates that the direction of the battery or potential difference is opposite to the preset direction.
-Based on the node-edge relationship in Figure \ref{fig:f4-circ}, the incidence matrix $\bm{A}$: can be obtained according to Equation \ref{eq:A}:
-{\setlength{\arraycolsep}{2pt}
+Based on the node-edge relationship given in Fig. \ref{fig:ef-topo}, the incidence matrix $\bm{A}$ can be obtained according to Eq. \ref{eq:A}:
 \begin{equation}
-    \begin{array}{cc}
-        &  \begin{array}{c c cccc ccccccccccccc} & e_o &e_{b1}  &e_{b2} & e_{b3} & e_{b4} & e_{s1} & e_{s2} & e_{s3} & e_{s4} & e_{s5} & e_{s6} & e_{s7} & e_{s8} & e_{s9} & e_{s10} & e_{s11} & e_{s12} & e_{s13} \end{array}\\
-            \begin{array}{c} v_1\\v_2\\v_3\\v_4\\v_5\\v_6\\v_7\\v_8\\v_9\\v_{10}\\v_{11}\\v_{12}\end{array} & \left[
-                    \begin{array}{c|cccc|ccccccccccccc}
-                        -1  &  0  &  0  &  0  &  0  &  1  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0\\
-                        0  &  0  &  0  &  0  &  0  & -1  &  1  &  1  &  1  &  1  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0\\
-                        0  &  1  &  0  &  0  &  0  &  0  & -1  &  0  &  0  &  0  &  1  &  0  &  0  &  0  &  0  &  0  &  0  &  0\\
-                        0  &  0  &  1  &  0  &  0  &  0  &  0  & -1  &  0  &  0  &  0  &  1  &  0  &  0  &  0  &  0  &  0  &  0\\
-                        0  &  0  &  0  &  1  &  0  &  0  &  0  &  0  & -1  &  0  &  0  &  0  &  1  &  0  &  0  &  0  &  0  &  0\\
-                        0  &  0  &  0  &  0  &  1  &  0  &  0  &  0  &  0  & -1  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0\\
-                        0  & -1  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  1  &  0  &  0  &  0  &  0\\
-                        0  &  0  & -1  &  0  &  0  &  0  &  0  &  0  &  0  &  0  & -1  &  0  &  0  &  0  &  1  &  0  &  0  &  0\\
-                        0  &  0  &  0  & -1  &  0  &  0  &  0  &  0  &  0  &  0  &  0  & -1  &  0  &  0  &  0  &  1  &  0  &  0\\
-                        0  &  0  &  0  &  0  & -1  &  0  &  0  &  0  &  0  &  0  &  0  &  0  & -1  &  0  &  0  &  0  &  1  &  0\\
-                        0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  &  0  & -1  & -1  & -1  & -1  &  1\\
-                    \end{array} \right]
-    \end{array},
+    \bm{A} = 
+    \begin{bmatrix}
+        \bm{A}_b & \bm{A}_s & \bm{A}_o
+    \end{bmatrix},
 \end{equation}
-}
-where the rows correspond to vertexes in the graph model, and the first column, second to fourth columns, and last ten columns correspond to external electrical equipment, 4 batteries, and 13 switches, respectively.
-According to the above classification of the columns, the matrix $\bm{A}$ can be divided into $\bm{A}_o$, $\bm{A}_b$, and $\bm{A}_s$.
 
+\begin{equation}
+    \bm{A}_b^\T = 
+    \begin{bmatrix}
+        0 & 0 & 0 & 0 & 1 & 0 &-1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 1 & 0 &-1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 &-1 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 &-1 & 0 & 0 \\
+    \end{bmatrix},
+\end{equation}
 
+\begin{equation}
+    \bm{A}_s^\T = 
+    \begin{bmatrix}
+        1 &-1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 1 &-1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 1 & 0 &-1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 &-1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 1 &-1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 1 & 0 &-1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 1 & 0 & 0 &-1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 &-1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 &-1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 &-1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 &-1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 &-1 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 &-1 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 &-1 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 &-1 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 &-1 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 &-1 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 &-1 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+    \end{bmatrix},
+\end{equation}
+
+\begin{equation}
+    \bm{A}_o^\T = 
+    \begin{bmatrix}
+       -1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    \end{bmatrix}.
+\end{equation}
 The state matrix $\bm{X}$ is determined by the switches' state, that is, the specific configuration of the RBS.
-For example, when switch
-$S_1$, $S_2$, $S_3$, $S_4$, $S_5$, $S_9$, $S_{10}$, $S_{11}$, $S_{12}$ and $S_{13}$
-are closed, and switch $S_6$, $S_7$ and $S_8$ are open, that is , battery $B_1$, $B_2$, $B_3$ and $_4$ are connected in parallel to supply power to the external circuit, the state matrix $\bm{X}$ is given by
+For example, when switch $S_1$, $S_3$, $S_5$, $S_6$, $S_8$, $S_9$, $S_{11}$, $S_{13}$, $S_{14}$, $S_{16}$, $S_{17}$ and $S_{19}$ are ON, and the rest of the switches are OFF, the state matrix $\bm{X}$ is given by
 \begin{equation}
     \bm{X} = diag(
-    1,
+    \underbrace{1,0,1,0,1,1,0,1,1,0,1,0,1,1,0,1,1,0,1}_{\text{switches}},
     \underbrace{1,1,1,1}_{\text{batteries}},
-    \underbrace{1,1,1,1,1,0,0,0,1,1,1,1,1}_{\text{switches}}
+    1
     ).
 \end{equation}
+By substituting the above specific values of $\bm{A}$ and $\bm{X}$ above into Eqs. \ref{eq:Yn}, \ref{eq:I_o}, \ref{eq:I_b} and \ref{eq:eta} in turn, the $\eta$ at the current situation, i.e. battery cell $B_1$ and $B_2$, $B_3$ and $B_4$ are connected in parallel with each other, and then connected in series to supply the external electrical appliance, can be obtained after the sequential calculation.
+The results are shown in Tab. \ref{tab:given_x}.
+
+\begin{table}[htbp]
+  \centering
+    \caption{Calculating result of the output current $I_o$, battery current $\bm{I}_b$ and ratio $\eta$ for a specificed switches state $\bm{X}_m$ in the structure combining Lawson et al.\cite{lawsonSoftwareConfigurableBattery2012} and Visairo et al.\cite{visairoReconfigurableBatteryPack2008} with 4 battery cells and 19 switches.}
+    \begin{tabular}{cc}
+    \toprule
+        Structure & 4 battery cells and 19 switches  \\
+        % Structure & combining Lawson et al.\cite{lawsonSoftwareConfigurableBattery2012} and Visairo et al.\cite{visairoReconfigurableBatteryPack2008} with 4 battery cells and 19 switches  \\
+    \midrule
+    Switch ON & 1,3,5,6,8,9,11,13,14,16,17,19 \\
+        $\bm{X}_s$ & $\diag(1,0,1,0,1,1,0,1,1,0,1,0,1,1,0,1,1,0,1)$ \\
+    \midrule
+        $I_o$ & $2u_b/(R_o+r_b)$ \\
+        $\bm{I}_b$ & $[u_b/(R_o+r_b),u_b/(R_o+r_b),u_b/(R_o+r_b),u_b/(R_o+r_b)]$ \\
+        $\eta$     & 2 \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:given_x}%
+\end{table}%
+
+The above gives the procedure for calculating the current and $\eta$ when the specified switches are given ON or OFF.
+However, in order to calculate the MAC of the structure, i.e. the maximum $\eta$, it is necessary to find the corresponding switch state using a greedy strategy, as mentioned in subsection \ref{subsec:greedy_solution}.
+
+Firstly, the weight $N_s$ in Eq. \ref{eq:weight} represents the total number of switches in the system, which is 19. 
+By using this formula and the Dijkstra search strategy, the $SP$s of each cell can be obtained, as shown in Fig 1.  % TODO: fig 4 个cell的SP
+According to the greedy strategy, as many $SP$s as possible should be selected to get the MAC. 
+In the first iteration, the $SP$s of all four batteries are selected, and the switch states on the paths are set to ON. 
+The corresponding $\bm{X}_s$ are calculated using the previous method, and the currents of the batteries are obtained as $u_b/r_b$, $u_b/r_b$, $u_b/r_b$, and $u_b/r_b$. 
+Since all batteries are short-circuited and the current of the battery exceeds the maximum allowed current $I_m$, this solution does not satisfy constraint \ref{eq:Ib_leq_Im} and is discarded. 
+The second iteration is carried out using the dichotomy method, and two batteries are selected for the combination. 
+Assuming that the selected combinations are $(B1, B2)$, the $\bm{X}_s$ obtained according to the $SP$s are substituted into the previous calculation, and the current of each battery is $u_b/r_b$, $u_b/r_b$, $0$, and $0$. 
+This solution meets the condition. 
+After that, the case of selecting three cells is considered. 
+By similar calculations, it is determined that all solutions do not satisfy the constraint when three cells are selected. 
+Finally, the MAC of this structure is $\eta=2$, and the related results are shown in Tab. \ref{tab:find_mac}.
+
+\begin{table}[htbp]
+  \centering
+    \caption{MAC Calculating result of the output current $I_o$, battery current $\bm{I}_b$ and ratio $\eta$ in the structure combining Lawson et al.\cite{lawsonSoftwareConfigurableBattery2012} and Visairo et al.\cite{visairoReconfigurableBatteryPack2008} with 4 battery cells and 19 switches.}
+    \begin{tabular}{cc}
+    \toprule
+        % Structure & combining Lawson et al.\cite{lawsonSoftwareConfigurableBattery2012} and Visairo et al.\cite{visairoReconfigurableBatteryPack2008} with 4 battery cells and 19 switches  \\
+        Structure & 4 battery cells and 19 switches  \\
+    \midrule
+    Switch ON & 1,3,5,6,8,9,10,12,18,19 \\
+    $\bm{X}_s$ & $\diag(1,0,1,0,1,1,0,1,1,1,0,1,0,0,0,0,0,1,1)$ \\
+    \midrule
+        $I_o$ & $2u_b/(2R_o+r_b)$ \\
+        $\bm{I}_b$ & $[u_b/(2R_o+r_b),u_b/(2R_o+r_b),0,0]$ \\
+        $\eta$     & 2 \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:find_mac}%
+\end{table}%
+
+\subsection{Discussion}
 
 
-When using the algorithm to solve the MAC, one may encounter the situation where the matrix $\bm{Y}_n$ is not full rank, and its inverse matrix cannot directly be obtained.
-This is because so many switches are open that some branches with voltage sources are independent of the main circuit and form new circuits.
-These circuits have infinite possible values for potential difference between them, since they are not connected to each other.
-But the potential of the main circuit, which connects from node 1 to node 12 and completely determines the output, is certain and unique.
-Therefore, the non-invertibility of $\bm{Y}_n$ will not affect the final solution.
-Here, one can choose the solution where the potential at the node with the smallest number in the independent branch is 0.
 
 
-\begin{table}[h]
-    \caption{Detailed results of the proposed method for the RBS structure proposed by Visairo\cite{visairoReconfigurableBatteryPack2008} with 4 batteries, including the output current, current of each battery, and $\eta$.}
-    \label{tab:1}
-    \begin{tabular}{ccc}
-        \hline
-        output current $I_o$       & battery current $\bm{I}_b$       & $\eta$        \\
-        \hline\\
-        $\displaystyle\frac{4u_b}{4R_o + r_b}$ &  $\displaystyle\left[\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b},\frac{u_b}{4R_o + r_b}\right]$   & $4.00$ \\
-        \\
-        \hline
-    \end{tabular}
-\end{table}
-The final calculation result of $\eta$ for the structure in Figure \ref{fig:f4-phy} is 4.
-The corresponding currents of output and each battery are shown in Table \ref{tab:1}.
-The corresponding switch control strategy is: $S_1$, $S_2$, $S_3$, $S_4$, $S_5$, $S_9$, $S_{10}$, $S_{11}$, $S_{12}$ and $S_{13}$ are closed (highlighted in red in Figure \ref{fig:f4-mac}), and $S_6$, $S_7$ and $S_8$ are open.
-For this structure, when all batteries are connected to the main circuit through the switches in the vertical direction in Figure \ref{fig:f4-phy} and the batteries are connected in parallel, the output current is maximum, which is the sum of the currents of the four batteries.
-The MAC of this structure is correctly estimated by our greedy algorithm.
+
 
 
 From the specific results of the output current $I_o$ and battery currents $\bm{I}_b$, both are related to the battery voltage $u_b$, internal resistance $r_b$, and external circuit resistance $R_o$.
@@ -517,6 +541,7 @@ Future research could focus on developing new performance indicators for evaluat
 \end{algorithm}
 
 \bibliographystyle{ieeetr}
-\bibliography{../attachments/my_ref}
+% \bibliography{../attachments/my_ref}
+\bibliography{my_ref}
 
 \end{document}
