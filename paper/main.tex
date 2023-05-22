@@ -456,7 +456,7 @@ The above gives the procedure for calculating the current and $\eta$ when the sp
 However, in order to calculate the MAC of the structure, i.e. the maximum $\eta$, it is necessary to find the corresponding switch state using a greedy strategy, as mentioned in subsection \ref{subsec:greedy_solution}.
 
 Firstly, the weight $N_s$ in Eq. \ref{eq:weight} represents the total number of switches in the system, which is 19. 
-By using this formula and the Dijkstra search strategy, the $SP$s of each cell can be obtained, as shown in Figs. \ref{fig:sp1} to \ref{fig:sp4}.  % TODO: fig 4 个cell的SP（fig:sp1,2,3,4），最终求解结果 fig:ef-mac
+By using this formula and the Dijkstra search strategy, the $SP$s of each cell can be obtained, as shown in Figs. \ref{fig:sp1} to \ref{fig:sp4}.
 According to the greedy strategy, as many $SP$s as possible should be selected to get the MAC. 
 In the first iteration, the $SP$s of all four batteries are selected, and the switch states on the paths are set to ON. 
 The corresponding $\bm{X}_s$ are calculated using the previous method, and the currents of the batteries are obtained as $u_b/r_b$, $u_b/r_b$, $u_b/r_b$, and $u_b/r_b$. 
@@ -540,7 +540,7 @@ On the contrary, by using $\eta$ as the objective function, which dividing $I_o$
 $\eta$ only reflects the maximum output current capability of the RBS structure.
 Assuming that the maximum allowed current of battery cells in the RBS is $I_m$, the maximum output current of the RBS structure can be calculated as $\eta I_m$ by calculating the $\eta$ of the structure. 
 Therefore, compared to $I_o$, $\eta$ is more suitable for structure design. 
-Most of the currently proposed RBS structures have simple topological characteristics, and the calculation of MACs are relatively simple, even intuitive. % #TODO 添加cite
+Most of the currently proposed RBS structures\cite{ciNovelDesignAdaptive2007,alahmadBatterySwitchArray2008,kimDependableEfficientScalable2010b,kimBalancedReconfigurationStorage2011a,taesickimSeriesconnectedSelfreconfigurableMulticell2012a,6843711} have simple topological characteristics, and the calculation of MACs are relatively simple, even intuitive. % #TODO 添加cite
 However, when complex and flexible structures need to be designed for application scenarios such as equalization or isolation of specific battery cells, the estimation of MAC will become complex and complicated. 
 The method proposed in this paper can effectively solve any RBS structure and estimate MAC universally, paving the way for the structure design of more complex and flexible RBSs.
 
