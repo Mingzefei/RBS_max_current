@@ -1,0 +1,103 @@
+\documentclass{article}
+\usepackage[showframe]{geometry}
+\usepackage{tikz}
+\usepackage{bm}
+\usetikzlibrary{
+  arrows.meta,
+  calc,
+  fit,
+  positioning,
+  quotes,
+  graphs,
+  shapes.geometric
+}
+\begin{document}
+% \makeatletter
+\tikzset{
+  meta box/.style={
+    draw,
+    black,
+    very thick,
+    text centered,
+  },
+  punkt/.style={
+    meta box,
+    rectangle,
+    rounded corners,
+    inner sep=.25em,
+    minimum height=2em,
+    minimum width=4em,
+    align=center,
+    text width=10em
+  },
+  round/.style={
+    meta box,
+    circle,
+    minimum size=0,
+    inner sep=0pt, 
+    outer sep=0pt
+  },
+  every fit/.style={
+    draw,
+    thick,
+    dashed,
+    gray,
+    inner xsep=.5em,
+    inner ysep=.75em
+  }
+}
+% helper macro
+% \newcommand\tikz@expand@dimen[2]{\tikzset{minimum #2={#1/4}}}
+% tikz styles: adjust min width/height of nodes
+\tikzset{
+  add dimen/.code 2 args={%
+    \pgfkeysgetvalue{/pgf/minimum #1}\tikz@dimen@min
+    \expandafter\tikz@expand@dimen\expandafter{\tikz@dimen@min + #2 * 2em}{#1}%
+  },
+  wider/.style={add dimen={width}{#1}},
+  higher/.style={add dimen={height}{#1}},
+}
+% \makeatother
+
+\begin{tikzpicture}[font=\small, node font=\small, node distance=1.5em]
+    \node[punkt]     (input) {Input: RBS structure};
+    \node[punkt, below=0.3of input] (get_SP) {
+      get $SP$s by Eqs. 1 and 2 and Dijkstra Search
+      };
+
+    \node[punkt, below=0.3of get_SP] (get_A) {get $\bm{A}$ from Eq.1};
+    \node[punkt, below=0.3of get_A] (get_Nset) {init $N_{set}=N_b$ };
+    \node[punkt, below=0.3of get_Nset] (get_cb) {get $c_b$s by combinating $N_{set}$ batteries from $N_b$};
+    \node[draw, diamond, aspect=2, below=0.3of get_cb] (is_check_all_cb) {are all $c_b$s checked?};
+    \node[draw, diamond, aspect=2, right=1of is_check_all_cb] (is_Nset_converged) {is $N_{set}$ converged?};
+    \node[punkt, above=of is_Nset_converged] (reset_Nset) {reset $N_{set}$ by dichotomy};
+    \node[punkt, text width=15em, below=0.3of is_check_all_cb] (get_Xs) {
+      select an unchecked $c_b$, and get its $\bm{X}_m$ by \\ 
+      if switch $j$ $\in \bigcup_{i\in c_b}SP_i$:\\
+             $\bm{X}[j]=1$ else $0$};
+    \node[punkt, below=0.3of get_Xs] (get_Yn) {get $\bm{Y}_n$ by Eq.3};
+    \node[draw, diamond, aspect=2, below=0.3of get_Yn] (is_Yn_invertible) {is $\bm{Y}_n$ invertible?};
+    \node[punkt, right=1.3of is_Yn_invertible] (construct) {construct an effective solution};
+    \node[punkt, below=0.3of is_Yn_invertible] (get_I) {get $I_o$ and $\bm{I}_b$ by Eq.4 and 5};
+
+    \node[draw, diamond, aspect=2, below=0.3of get_I] (is_leq_Im) {is $\max \bm{I}_b \leq I_m$?};
+    \node[punkt, right=1.3of is_leq_Im] (drop_eta) {drop this $\eta$};
+    \node[punkt, below=0.3of is_leq_Im] (get_eta) {get $\eta$ by Eq.6};
+    \node[punkt, below=0.3of get_eta] (update_max_eta) {update $\max \eta$};
+    \node[punkt, right=1of is_Nset_converged] (output) {Output: $\max \eta$};
+
+    \node[round,left=1.5of update_max_eta](point1){};
+
+
+    \graph{
+      (input) -> (get_SP) -> (get_A) -> (get_Nset) -> (get_cb) -> (is_check_all_cb) ->["No"] (get_Xs) -> (get_Yn) -> (is_Yn_invertible) ->["Yes"] (get_I) -> (is_leq_Im) ->["Yes"] (get_eta) -> (update_max_eta);
+      (is_check_all_cb) ->["Yes"] (is_Nset_converged) ->["No"] (reset_Nset) -> (get_cb);
+      (is_Yn_invertible) ->["No"] (construct) ->[to path={|- (\tikztotarget)}] (get_I);
+      (is_leq_Im) ->["No"] (drop_eta) ->[to path={|- (\tikztotarget)}] (update_max_eta);
+      (is_Nset_converged) ->["Yes"] (output);
+      (update_max_eta) -- (point1) ->[to path={|- (\tikztotarget)}] (is_check_all_cb);
+    };
+
+
+\end{tikzpicture}
+\end{document}

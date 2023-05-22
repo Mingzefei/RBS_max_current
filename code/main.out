@@ -1,53 +1,127 @@
-MAC of RBS_f(2): 2.00
-Io_ideal: (2*ub)/(2*Ro + rb)
-Ib_ideal(1): ub/(2*Ro + rb)
-Ib_ideal(2): ub/(2*Ro + rb)
-those switches are close: 1 2 3 5 6 7 
+[For professional Matlab assistance, please contact <a href="https://UndocumentedMatlab.com/consulting">https://UndocumentedMatlab.com/consulting</a>]
+{错误使用 <a href="matlab:matlab.internal.language.introspective.errorDocCallback('export_fig>parse_args', 'C:\Users\Hua\win_workbench\tools\matlab_tool\export_fig\export_fig.m', 2008)" style="font-weight:bold">export_fig>parse_args</a> (<a href="matlab: opentoline('C:\Users\Hua\win_workbench\tools\matlab_tool\export_fig\export_fig.m',2008,0)">第 2008 行</a>)
+Folder .\attachments does not exist, nor is it the name of any active figure!
 
-MAC of RBS_f(4): 4.00
-Io_ideal: (4*ub)/(4*Ro + rb)
-Ib_ideal(1): ub/(4*Ro + rb)
-Ib_ideal(2): ub/(4*Ro + rb)
-Ib_ideal(3): ub/(4*Ro + rb)
-Ib_ideal(4): ub/(4*Ro + rb)
-those switches are close: 1 2 3 4 5 9 10 11 12 13 
+出错 <a href="matlab:matlab.internal.language.introspective.errorDocCallback('export_fig', 'C:\Users\Hua\win_workbench\tools\matlab_tool\export_fig\export_fig.m', 419)" style="font-weight:bold">export_fig</a> (<a href="matlab: opentoline('C:\Users\Hua\win_workbench\tools\matlab_tool\export_fig\export_fig.m',419,0)">第 419 行</a>)
+    [fig, options] = parse_args(nargout, fig, argNames, varargin{:});
 
-MAC of RBS_f(6): 6.00
-Io_ideal: (6*ub)/(6*Ro + rb)
-Ib_ideal(1): ub/(6*Ro + rb)
-Ib_ideal(2): ub/(6*Ro + rb)
-Ib_ideal(3): ub/(6*Ro + rb)
-Ib_ideal(4): ub/(6*Ro + rb)
-Ib_ideal(5): ub/(6*Ro + rb)
-Ib_ideal(6): ub/(6*Ro + rb)
-those switches are close: 1 2 3 4 5 6 7 13 14 15 16 17 18 19 
+出错 <a href="matlab:matlab.internal.language.introspective.errorDocCallback('RBSClass.save_plot', '\\wsl$\ubuntu-20.04\home\ming\ubt_workbench\RBS_max_current\code\RBSClass.m', 228)" style="font-weight:bold">RBSClass.save_plot</a> (<a href="matlab: opentoline('\\wsl$\ubuntu-20.04\home\ming\ubt_workbench\RBS_max_current\code\RBSClass.m',228,0)">第 228 行</a>)
+            eval(cmd);
 
-MAC of RBS_e(2): 1.00
-Io_ideal: ub/(Ro + rb)
-Ib_ideal(1): ub/(Ro + rb)
-Ib_ideal(2): 0
-those switches are close: 1 3 5 7 8 9 
+出错 <a href="matlab:matlab.internal.language.introspective.errorDocCallback('main', '\\wsl$\ubuntu-20.04\home\ming\ubt_workbench\RBS_max_current\code\main.m', 9)" style="font-weight:bold">main</a> (<a href="matlab: opentoline('\\wsl$\ubuntu-20.04\home\ming\ubt_workbench\RBS_max_current\code\main.m',9,0)">第 9 行</a>)
+    rbs_f.save_plot(rbs_f.plot_G_dege(),path_file)
 
-MAC of RBS_e(3): 1.00
-Io_ideal: ub/(Ro + rb)
-Ib_ideal(1): ub/(Ro + rb)
-Ib_ideal(2): 0
-Ib_ideal(3): 0
-those switches are close: 1 3 5 7 10 11 12 
+出错 <a href="matlab:matlab.internal.language.introspective.errorDocCallback('run', 'C:\Program Files\MATLAB\R2021b\toolbox\matlab\lang\run.m', 91)" style="font-weight:bold">run</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2021b\toolbox\matlab\lang\run.m',91,0)">第 91 行</a>)
+evalin('caller', strcat(script, ';'));
+} 
+e main.m
+{函数或变量 'e' 无法识别。
+} 
+edit main.m
+web('https://UndocumentedMatlab.com/consulting')
+rbs_e2f2 = RBSClass_e2f2();
+rbs_e2f2.get_current([1,0,1,0,1,1,0,1,1,0,1,0,1,1,0,1,1,0,1])
+ 
+ans =
+ 
+2
+ 
+out_idea, isnot_short,Io,Ib = rbs_e2f2.get_current([1,0,1,0,1,1,0,1,1,0,1,0,1,1,0,1,1,0,1])
+{函数或变量 'out_idea' 无法识别。
+} 
+out_idea,isnot_short,Io,Ib = rbs_e2f2.get_current([1,0,1,0,1,1,0,1,1,0,1,0,1,1,0,1,1,0,1])
+{函数或变量 'out_idea' 无法识别。
+} 
+rbs_e2f2.get_current([1,0,1,0,1,1,0,1,1,0,1,0,1,1,0,1,1,0,1])
+ 
+ans =
+ 
+2
+ 
+a,b,c,d = rbs_e2f2.get_current([1,0,1,0,1,1,0,1,1,0,1,0,1,1,0,1,1,0,1])
+{函数或变量 'a' 无法识别。
+} 
+a = rbs_e2f2.get_current([1,0,1,0,1,1,0,1,1,0,1,0,1,1,0,1,1,0,1])
+ 
+a =
+ 
+2
+ 
+a
+ 
+a =
+ 
+2
+ 
+[a,b,c,d] = rbs_e2f2.get_current([1,0,1,0,1,1,0,1,1,0,1,0,1,1,0,1,1,0,1])
+ 
+a =
+ 
+2
+ 
 
-MAC of RBS_e(4): 1.00
-Io_ideal: ub/(Ro + rb)
-Ib_ideal(1): ub/(Ro + rb)
-Ib_ideal(2): 0
-Ib_ideal(3): 0
-Ib_ideal(4): 0
-those switches are close: 1 3 5 7 10 13 14 15 
+b =
 
-MAC of RBS_e2f2: 2.00
-Io_ideal: (2*ub)/(2*Ro + rb)
-Ib_ideal(1): ub/(2*Ro + rb)
-Ib_ideal(2): ub/(2*Ro + rb)
-Ib_ideal(3): 0
-Ib_ideal(4): 0
-those switches are close: 1 3 5 6 8 9 10 12 18 19 
+     1
 
+ 
+c =
+ 
+(2*ub)/(Ro + rb)
+ 
+ 
+d =
+ 
+ub/(Ro + rb)
+ub/(Ro + rb)
+ub/(Ro + rb)
+ub/(Ro + rb)
+ 
+[a,b,c,d] = rbs_e2f2.get_current([1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1])
+ 
+a =
+ 
+0
+ 
+
+b =
+
+     0
+
+ 
+c =
+ 
+0
+ 
+ 
+d =
+ 
+ub/rb
+ub/rb
+ub/rb
+ub/rb
+ 
+[a,b,c,d] = rbs_e2f2.get_current([1,0,1,0,1,1,0,1,1,1,0,1,0,0,0,0,0,1,1])
+ 
+a =
+ 
+2
+ 
+
+b =
+
+     1
+
+ 
+c =
+ 
+(2*ub)/(2*Ro + rb)
+ 
+ 
+d =
+ 
+ub/(2*Ro + rb)
+ub/(2*Ro + rb)
+             0
+             0
+ 

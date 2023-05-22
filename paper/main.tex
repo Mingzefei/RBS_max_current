@@ -1,8 +1,3 @@
-% 0519 修改
-% 图片：重画所有图，用ppt，注意字体大小、元素含义统一
-% 专有名词的统一：structure, external electrical appliance
-% 伪代码：修改后放附录
-
 \documentclass{article}
 \usepackage{graphicx}
 \usepackage{subcaption}
@@ -14,7 +9,16 @@
 \usepackage{bm}
 \usepackage[ruled,linesnumbered]{algorithm2e}
 \setcounter{MaxMatrixCols}{20}
-
+\usepackage{tikz}
+\usetikzlibrary{
+  arrows.meta,
+  calc,
+  fit,
+  positioning,
+  quotes,
+  graphs,
+  shapes.geometric
+}
 \def\T{\mathrm{T}}
 
 
@@ -29,16 +33,14 @@
     Reconfigurable Battery Systems (RBSs) offer a promising alternative to traditional battery systems owing to their dynamical topologic structure for the optimization of battery cell charging and discharging stragegies.
     During the operation of the RBS, the Maximum Allowable Current (MAC) is a critical indicator to guide the reconfiguring control of the system in terms of safety and reliability.
     In this paper, the MAC of the RBS is calculated by using a greedy algorithm based on the topologic model of the RBS.
-    The effectiveness of this method is validated on the RBSs with different structures.
-    % #TODO
+    The effectiveness of this method is validated on a more complex RBS structure based on two proposed structure.
+    The MAC and the computational method proposed in this article pave the way for more flexible design and more complex application scenarios, such as battery cell isolation, for RBS.
 
 
     keywords: Reconfigurable Battery System, Maximum Allowable Current, Greedy Algorithm
 \end{abstract}
 
 \section{Introduction}
-
-% TODO 提到后面讨论部分的场景
 
 Battery Energy Storage Systems (BESSs) are widely used to store and supply high-quality electrical energy in various applications, such as smart grids and wind power plants \cite{desiqueiraControlStrategySmooth2021,karandehTwoStageAlgorithmOptimal2019,yangBatteryEnergyStorage2018,choCommercialResearchBattery2015}.
 Typically, a BESS consists of numerous battery cells that are interconnected by series-parallel circuitry to provide the required charge storage capacity and output voltage.
@@ -55,7 +57,7 @@ Furthermore, when an unhealthy battery, for instance the orange one in Fig. \ref
 
 \begin{figure}[htbp]
     \centering
-    \begin{subfigure}[b]{0.15\textwidth}
+    \begin{subfigure}[b]{0.2\textwidth}
         \includegraphics[width=\textwidth]{../attachments/arch-e.png}
         \caption{}
         \label{fig:arch-f}
@@ -78,12 +80,13 @@ Despite its importance, there is currently no method available to evaluate MAC f
 Therefore, the purpose of this paper is to propose a universal and effective method for calculating the MAC of the RBS.
 To achieve this, a topologic model that builds the relationship between RBS circuit topology and internal resistance and voltage of its batteries are established.
 Then, a greedy algorithm is employed to search the available circuit of the RBS for reaching the MAC.
-With the developed method, MAC of RBSs with different structures can be calculated effectively.
+With the developed method, MAC of RBSs with different structures can be calculated effectively, including application scenarios with isolated battery cells.
 
 
 The remainder of this paper is organized as follows:
 Section II presents the framework and details of the proposed topologic model and the greedy algorithm.
-In Section III, a case study of using the proposed model and algorithm to enumerate the MAC of a specific structure is demonstrated.
+In Section III, a case study of using the proposed model and algorithm to enumerate the MAC of a new and complex structure is demonstrated.
+The calculation results and scenarios such as battery cells isolation also are discussed
 Finally, the concluding remarks are drawn in Section IV.
 
 
@@ -94,18 +97,28 @@ In the first place, the actual RBS structure is converted to a topologic model, 
 Subsequently, constraints and objective function, i.e. MAC, are obtained based on the previous connected relationships and parameters.
 Then, the shortest path (SP) of each battery in the RBS is obtained by Dijkstra algorithm.
 In the end, the open/close strategy of the RBS is implemented by greedily selecting the SPs to achieve MAC and quantitatively calculated in the equivalent circuit.
-% 只有一个 topologic model，建模；先根据连接关系和物理参数建立目标函数和约束；再找SP；最后根据贪婪算法求解MAC。
 
-% TODO: fig 整体框图
-\begin{figure}
+\begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{../attachments/main-v4.png}
-    \caption{Diagram of this method. 
-        It includes a graph model and an equivalent circuit model based on the actual RBS.
-        The shortest path of each battery is obstained from the graph model, and the voltage and current of the equivalent circuit model are calculated.
-        By greedily searching for the combination of the shortest path, the MAC is calculated in the equivalent circuit model.
-        } 
-    \label{fig:main}
+    \begin{subfigure}[b]{\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/main.png}
+        \caption{}
+        \label{fig:main}
+    \end{subfigure}
+    \\ 
+    \begin{subfigure}[b]{\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/battery_simple.png}
+        \caption{}
+        \label{fig:battery_simple}
+    \end{subfigure}
+    \caption{(a)Diagram of this method, which contains four main steps.
+    Step 1: The RBS structure is converted to a topologic model.
+    Step 2: Constraints and objective function are obtained based on the previous topologic model.
+    Step 3: The shortest path of each battery in the RBS is obtained by Dijkstra algorithm.
+    Step 4: The MAC is achieved by greedily selecting the shortest paths to open/close switches.
+    (b) The equivalent circuit of a battery in this method, with $u_{b,i}$ and $r_{b,i}$ representing the voltage and internal resistance of the battery $i$ respectively.
+    The capacitor in Thevenin model is ignored.
+    }
 \end{figure}
 
 \subsection{Topologic Model}
@@ -115,9 +128,9 @@ To establish a processable circuit, these batteries and switches are transformed
 The resulting circuit structure is then described in matrix form, and the related equations are provided.
 
 
-The normal equivalent circuit for a battery consists of a voltage source in series with a resistor, and a capacitor in parallel with another resistor to simulate the polarization in batteries.
+The normal equivalent circuit for a battery consists of a voltage source in series with a resistor, and a capacitor in parallel with another resistor to simulate the polarization in batteries, kwon as Thevenin model\cite{hongwenheStateofChargeEstimationLithiumIon2011,mousavig.VariousBatteryModels2014}.
 To simplify the model, the transient characteristics of the circuit are not considered, so the capacitor mentioned above is ignored.
-In this way, the battery $i$ in the RBS is modeled by the series connection in between a constant voltage source $u_{b,i}$ and a resistor $r_{b,i}$,  as shown in Fig. %TODO 电池模型有电阻电容简化为电阻的示意图。
+In this way, the battery $i$ in the RBS is modeled by the series connection in between a constant voltage source $u_{b,i}$ and a resistor $r_{b,i}$,  as shown in Fig. \ref{fig:battery_simple}
 And a binary variable $x_j$ is used to represent the state of switch $j$, where 0 for ON and 1 for OFF, respectively.
 To simplify the calculation, a closed switch is considered as a resistor with a very small resistance value $r_s$.
 
@@ -231,7 +244,7 @@ When the battery $i$ is connected to the anode $v_1$ and the cathode $v_N$ of th
 \end{equation}
 where $N_s$ is the total number of switches in the system; $n_b(p)$ and $n_s(p)$ are number of batteries and switches in the path $p$ respectively.
 $SP_i$ is defined as the path with the minimum $\omega$ for battery $i$.
-\begin{equation}
+\begin{equation}\label{eq:def_sp}
     SP_i = \mathop{\arg\min}_{p \in P_i} \omega(p),
 \end{equation}
 where $P_i$ is the set of all paths from $v_1$ to $v_N$ and passed through the directed edge $i$ in the direction of it.
@@ -243,8 +256,76 @@ The dichotomy method is also performed to faster find the right number of $SP$s.
 
 After finding the potential SPs combinations about the MAC, the state variable $\bm{X}_s$ of the switches can be determined, and the optimization problem \ref{eq:max_eta} can be solved using Eq. \ref{eq:eta}, \ref{eq:I_o} and \ref{eq:I_b}.
 The overall flowchart is shown in Fig. \ref{fig:flowchart}, and the corresponding pseudo-code of the algorithm is shown in Algorithm \ref{alg:eta_RBS}.
-% TODO 算法流程图
 
+\tikzset{
+  meta box/.style={
+    draw,
+    black,
+    very thick,
+    text centered,
+  },
+  punkt/.style={
+    meta box,
+    rectangle,
+    rounded corners,
+    inner sep=.25em,
+    minimum height=2em,
+    minimum width=4em,
+    align=center,
+    text width=10em
+  },
+  round/.style={
+    meta box,
+    circle,
+    minimum size=0,
+    inner sep=0pt, 
+    outer sep=0pt
+  },
+  every fit/.style={
+    draw,
+    thick,
+    dashed,
+    gray,
+    inner xsep=.5em,
+    inner ysep=.75em
+  }
+}
+\begin{figure}
+\begin{tikzpicture}[font=\small, node font=\small, node distance=1.5em]
+    \node[punkt]     (input) {Input: RBS structure};
+    \node[punkt, below=0.3of input] (get_SP) {get $SP$s by Eqs. \ref{eq:weight} and \ref{eq:def_sp} and Dijkstra Search};
+    \node[punkt, below=0.3of get_SP] (get_A) {get $\bm{A}$ from Eq. \ref{eq:A}};
+    \node[punkt, below=0.3of get_A] (get_Nset) {init $N_{set}=N_b$ };
+    \node[punkt, below=0.3of get_Nset] (get_cb) {get $c_b$s by combinating $N_{set}$ batteries from $N_b$};
+    \node[draw, diamond, aspect=2, below=0.3of get_cb] (is_check_all_cb) {are all $c_b$s checked?};
+    \node[draw, diamond, aspect=2, right=1of is_check_all_cb] (is_Nset_converged) {is $N_{set}$ converged?};
+    \node[punkt, above=of is_Nset_converged] (reset_Nset) {reset $N_{set}$ by dichotomy};
+    \node[punkt, text width=15em, below=0.3of is_check_all_cb] (get_Xs) {
+        select an unchecked $c_b$, and get its $\bm{X}_m$ by \\ 
+        if switch $j$ $\in \bigcup_{i\in c_b}SP_i$:\\
+        $\bm{X}[j]=1$ else $0$};
+    \node[punkt, below=0.3of get_Xs] (get_Yn) {get $\bm{Y}_n$ by Eq.\ref{eq:Yn}};
+    \node[draw, diamond, aspect=2, below=0.3of get_Yn] (is_Yn_invertible) {is $\bm{Y}_n$ invertible?};
+    \node[punkt, right=1.3of is_Yn_invertible] (construct) {construct an effective solution};
+    \node[punkt, below=0.3of is_Yn_invertible] (get_I) {get $I_o$ and $\bm{I}_b$ by Eqs. \ref{eq:I_o} and \ref{eq:I_b}};
+    \node[draw, diamond, aspect=2, below=0.3of get_I] (is_leq_Im) {is $\max \bm{I}_b \leq I_m$?};
+    \node[punkt, right=1.3of is_leq_Im] (drop_eta) {drop this $\eta$};
+    \node[punkt, below=0.3of is_leq_Im] (get_eta) {get $\eta$ by Eq.\ref{eq:eta}};
+    \node[punkt, below=0.3of get_eta] (update_max_eta) {update $\max \eta$};
+    \node[punkt, right=1of is_Nset_converged] (output) {Output: $\max \eta$};
+    \node[round,left=1.5of update_max_eta](point1){};
+
+    \graph{
+      (input) -> (get_SP) -> (get_A) -> (get_Nset) -> (get_cb) -> (is_check_all_cb) ->["No"] (get_Xs) -> (get_Yn) -> (is_Yn_invertible) ->["Yes"] (get_I) -> (is_leq_Im) ->["Yes"] (get_eta) -> (update_max_eta);
+      (is_check_all_cb) ->["Yes"] (is_Nset_converged) ->["No"] (reset_Nset) -> (get_cb);
+      (is_Yn_invertible) ->["No"] (construct) ->[to path={|- (\tikztotarget)}] (get_I);
+      (is_leq_Im) ->["No"] (drop_eta) ->[to path={|- (\tikztotarget)}] (update_max_eta);
+      (is_Nset_converged) ->["Yes"] (output);
+      (update_max_eta) -- (point1) ->[to path={|- (\tikztotarget)}] (is_check_all_cb);
+    };
+\end{tikzpicture}
+\caption{The computational flowchart of the proposed method in this paper.}\label{fig:flowchart}
+\end{figure}
 \section{Case Study}
 
 This section presents a case study to demonstrate the effectiveness of the proposed method.
@@ -254,8 +335,26 @@ Moreover, the algorithm's versatility is also established through its applicatio
 
 \subsection{Determination of a new RBS structure}
 
-% TODO: 图，我们的结构；以及与之前两种结构的关系
-% fig:arch-ef
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/arch-ef.png}
+        \caption{}
+        \label{fig:arch-ef}
+    \end{subfigure}
+    \hspace{0.05\textwidth}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/ef-topo.png}
+        \caption{}
+        \label{fig:ef-topo}
+    \end{subfigure}
+    \caption{
+        (a) The new RBS structure proposed in this paper, which is obtained by replacing the batteries in Fig. \ref{fig:arch-e} with the structure in Fig. \ref{fig:arch-f}, as shown in the dashed boxes in the figure.
+        (b) The corresponding topologic model of the new RBS structure, which is a directed graph.
+        The nodes represent the connection points of the battery cells and/or the switches.
+        The green,gray and blue directed edges represent the battery cells, the switches and the external electrical appliance, respectively.
+    }
+\end{figure}
 
 The RBS structure proposed by Lawson et al\cite{lawsonSoftwareConfigurableBattery2012}, shown in Fig. \ref{fig:arch-e}, easily enables the isolation of arbitrary cells or the addition of redundant cells to the system, but these cells are limited to being connected in series only and the switch between cells connection modes is not flexible. 
 In contrast, the structure proposed by Visairo et al\cite{visairoReconfigurableBatteryPack2008}, shown in Fig. \ref{fig:arch-f}, allows the flexibility to switch the cells between series, parallel and mixed series-parallel modes, thus allowing dynamic voltage adjustment according to the external load and improving energy conversion efficiency, but is not as simple as the structure by Lawson et al in terms of isolating cells or adding redundancy.
@@ -265,9 +364,6 @@ In this way, the circuit topology of the substructure (i.e. the structure in the
 The next subsections will use this structure with 4 battery cells and 19 switches as an example to demonstrate the effectiveness of the proposed algorithm.
 
 \subsection{Calculation details and result}
-
-% TODO: 图，结构的有向图，注意颜色，绿色、灰色、蓝色
-% fig:ef-topo
 
 The graph in Fig. \ref{fig:ef-topo} represents the topologic model based on the new RBS structure mentioned in the last subsection (Fig. \ref{fig:arch-ef}).
 The model is presented in the form of a directed graph, capturing the connection relationship between the battery and switch in the circuit.
@@ -372,6 +468,36 @@ After that, the case of selecting three cells is considered.
 By similar calculations, it is determined that all solutions do not satisfy the constraint when three cells are selected. 
 Finally, the MAC of this structure is $\eta=2$, and the related result is shown in Fig. \ref{fig:ef-mac} and Tab. \ref{tab:find_mac}.
 
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/ef-sp1.png}
+        \caption{}
+        \label{fig:sp1}
+    \end{subfigure}
+    \hspace{0.05\textwidth}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/ef-sp2.png}
+        \caption{}
+        \label{fig:sp2}
+    \end{subfigure}
+    \\
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/ef-sp3.png}
+        \caption{}
+        \label{fig:sp3}
+    \end{subfigure}
+    \hspace{0.05\textwidth}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/ef-sp4.png}
+        \caption{}
+        \label{fig:sp4}
+    \end{subfigure}
+    \caption{
+        The $SP$s of battery cell (a)$B_1$ (b)$B_2$ (c)$B_3$ (d)$B_4$ in the new structure's topological model, which is highlighted in red.
+        }
+\end{figure}
+
 \begin{table}[htbp]
   \centering
     \caption{MAC Calculating result of the output current $I_o$, battery current $\bm{I}_b$ and ratio $\eta$ in the structure combining Lawson et al.\cite{lawsonSoftwareConfigurableBattery2012} and Visairo et al.\cite{visairoReconfigurableBatteryPack2008} with 4 battery cells and 19 switches.}
@@ -391,9 +517,17 @@ Finally, the MAC of this structure is $\eta=2$, and the related result is shown 
   \label{tab:find_mac}%
 \end{table}%
 
-\subsection{Discussion}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{../attachments/ef-mac.png}
+    \caption{
+        The finally calculation result of MAC for the new structure with four battery cells and 19 switches.
+        The red lines represent the branches through which the current flows, and the switches on these branches are ON. 
+        In this situation, the RBS outputs MAC to the outside, which is $\eta=2$.
+    }\label{fig:ef-mac}
+\end{figure}
 
-% TODO 添加文献，各种结构的
+\subsection{Discussion}
 
 The correctness of the results shown in Fig. \ref{fig:ef-mac} is obvious. 
 When B1 and B2 or B3 and B4 are connected in parallel, the RBS can output the maximum current, which is $\eta=2$, i.e. twice the current output of a single battery in RBS.
@@ -406,21 +540,20 @@ On the contrary, by using $\eta$ as the objective function, which dividing $I_o$
 $\eta$ only reflects the maximum output current capability of the RBS structure.
 Assuming that the maximum allowed current of battery cells in the RBS is $I_m$, the maximum output current of the RBS structure can be calculated as $\eta I_m$ by calculating the $\eta$ of the structure. 
 Therefore, compared to $I_o$, $\eta$ is more suitable for structure design. 
-Most of the currently proposed RBS structures have simple topological characteristics, and the calculation of MACs are relatively simple, even intuitive. 
+Most of the currently proposed RBS structures have simple topological characteristics, and the calculation of MACs are relatively simple, even intuitive. % #TODO 添加cite
 However, when complex and flexible structures need to be designed for application scenarios such as equalization or isolation of specific battery cells, the estimation of MAC will become complex and complicated. 
 The method proposed in this paper can effectively solve any RBS structure and estimate MAC universally, paving the way for the structure design of more complex and flexible RBSs.
 
 % 对比Tab. 1和 Tab. 2，可以发现，对于这两种开关状态 $\bm{X}_s$，在电阻和电动势相同的情况下，前者的Io更大。
 % 这主要是由于在Tab. 1的情形下，四个电池以两并两串的形式接入主电路，提供了更多的电动势。
 % 相应的，每个电池的电流也更大。
-% 此时，如果仅使用 Io 作为目标函数，则  （） TODO：讨论怎么说
-
+% 此时，如果仅使用 Io 作为目标函数，则  （） #TODO：讨论怎么说
 
 When the RBS has isolated battery cells, the original topology of the structure is altered. 
 However, the method proposed in this paper can still be used to calculate the MAC of the new structure. 
 The MAC after the isolation operation can be obtained by calculating the new structure following the procedures described in the previous subsection.
 During the calculation process, the isolated battery cell(s) do not participate in the calculation, i.e., their nodes, edges, and $SP$s are not considered. 
-The MACs under various isolated battery cell(s) are calculated on the structures proposed by Lawson et al. (Fig. \ref{fig:arch-e}), Visairo et al. (Fig. \ref{fig:arch-f}), and the new structure that integrates the previous two structures (Fig. \ref{fig:ef-topo}), as shown in Fig. \ref{fig:isolated_mac}. %TODO: 不同隔离电池数，三种结构，MAC
+The MACs under various isolated battery cell(s) are calculated on the structures proposed by Lawson et al. (Fig. \ref{fig:arch-e}), Visairo et al. (Fig. \ref{fig:arch-f}), and the new structure that integrates the previous two structures (Fig. \ref{fig:ef-topo}), as shown in Fig. \ref{fig:isolated_mac}. 
 For the structure proposed by Lawson et al., the MAC remains the same as that without isolated battery cells, i.e., $\eta=1$, when the number of isolated battery cells increases, until all the cells in the RBS are isolated.
 For the structure proposed by Visairo et al., the MAC decreases as the number of isolated battery cells increases, until $\eta=0$.
 While the new structure has two cases of isolating two cells, one is to isolate two cells within the same substructure, in which case $\eta=2$; the other is to isolate one cell in each of the two substructures, in which case $\eta=1$. 
@@ -428,6 +561,14 @@ Overall, the MAC of the new structure is positioned between the structures propo
 It can be seen that the MAC of the structure in Fig. \ref{fig:arch-e} is the most stable, and the structure has advantages in isolation and redundancy backup, but its MAC is the smallest. 
 The structure proposed shown by Fig. \ref{fig:arch-f} can output the largest MAC but is susceptible to the number of isolated battery cells. 
 However, the structure proposed by this paper has certain advantages in both aspects, being insensitive to the number of isolated battery cells while simultaneously achieving a larger MAC.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../attachments/isolated_mac.png}
+    \caption{
+        The variation of MAC with the number of isolated battery cells for different RBS structures, including the structure proposed by Lawson et al., Visairo et al. , and the new structure in this paper.
+    }\label{fig:isolated_mac}
+\end{figure}
 
 \section{Conclusion}
 
