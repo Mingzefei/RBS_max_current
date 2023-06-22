@@ -1,0 +1,6 @@
+paper/~$.*.doc
+
+# latex
+paper/*.aux
+paper/*.log
+paper/*.out

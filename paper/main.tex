@@ -1,3 +1,12 @@
+% 0622 v3.0 plan
+% -[ ] 将 word 批注和修改内容整理到 tex 中
+% -[ ] 确定修改要点，批注和obsidian记录
+% -[ ] 添加参考文献，期刊的 
+
+% mark
+% 统一为 directed graph model
+% 统一用 electrical load 而非 electrical appliance (泛指家电)
+
 \documentclass{article}
 \usepackage{graphicx}
 \usepackage{subcaption}
@@ -22,38 +31,41 @@
 \def\T{\mathrm{T}}
 
 
-\title{A Greedy-based calculation method of RBS maximum allowable current}
+\title{Maximum Allowable Current Determination of Arbitrary Reconfigurable Battery Systems By Using a Directed Graph Model Combined with Greedy Algorithm}
 \author{3057761608 }
 
 \begin{document}
 
 \maketitle
 
-\begin{abstract}
-    Reconfigurable Battery Systems (RBSs) offer a promising alternative to traditional battery systems owing to their dynamical topologic structure for the optimization of battery cell charging and discharging stragegies.
-    During the operation of the RBS, the Maximum Allowable Current (MAC) is a critical indicator to guide the reconfiguring control of the system in terms of safety and reliability.
-    In this paper, the MAC of the RBS is calculated by using a greedy algorithm based on the topologic model of the RBS.
-    The effectiveness of this method is validated on a more complex RBS structure based on two proposed structure.
-    The MAC and the computational method proposed in this article pave the way for more flexible design and more complex application scenarios, such as battery cell isolation, for RBS.
+\begin{abstract} % #TODO: rewrite
+    Reconfigurable Battery Systems (RBSs) offer a promising alternative to traditional battery systems owing to their flexible and dynamic changeable topologic structure subjected to battery cell charging and discharging strategies. 
+    During the operation of the RBS, Maximum Allowable Current (MAC) is a critical indicator to guide the reconfiguring control of the system in terms of safety and reliability. 
+    In this paper, the MAC of the RBS is calculated by using a greedy algorithm based on the directed graph model of the RBS. % 这句话展开讲， Greedy algorithm方法被用于…/与…方法相结合，实现了对任意RBS结构的MAC提取，
+    % The greedy algorithm method has been used to solve a model based on topology structure, achieving MAC estimation for any RBS structure.
+    The effectiveness of this method is validated on a more complex RBS structure based on two proposed structure. 
+    This proposed Greedy-based method paves the way for more flexible design and more complex application scenarios, such as battery cell isolation, for RBS.
 
-
-    keywords: Reconfigurable Battery System, Maximum Allowable Current, Greedy Algorithm
+    keywords:  Reconfigurable Battery System, Maximum Allowable Current, Greedy Algorithm
 \end{abstract}
 
 \section{Introduction}
+% 不放案例
+% 重构灵活性的文献
+% 有向图的文献
 
-Battery Energy Storage Systems (BESSs) are widely used to store and supply high-quality electrical energy in various applications, such as smart grids and wind power plants \cite{desiqueiraControlStrategySmooth2021,karandehTwoStageAlgorithmOptimal2019,yangBatteryEnergyStorage2018,choCommercialResearchBattery2015}.
-Typically, a BESS consists of numerous battery cells that are interconnected by series-parallel circuitry to provide the required charge storage capacity and output voltage.
-For the traditional BESS, the connections between batteries are fixed and the performance of system is limited by the worst cell, as the result of the cask effect.
-Furthermore, reliability and even safety issues will alse be aroused since the failed battery cannot be promptly isolated to exacerbate the degradation of the other batteries during the operational process \cite{yangUnbalancedDischargingAging2016,fengPropagationMechanismsDiagnosis2019}.
-Undoubtedly theses issues hinder the practical application of traditional BESSs.
+Battery Energy Storage Systems (BESSs) are widely used to store and release high-quality electrical energy in various applications, such as smart grids and wind power plants \cite{desiqueiraControlStrategySmooth2021,karandehTwoStageAlgorithmOptimal2019,yangBatteryEnergyStorage2018,choCommercialResearchBattery2015}.
+Typically, a BESS consists of numerous battery cells that are interconnected by series-parallel circuitry to provide the required capacity storage.
+The traditional BESS, in which the batteries are connected in a fixed topology, has a significant weakness on its worst battery, caused by the so-called cask effect.
+Furthermore, if this worst battery is failed during the operation process, it will exacerbate the degradation of the other batteries with a high possibility, and arouse reliability and even safety issues \cite{yangUnbalancedDischargingAging2016,fengPropagationMechanismsDiagnosis2019}.
 
 
-Reconfigurable Battery System (RBS), which can dynamically switch to arbitrary circuit configurations as required, is expected to solve the above problem\cite{hanNextGenerationBatteryManagement2020a}. 
-The ability to switches circuit helps to isolate unhealthy batteries from the circuit in a timely manner, thereby improving the safety and reliability of the battery system.
+Reconfigurable Battery System (RBS), which can dynamically switch to different circuit topology configurations as required, is expected to solve the above problem\cite{hanNextGenerationBatteryManagement2020a}.
+The ability of switching circuit helps to isolate unhealthy batteries, and thereby improve the safety and reliability of the battery system.
 Fig. \ref{fig:arch} shows two popular typologies of the RBSs developed by Lawson\cite{lawsonSoftwareConfigurableBattery2012} and Visairo \cite{visairoReconfigurableBatteryPack2008} respectively. 
-Taking the RBS shown in Fig. \ref{fig:arch-e} as example, the batteries in the RBS can beare connected not only in series when the switches $S_1$, $S_5$, $S_6$, $S_7$, $S_8$, $S_9$, and $S_{13}$ are closed, but also in parallel when $S_1$, $S_2$, $S_3$, $S_4$, $S_5$, $S_9$, $S_{10}$, $S_{11}$, $S_{12}$, and $S_{13}$ are closed.
+Taking the RBS shown in Fig. \ref{fig:arch-e} as example, the batteries in the RBS can be connected not only in series when the switches $S_1$, $S_5$, $S_6$, $S_7$, $S_8$, $S_9$, and $S_{13}$ are closed, but also in parallel when $S_1$, $S_2$, $S_3$, $S_4$, $S_5$, $S_9$, $S_{10}$, $S_{11}$, $S_{12}$, and $S_{13}$ are closed.
 Furthermore, when an unhealthy battery, for instance the orange one in Fig. \ref{fig:arch-f}, exits in the RBS, it can be isolated by closing its three adjacent switches (i.e. $S_5$, $S_7$ and $S_8$) and opening the switch below that battery (i.e. $S_6$) to ensure the system still remains a reliable working mode.
+% 补充一句话总结，visairo的网络与固定串并联结构相比具有哪些优点，更适合使用在什么场合
 
 \begin{figure}[htbp]
     \centering
@@ -72,31 +84,38 @@ Furthermore, when an unhealthy battery, for instance the orange one in Fig. \ref
     \label{fig:arch}
 \end{figure}
 
-The complex connecting structure between batteries and switches enables the flexibility of the RBS, but also brings the challenges in design and control cost.
-The Maximum Allowable Current (MAC) of the RBS system is defined as the maximum current that is allowed for each individual battery of the system, and is a critical indictor to be evaluate the RBS output current to the electronic appliances.
-It helps the designer to assess whether the RBS meets the output current requirements, and contributes to the formulation of appropriate and safe management stragegies for the battery management system (BMS).
-As the complexity of RBS increases, especially when the certain battery needs to be isolated, it becomes difficult to visually obtain the MAC, and a universal algorithm is needed to solve the MAC.
-Despite its importance, there is currently no method available to evaluate MAC for RBSs.
-Therefore, the purpose of this paper is to propose a universal and effective method for calculating the MAC of the RBS.
-To achieve this, a topologic model that builds the relationship between RBS circuit topology and internal resistance and voltage of its batteries are established.
+The complex connecting structure between batteries and switches enables the flexibility of the RBS, but on the other hand brings the challenges in desgin and control cost as well.
+All switches of the RBS need to be controlled to output currents and powers that match the external load in read-time while avoiding batteries short-circuit.
+The Maximum Allowable Current (MAC) of the RBS system is defined as the maximum current that is allowed for each individual battery of the system, and is a critical indictor to be evaluate the RBS output current to the electronic appliances.% 这里缺少过渡，MAC和设计与控制成本有什么关系？
+It helps the designer to assess whether the RBS meets the output current requirements, and contributes to the formulation of appropriate and safe management stragegies for the battery management system (BMS). 
+Despite its importance, there is currently no way to automatically evaluate MAC for RBSs. 
+Especially when one (or more) stochastic battery is isolated, it is not possible to simultaneously determine the MAC of the rest of the RBS to assist the BMS to provide a timely adjustment of the control strategy. 
+Under such circumstance, a universal and effective method for calculating the MAC of the RBS is urgently needed for the practical application of RBSs. 
+To achieve this, a directed graph model that builds the relationship between RBS circuit topology and internal resistance and voltage of its batteries are established. 
 Then, a greedy algorithm is employed to search the available circuit of the RBS for reaching the MAC.
-With the developed method, MAC of RBSs with different structures can be calculated effectively, including application scenarios with isolated battery cells.
+% 以上两句话争取合并成一句话，提出的方法应该紧扣标题（即与标题的方法一致）
+With this proposed method, the MAC of RBSs with arbitrary structures can be calculated effectively, including application scenarios with isolated battery cells.
 
 
-The remainder of this paper is organized as follows:
-Section II presents the framework and details of the proposed topologic model and the greedy algorithm.
-In Section III, a case study of using the proposed model and algorithm to enumerate the MAC of a new and complex structure is demonstrated.
-The calculation results and scenarios such as battery cells isolation also are discussed
+The remainder of this paper is organized as follows: 
+Section II presents the framework and details of the proposed topologic model and the greedy algorithm. 
+In Section III, a case study of using the proposed model and algorithm to enumerate the MAC of a new and complex structure is demonstrated. 
+The calculation results and scenarios such as battery cells isolation also are discussed. 
 Finally, the concluding remarks are drawn in Section IV.
 
 
 \section{Methodology}
 
-The overall MAC modeling process from an RBS structure is shown in Fig. \ref{fig:main}, which can be divided into four main steps.
-In the first place, the actual RBS structure is converted to a topologic model, in which the connected relationships between batteries and switches are abstracted and the performance parameters of the batteries are retained.
-Subsequently, constraints and objective function, i.e. MAC, are obtained based on the previous connected relationships and parameters.
+The overall MAC modeling process based on an RBS is shown in Fig. \ref{fig:main}, which can be divided into four main steps.
+In the first place, the actual switching circuit typology of the RBS is converted to a directed graph model, in which the connected relationships between batteries and switches are described by nodes and the performance parameters of the batteries are retained.
+Subsequently, the allowable current of the RBS is regarded as an objective function to be obtained based on the previous connected relationships and parameters.
 Then, the shortest path (SP) of each battery in the RBS is obtained by Dijkstra algorithm.
-In the end, the open/close strategy of the RBS is implemented by greedily selecting the SPs to achieve MAC and quantitatively calculated in the equivalent circuit.
+In the end, an optimized switching circuit strategy of the RBS is implemented by greedily selecting the SPs to achieve MAC and quantitatively calculated in the equivalent circuit.
+% 问题出在 要用最简短、读者能接受的话描述清楚方法
+% 重写上面一段，注意描述方法时的逻辑性
+
+
+% main 主图只保留文字
 
 \begin{figure}[htbp]
     \centering
@@ -111,57 +130,82 @@ In the end, the open/close strategy of the RBS is implemented by greedily select
         \caption{}
         \label{fig:battery_simple}
     \end{subfigure}
-    \caption{(a)Diagram of this method, which contains four main steps.
-    Step 1: The RBS structure is converted to a topologic model.
-    Step 2: Constraints and objective function are obtained based on the previous topologic model.
-    Step 3: The shortest path of each battery in the RBS is obtained by Dijkstra algorithm.
-    Step 4: The MAC is achieved by greedily selecting the shortest paths to open/close switches.
-    (b) The equivalent circuit of a battery in this method, with $u_{b,i}$ and $r_{b,i}$ representing the voltage and internal resistance of the battery $i$ respectively.
-    The capacitor in Thevenin model is ignored.
+    % caption 简写
+    \caption{ (a)Diagram of this method, which contains four main steps.
+        Step 1: The RBS structure is converted to a topologic model.
+        Step 2: Constraints and objective function are obtained based on the previous topologic model.
+        Step 3: The shortest path of each battery in the RBS is obtained by Dijkstra algorithm.
+        Step 4: The MAC is achieved by greedily selecting the shortest paths to open/close switches.
+        (b) The equivalent circuit of a battery in this method, with $u_{b,i}$ and $r_{b,i}$ representing the voltage and internal resistance of the battery $i$ respectively.
+        The capacitor in Thevenin model is ignored.
     }
 \end{figure}
 
-\subsection{Topologic Model}
+\subsection{Directed graph Model}
 
-As demonstrated in Fig. \ref{fig:arch}, a typical RBS is made up of a number of battery cells and switches in a dynamically adjustable connection.
+% 以下内容删去，改为对三层关系的说明
+% 说清三层关系：传统有向图（电池做结点）、Xu的有向图、本文包含物理信息的有向图
+As demonstrated in Figs. \ref{fig:arch-f} and \ref{fig:arch-e}, RBS is constructed by a number of batteries and switches in a dynamically adjustable connection.
 To establish a processable circuit, these batteries and switches are transformed into ideal elements under reasonable assumptions.
 The resulting circuit structure is then described in matrix form, and the related equations are provided.
 
 
-The normal equivalent circuit for a battery consists of a voltage source in series with a resistor, and a capacitor in parallel with another resistor to simulate the polarization in batteries, kwon as Thevenin model\cite{hongwenheStateofChargeEstimationLithiumIon2011,mousavig.VariousBatteryModels2014}.
-To simplify the model, the transient characteristics of the circuit are not considered, so the capacitor mentioned above is ignored.
-In this way, the battery $i$ in the RBS is modeled by the series connection in between a constant voltage source $u_{b,i}$ and a resistor $r_{b,i}$,  as shown in Fig. \ref{fig:battery_simple}
-And a binary variable $x_j$ is used to represent the state of switch $j$, where 0 for ON and 1 for OFF, respectively.
-To simplify the calculation, a closed switch is considered as a resistor with a very small resistance value $r_s$.
+% 说明电池的等效电路化处理
+% 等效成电路，用电路方法处理；借助等效电路方法
+As shown in Fig. \ref{fig:battery_simple}, the battery in the RBS can be equivalent to a black-box circuit consisting of two resistors (i.e. $r_1$ and $r_2$), and a capacitor (i.e. $C$), kwon as Thevenin model\cite{hongwenheStateofChargeEstimationLithiumIon2011,mousavig.VariousBatteryModels2014}. % 电路相关写法参考 https://eng.libretexts.org/Bookshelves/Electrical_Engineering/Introductory_Electrical_Engineering/Electrical_Engineering_(Johnson)/03%3A_Analog_Signal_Processing/3.07%3A_Equivalent_Circuits_-_Resistors_and_Sources
+% Under ... situations, ... , therefore, such a model can be simplified by ...
+% 说明为什么要简化，在说明怎么简化 
+% 稳态瞬态，整体结构的特征，而非局部
+In this way, the battery $i$ in the RBS is modeled by the series connection in between a constant voltage source $u_{i}$ and a resistor $r_{i}$,  as shown in Fig. \ref{fig:battery_simple}
+Furthermore, the state of switch $j$ in the RBS is represented by a binary variable $x_j$, where 0 for ON and 1 for OFF, respectively.
+When the switch is closed, it can be regarded as a resistor with a very small resistance value $r_s$.
 
 
-For a given RBS structure, the topologic model for the RBS is constructed as a directed graph $G(V,E)$ in such a way that:
+For a given RBS structure, the directed graph model for the RBS is constructed as a directed graph $G(V,E)$ in such a way that:
 \begin{enumerate}
-    \item Nodes: node $v_1$ and $v_N$ represent the anode and cathode of the RBS respectively, and the other nodes $v_2,\cdots , v_{N-1}$ represent the points connecting batteries and/or switches, where $N$ is the total number of nodes.
-    \item Edges: the directed edges represent batteries, switches and the external electrical appliance in the output circuit based on whether the current direction is constrainted or not. 
-        When the battery is in operation, the internal current direction must be from the negative electrode to the positive electrode, so it is represented by a directed edge from the negative to the positive ; this edge has attributes $(u_b, r_b)$, where $u_b$ and $r_b$ represent battery $b$'s electromotive force and internal resistance.
-        Switches have no constraints on the current direction, so they are represented by a pair of directed edges with opposite directions; these edges both have attribute $(0, r_s)$, where $r_s$ represents the resistance of switch as mentioned above.
-        To fully solve for the current and voltage, an external electrical appliance equivalent as a resistor $R_0$ is connected to the anode and cathode of the RBS and represented by a directed edge from the anode $v_N$  to the cathode $v_1$ of the RBS.
-        Similarly, this edge has attribute $(0, R_0)$.
-        If a given RBS structure has $N_b$ batteries and $N_s$ switches in total, then the number of edges is $N_b+2N_s+1$, where 1 refers to the external electrical appliance.
+    \item Nodes: % 重写，node represent the connection with 3种情况；for a RBS with N nodes ...
+        Among them, the nodes $v_1$ and $v_N$ represent the anode and cathode of the RBS respectively, whereas the other nodes $v_2,\cdots,v_{N-1}$ represent the points connecting batteries and/or switches.
+    \item Edges: % 重写，边的方向由电流确定；边的属性三个分别说
+        the directed edges represent batteries, switches and the external electrical load in the output circuit based on whether the current direction is constrained or not. 
+        For instance, the battery is represented by a directed edge from its one electrode to the other to describe the current direction through that battery.
+        This directed edge is draw from the cathode to anode when the battery is in the discarded mode, and on the other way around when the battery is in the charging mode.
+        The directed edge has two attributes $(u_i, r_i)$, where $u_i$ and $r_i$ represent battery $i$'s electromotive force and internal resistance, respectively.
+        On the other hand, switches are allowed to work under bi-directional currents, so they are represented by a pair of directed edges with two-way directions.
+        % ...
+        As a conclude, for a given RBS structure has $N_b$ batteries and $N_s$ switches, the total number of directed edges is $N_b+2N_s+1$, where 1 refers to the external electrical load. 
+
+        % When the battery is in operation, the internal current direction must be from the negative electrode to the positive electrode, so it is represented by a directed edge from the negative to the positive ; this edge has attributes $(u_b, r_b)$, where $u_b$ and $r_b$ represent battery $b$'s electromotive force and internal resistance.
+        % Switches have no constraints on the current direction, so they are represented by a pair of directed edges with opposite directions; these edges both have attribute $(0, r_s)$, where $r_s$ represents the resistance of switch as mentioned above.
+        % To fully solve for the current and voltage, an external electrical appliance equivalent as a resistor $R_0$ is connected to the anode and cathode of the RBS and represented by a directed edge from the anode $v_N$  to the cathode $v_1$ of the RBS.
+        % Similarly, this edge has attribute $(0, R_0)$.
 \end{enumerate}
 
 \subsection{Constraints and Objective Function}
 
-The constraints and objective function are obtained by analyzing the currents of batteries and external electrical appliance, as following.
-Based on the above directed graph which has $N$ nodes and $N_b+2N_s+1$ directed edges, its incidence matrix $\bm{A}$ is defined as
+% hat
+% 约束和目标函数-在hat部分说
+% 提前说下约束和目标函数是啥
+The constraints and objective function are obtained by analyzing the currents of batteries and external electrical load.
+% 添加过渡句
+% 文献或教科书上导纳矩阵的定义式
+For a directed graph with $N$ nodes and $N_b+2N_s+1$ directed edges, an incidence matrix $\bm{A}$, as shown in Eq. \ref{eq:A}, is defined to ... % 定义导纳矩阵的作用
+% 更换 a_ij 的下角标ij，这个已经被电池和开关用了
 \begin{align}\label{eq:A}
     a_{ij}=
     \begin{cases}
-        1,  & \text{edge  $j$ leaves vertex $i$},\\
+        1,  & \text{edge $j$ leaves vertex $i$},\\
         -1, & \text{edge $j$ enters vertex $i$},\\
         0,  & \text{otherwise}.
     \end{cases}
 \end{align}
+% 矩阵A的处理，要写得流畅
+% According to the XX (连通关系？) principle, the sum of currents at each node is zero.
+% 为保证后续矩阵计算满秩，不失一般性地将最后一行删除
 Since each column of $\bm{A}$ sums to zero, the last line are deleted.
-Furthermore, because of a couple of opposite directed edges for each switch, the $N_s$ columns corresponding to the switches are also deleted.
+Furthermore, because of a couple of two-way directed edges for each switch, the $N_s$ columns corresponding to the switches are also deleted. % 好好写这句话，开关j在矩阵A中对应两列，且两列互为相反数，删除其中一列可以在不丢失信息的条件下降低矩阵维数，进而降低计算量
 Finally, the reduced incidence matrix $\bm{A}_{(N-1)\times(N_b+N_s+1)}$ are used in the following calculation.
-By divided as batteries, switches and external electrical appliance, $A$ is rewritten as follows
+As a result, $\bm{A}$ can be reduced to a $(N-1)\times(N_b+N_s+1)$ matrix for further calculation of ... % 补全
+By distinguishing the components of the batteries, switches and external electrical load, $\bm{A}$ is rewritten as:
 \begin{equation}
     \bm{A} =
     \begin{bmatrix}
@@ -170,13 +214,15 @@ By divided as batteries, switches and external electrical appliance, $A$ is rewr
 \end{equation}
 
 
-$N_b+N_s+1$ edges' currents $\bm{I}_{(N_b+N_s+1)\times 1}$ and voltages $\bm{U}_{(N_b+N_s+1)\times 1}$, and $N-1$ nodes' voltages $\bm{U}_{n, (N-1)\times 1}$ have following relationships from Kirchhoffs law
+According to Kirchhoffs law, we have
 \begin{align}\label{eq:Kirchhoffs_law}
     \begin{cases}
         \bm{A} \bm{I} = \bm{0}, \\
-        \bm{U}        = \bm{A}^\T \bm{U}_n.
+        \bm{U}        = \bm{A}^\T \bm{U}_n,
     \end{cases}
 \end{align}
+where $\bm{I}$ and $\bm{U}$ indicate the current and voltage arrays of the $N_b+N_s+1$ edges, respectively;
+$\bm{U}_n$ is the voltage array of the $N-1$ nodes.
 These directed edges are treated as generalized branches and expressed in matrix form as follows
 \begin{equation}\label{eq:generalized_branches}
     \bm{I} = \bm{Y}\bm{X} \bm{U} - \bm{Y}\bm{X} \bm{U}_s +\bm{I}_s,
@@ -190,72 +236,81 @@ $\bm{Y}$ is the admittance matrix of the circuit, and $\bm{X}$ is the state matr
     \underbrace{1, 0 \cdots, 1}_{N_s~\text{of}~0/1},
     1)
     =\begin{bmatrix}
-        \bm{I} & & \\
+        \bm{E} & & \\
         & \bm{X}_s &\\
-        & &\bm{I}
+        & &\bm{E}
     \end{bmatrix}.
 \end{equation}
+where $\bm{E}$ is the identity matrix, and $\bm{X}_s$ is a diagonal matrix with $N_s$ elements of 0 or 1.
 
 
-In addition to the equivalent circuit assumptions, we also assume that all batteries have the same internal resistance value $r_b$ and supply the same electric potential $u_s$ to simplify the model.
-Then the output current $I_o$ and each battery's current $\bm{I}_b$ can be given by solving the simultaneous Eq. \ref{eq:Kirchhoffs_law} and \ref{eq:generalized_branches} eventually.
+Furtherly, by assuming that the electromotive force and internal resistance of all batteries in the RBS are identical, denoted as $u_b$ and $r_b$ respectively, the output current $I_o$ and each battery's current $\bm{I}_b$ can be calculated by solving the Eqs. \ref{eq:Kirchhoffs_law} and \ref{eq:generalized_branches} eventually.
 Let
 \begin{equation}\label{eq:Yn}
     \bm{Y}_n (\bm{X}_s) = \frac{1}{R_o} \bm{A}_o\bm{A}_o^\T + \frac{1}{r_b} \bm{A}_b\bm{A}_b^\T + \frac{1}{r_s}\bm{A}_s\bm{X}_s\bm{A}_s^\T,
 \end{equation}
-where $R_o$ is the equivalent resistance of the external circuit.
+where $R_o$ is the equivalent resistance of the external electrical load.
 Then, if $\bm{Y}_n$ is an invertible matrix,
-\begin{align}
+\begin{align} % 统一下角标，不用在公式中表示矩阵形状；单位矩阵的符号
     I_o(\bm{X}_s)      & = \frac{u_b}{R_o r_b} \bm{A}_o^\T \bm{Y}_n^{-1}(\bm{X}) \bm{A}_b \bm{I}_{N_b\times 1};\label{eq:I_o}\\
     \bm{I}_b(\bm{X}_s) & = \frac{u_b}{r_b^2}[\bm{A}_b^\T \bm{Y}_n^{-1}(\bm{X}) \bm{A}_b\bm{I}_{N_b \times 1}  -r_b \bm{I}_{N_b \times 1}],\label{eq:I_b}
 \end{align}
-where $\bm{I}_{N_b\times 1}$ is a column vector with all equal to 1.
+where $\bm{I}_{N_b\times 1}$ is an array with all elements equaling to 1.
 
 
-In this study, the ratio of $I_o$ and $\max (\bm{I}_b)$ is used to characterize the maximum allowable current for a given RBS architecture, denoted as $\eta$:
+Then an indicator $\eta$ is defined by the ratio of $I_o$ and $\max (\bm{I}_b)$ shown in Eq. \ref{eq:eta}, to characterize the current output capacity of the RBS structure under different switching states:
 \begin{equation}\label{eq:eta}
     \eta = \frac{I_o}{\max (\bm{I}_b)}.
 \end{equation}
-The discussion in the next section will show that the $\eta$ reflects the ability of the RBS architecture itself to deliver current, regardliess of the battery cells used by the RBS.
-Finally the problem in RBS can be formulated as
+Finally the problem of solving MAC can be formulated as
 \begin{align}
     & \max \eta \label{eq:max_eta}\\
     \text{s.t.} & \max (\bm{I}_b) \leq I_m, \label{eq:Ib_leq_Im}
 \end{align}
-where $I_m$ is the maximum allowable current of the battery; $\eta$ can be calculated by Eq. \ref{eq:eta}; $I_o$ and $\bm{I}_b$ can be calculated by Eq. \ref{eq:I_o} and \ref{eq:I_b}.
-However, it is computationally difficult to solve \ref{eq:max_eta} directly because of the presence of matrix $\bm{Y}_n^{-1}$.
+where $I_m$ is the maximum allowable current of the battery.
+However, it is computationally difficult to solve \ref{eq:max_eta} because of the presence of matrix $\bm{Y}_n^{-1}$. % 在此处说明 Yn-1的难求解，也是由于这一非线性项的存在，传统的优化方法无法求解
 As the number of batteries and switches in the RBS increase, the order of the matrix increases, and the time costed to compute increases sharply.
-A greedy algorithm will be proposed to solve this problem in the next subsection.
+A greedy algorithm will be proposed to solve this problem in the next subsection. % 扩写：为解决这个问题，需要从xx入手，采用greedy algorithm 代替xx，greedy algorithm 具体的实现过程如下节所示。
 
+% Herein provides the solution procedure of …: 1. 2.
+% 考虑这部分怎么写，想不出就直接删了吧。
+% The integrability of the matrix $\bm{Y}_n$ is explained here.
+% Although the above solution procedure requires the matrix $\bm{Y}_n$ to be invertible, it is still possible to encounter integrable $\bm{Y}_n$ in the calculation.
+% The physical meaning of this case corresponds to the fact that due to the excessive number of switches in OFF, the solved circuit structure forms circuit branches independent of the main circuit, i.e., the circuit connected to the anode and cathode of the RBS. 
+% Since these independent branches are not connected to the main circuit, the voltage potentials of these branches cannot be determined and theoretically an infinite number of sets of solutions exist. 
+% Benfit from the independence, these solutions have no influence on the results of the main circuit. 
+% Since only the currents and voltages of the main circuit are of interest, only one of these solutions needs to be chosen for subsequent calculation.
 
-The integrability of the matrix $\bm{Y}_n$ is explained here.
-Although the above solution procedure requires the matrix $\bm{Y}_n$ to be invertible, it is still possible to encounter integrable $\bm{Y}_n$ in the calculation.
-The physical meaning of this case corresponds to the fact that due to the excessive number of switches in OFF, the solved circuit structure forms circuit branches independent of the main circuit, i.e., the circuit connected to the anode and cathode of the RBS. 
-Since these independent branches are not connected to the main circuit, the voltage potentials of these branches cannot be determined and theoretically an infinite number of sets of solutions exist. 
-Benfit from the independence, these solutions have no influence on the results of the main circuit. 
-Since only the currents and voltages of the main circuit are of interest, only one of these solutions needs to be chosen for subsequent calculation.
-
-\subsection{Greedy Solution}\label{subsec:greedy_solution}
-
-In this subsection, a greedy algorithm is proposed based on shortest paths ($SP$s), which is given here firstly.
-When the battery $i$ is connected to the anode $v_1$ and the cathode $v_N$ of the RBS by the path $p$ in the graph model, the distance $\omega$ of $p$ is defined by the following equation:
+\subsection{Shortest Path}
+% 计算SP的部分单独一个 subsection
+% 添点内容，修改下面两句话
+A path is defined by the complete route passing through one battery (or a consecutive series of batteries) and closed switches from the anode $v_1$ to cathode $v_N$ of the RBS.
+Assuming a situation that battery $i$ is connected to the anode $v_1$ and the cathode $v_N$ of the RBS by a path $p$ in the graph model.
+Then the distance $\omega$ of the path $p$ is defined by the following equation: % 给出使用 Ns的原因，在这句开头，利用RBS的灵活性，通过额外的开关实现一条path上的电池数尽可能少，因此对路径p上的电池数量进行惩罚，设其权重为Ns，而路径p上的开关数量的权重设为1，从而使得最短路径表示的是电池数量最少的情况。 #TODO: 好好想这句话怎么写清楚
 \begin{equation}\label{eq:weight}
     \omega(p) = N_s \cdot n_b (p) + n_s (p),
 \end{equation}
-where $N_s$ is the total number of switches in the system; $n_b(p)$ and $n_s(p)$ are number of batteries and switches in the path $p$ respectively.
+where $N_s$ is the total number of switches in the system; $n_b(p)$ and $n_s(p)$ are number of batteries and switches in the path $p$ respectively. 
 $SP_i$ is defined as the path with the minimum $\omega$ for battery $i$.
 \begin{equation}\label{eq:def_sp}
     SP_i = \mathop{\arg\min}_{p \in P_i} \omega(p),
 \end{equation}
-where $P_i$ is the set of all paths from $v_1$ to $v_N$ and passed through the directed edge $i$ in the direction of it.
-Specifically, the Dijkstra algorithm can be used to implement the $SP_i$.
+where $P_i$ is the set of all paths from $v_1$ to $v_N$ which pass through the directed edge $i$.
+The Dijkstra algorithm can be used to implement the $SP_i$. % 简短说下过程，给参考文献
+
+
+% SP 的作用，好好解释，下段重写(是不是该挪到下一subsection)
 According to the definition, $SP_i$ gives the simplest strategy by which the control of battery $i$ is achieved with a minimum of switches while minimizing the influence of other batteries.
 From the perspective of series/parallel, the more batteries are connected into circuit via their $SP$s, the more batteries are connected in parallel.
 Since batteries can provide more total output current when connected in parallel than in series, the algorithm greedily selects as many cells as possible to be connected into to the overall circuit via their $SP$s to obtain the MAC.
-The dichotomy method is also performed to faster find the right number of $SP$s.
+The dichotomy method is also performed to faster find the right number of $SP$s. % 添加对贪心算法的步骤介绍，具体某一步说明采用了二分法…
 
-After finding the potential SPs combinations about the MAC, the state variable $\bm{X}_s$ of the switches can be determined, and the optimization problem \ref{eq:max_eta} can be solved using Eq. \ref{eq:eta}, \ref{eq:I_o} and \ref{eq:I_b}.
-The overall flowchart is shown in Fig. \ref{fig:flowchart}, and the corresponding pseudo-code of the algorithm is shown in Algorithm \ref{alg:eta_RBS}.
+\subsection{Greedy Algorithm}\label{subsec:greedy_solution}
+
+In this subsection, a greedy algorithm is proposed based on shortest paths ($SP$s), which is given here firstly. % 这句话改成 greedy algorithm 在整个 MAC 计算中的作用
+
+After finding the potential SPs combinations in correspondence MAC, the state variable $\bm{X}_s$ of the switches can be determined, and the optimization problem \ref{eq:max_eta} can be solved using Eq. \ref{eq:eta}, \ref{eq:I_o} and \ref{eq:I_b}.
+The overall flowchart is shown in Fig. \ref{fig:flowchart}, and the corresponding pseudo-code of the algorithm is shown in Appendix \ref{alg:eta_RBS}. % 这句话应该放前面说，采用“总-分”架构，先给出流程图，然后再结合流程各步骤介绍每类具体算法的应用过程
 
 \tikzset{
   meta box/.style={
@@ -324,8 +379,9 @@ The overall flowchart is shown in Fig. \ref{fig:flowchart}, and the correspondin
       (update_max_eta) -- (point1) ->[to path={|- (\tikztotarget)}] (is_check_all_cb);
     };
 \end{tikzpicture}
-\caption{The computational flowchart of the proposed method in this paper.}\label{fig:flowchart}
+\caption{The computational flowchart of the MAC if an RBS.}\label{fig:flowchart}
 \end{figure}
+
 \section{Case Study}
 
 This section presents a case study to demonstrate the effectiveness of the proposed method.
