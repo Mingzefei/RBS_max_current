@@ -1,6 +1,6 @@
 # some notes
 
---------
+---
 
 @File : note.md
 @Time : 2023/02/28 10:26:43
@@ -9,33 +9,20 @@
 @Desc : None
 @Refe : url1; url2
 
---------
+---
 
 ## this paper
 
-### examples and discussions 
+### examples and discussions
 
-- [ ] fig:f4-gra 标记SP
-
-
-
-
-
-
-
-
-
-
-
+- [X] fig:f4-gra 标记SP
 
 ## 待解决问题
 
 - 对电路图的图描述
-如使用前论文的描述，保证在投稿前前论文已见刊
-
+  如使用前论文的描述，保证在投稿前前论文已见刊
 - 电路中电池的处理
-最大允许电流
-
+  最大允许电流
 - 相同数量电池的选择策略，并联
 
 ## 前论文思路
@@ -67,6 +54,3 @@ actively regulate the system output
 ### 算法框架
 
 图的表示
-
-
-
