@@ -4,3 +4,6 @@ paper/~$.*.doc
 paper/*.aux
 paper/*.log
 paper/*.out
+
+# vsdx
+attachments/fig.vsdx

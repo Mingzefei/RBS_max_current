@@ -12,7 +12,7 @@
 %      -[ ] 有向图的文献；
 %      -[ ] 点明普适性、自动化
 % -[ ] methodology 
-%      -[ ] main 图重画，只保留文字；
+%      -[x] main 图重画，只保留文字；
 %      -[ ] 有向图模型，说清三层关系，更规矩地写建模过程；
 %      -[ ] 优化目标和约束；
 %      -[ ] 最短路径，逐句逐字去捋顺；
@@ -135,61 +135,82 @@ Finally, a greedy algorithm is employed to organize the switches, allowing the b
 
 \begin{figure}[htbp]
     \centering
-    \begin{subfigure}[b]{\textwidth}
+    \begin{subfigure}[b]{0.8\textwidth}
         \includegraphics[width=\textwidth]{../attachments/main.png}
         \caption{}
         \label{fig:main}
     \end{subfigure}
-    \\ 
-    \begin{subfigure}[b]{\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/battery_simple.png}
-        \caption{}
-        \label{fig:battery_simple}
-    \end{subfigure}
-    % caption 简写
     \caption{ 
-        (a)Diagram of this method, which contains four main steps.
-        (b) The equivalent circuit of a battery in this method.
+        Diagram of this method, which contains four main steps.
     }
 \end{figure}
 
 \subsection{Directed graph Model}
 
-% 以下内容删去，改为对三层关系的说明
-% 说清三层关系：传统有向图（电池做结点）、Xu的有向图、本文包含物理信息的有向图
-As demonstrated in Figs. \ref{fig:arch-f} and \ref{fig:arch-e}, RBS is constructed by a number of batteries and switches in a dynamically adjustable connection.
-To establish a processable circuit, these batteries and switches are transformed into ideal elements under reasonable assumptions.
-The resulting circuit structure is then described in matrix form, and the related equations are provided.
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/direct-graph-he.png}
+        \caption{}
+        \label{fig:direct-graph-he}
+    \end{subfigure}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/direct-graph-xu.png}
+        \caption{}
+        \label{fig:direct-graph-xu}
+    \end{subfigure}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/direct-graph-my.png}
+        \caption{}
+        \label{fig:direct-graph-my}
+    \end{subfigure}
+    \\
+    \begin{subfigure}[b]{0.8\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/battery_simple.png}
+        \caption{}
+        \label{fig:batter_simple}
+    \end{subfigure}
+    \caption{ 
+        Directed graph models used in (a) He's work \cite{heExploringAdaptiveReconfiguration2013}, (b) our previous work , and (c) this paper.
+        (d) The equivalent circuit of a battery in this method.
+    }
+\end{figure}
+
+He et al. \cite{heExploringAdaptiveReconfiguration2013} once proposed an abstracted directed graph model for RBS, where the nodes represented the batteries, the edges represented the configuration flexibility, and the weight of each vertex corresponded to the battery voltage ( Fig. \ref{fig:direct-graph-he}). 
+The model effectively captured all potential system configurations and offered a direct metric for configuration flexibility, but it did not specify the physical implementation of the connectivity between batteries, meaning one graph might have had multiple RBS structures.
+We previously proposed a novel directed graph model that, in contrast to He's model, used nodes to represent the connections between batteries and switches, and directed edges to represent batteries and switches (Fig. \ref{fig:direct-graph-xu}), allowing for a one-to-one correspondence between the RBS structure and the directed graph model. 
+This model was able to accurately and comprehensively represent the RBS topological structure but could not be used for quantitative MAC calculations due to the lack of consideration for battery and switch performance parameters. 
+To address this, an improved directed graph model is used here based on our original model, adding electromotive force and resistance attributes on the edges based to equivalent circuits (Fig. \ref{fig:direct-graph-my}).
+The model also considers the external load as an equivalent resistance and integrate it into the analysis, making it a complete circuit model for later circuit analysis.
+The following will provide a detailed explanation of the method for equating the components in RBS and constructing the directed graph model.
 
 
-% 说明电池的等效电路化处理
-% 等效成电路，用电路方法处理；借助等效电路方法
-As shown in Fig. \ref{fig:battery_simple}, the battery in the RBS can be equivalent to a black-box circuit consisting of two resistors (i.e. $r_1$ and $r_2$), and a capacitor (i.e. $C$), kwon as Thevenin model\cite{hongwenheStateofChargeEstimationLithiumIon2011,mousavig.VariousBatteryModels2014}. % 电路相关写法参考 https://eng.libretexts.org/Bookshelves/Electrical_Engineering/Introductory_Electrical_Engineering/Electrical_Engineering_(Johnson)/03%3A_Analog_Signal_Processing/3.07%3A_Equivalent_Circuits_-_Resistors_and_Sources
-% Under ... situations, ... , therefore, such a model can be simplified by ...
-% 说明为什么要简化，在说明怎么简化 
-% 稳态瞬态，整体结构的特征，而非局部
-In this way, the battery $i$ in the RBS is modeled by the series connection in between a constant voltage source $u_{i}$ and a resistor $r_{i}$,  as shown in Fig. \ref{fig:battery_simple}
-Furthermore, the state of switch $j$ in the RBS is represented by a binary variable $x_j$, where 0 for ON and 1 for OFF, respectively.
-When the switch is closed, it can be regarded as a resistor with a very small resistance value $r_s$.
+In order to use circuit analysis methods to solve the MAC of the RBS, the components in the RBS are equated to ideal circuit elements.
+As shown in Fig. \ref{fig:battery_simple}, the battery in the RBS can be represented as a black-box circuit consisting of two resistors (i.e., $r_1$ and $r_2$) and a capacitor (i.e., $C$), known as the Thevenin model\cite{hongwenheStateofChargeEstimationLithiumIon2011,mousavig.VariousBatteryModels2014}.
+With an emphasis on the stable output of the RBS, the capacitor in the Thevenin model can be considered as an open circuit without affecting the steady-state current.
+Therefore, the battery $i$ in the RBS can be simplified as the series connection between a constant voltage source $u_{i}$ and a resistor $r_{i}$.
+Furthermore, the state of switch $j$ in the RBS is represented by a binary variable $x_j$, where 0 is for ON and 1 is for OFF, respectively.
+When the switch is closed, it can be regarded as a resistor with a very small resistance value $r_{j}$.
+Lastly, the external load is considered as a resistor with a value of $r_o$.
 
 
 For a given RBS structure, the directed graph model for the RBS is constructed as a directed graph $G(V,E)$ in such a way that:
 \begin{enumerate}
-    \item Nodes: % 重写，node represent the connection with 3种情况；for a RBS with N nodes ...
-        Among them, the nodes $v_1$ and $v_N$ represent the anode and cathode of the RBS respectively, whereas the other nodes $v_2,\cdots,v_{N-1}$ represent the points connecting batteries and/or switches.
-    \item Edges: % 重写，边的方向由电流确定；边的属性三个分别说
-        the directed edges represent batteries, switches and the external electrical load in the output circuit based on whether the current direction is constrained or not. 
-        For instance, the battery is represented by a directed edge from its one electrode to the other to describe the current direction through that battery.
-        This directed edge is draw from the cathode to anode when the battery is in the discarded mode, and on the other way around when the battery is in the charging mode.
-        The directed edge has two attributes $(u_i, r_i)$, where $u_i$ and $r_i$ represent battery $i$'s electromotive force and internal resistance, respectively.
-        On the other hand, switches are allowed to work under bi-directional currents, so they are represented by a pair of directed edges with two-way directions.
-        % ...
-        As a conclude, for a given RBS structure has $N_b$ batteries and $N_s$ switches, the total number of directed edges is $N_b+2N_s+1$, where 1 refers to the external electrical load. 
-
-        % When the battery is in operation, the internal current direction must be from the negative electrode to the positive electrode, so it is represented by a directed edge from the negative to the positive ; this edge has attributes $(u_b, r_b)$, where $u_b$ and $r_b$ represent battery $b$'s electromotive force and internal resistance.
-        % Switches have no constraints on the current direction, so they are represented by a pair of directed edges with opposite directions; these edges both have attribute $(0, r_s)$, where $r_s$ represents the resistance of switch as mentioned above.
-        % To fully solve for the current and voltage, an external electrical appliance equivalent as a resistor $R_0$ is connected to the anode and cathode of the RBS and represented by a directed edge from the anode $v_N$  to the cathode $v_1$ of the RBS.
-        % Similarly, this edge has attribute $(0, R_0)$.
+    \item Nodes:
+        The nodes in the directed graph correspond to the connection points of components in the actual RBS. 
+        Assuming there are a total of $N$ nodes in the RBS, for the sake of convenience, the anode of the RBS is denoted as $v_1$ and the cathode as $v_N$.
+    \item Edges:
+        The edges in the directed graph correspond to the batteries, switches, and external electrical loads in the actual RBS.
+        Therefore, there are three types of directed edges. 
+        For a battery $B_i$, its directed edge $e_i$ is drawn from the cathode to the anode, as the battery only allows current to flow in one direction when in operation.
+        For a switch $S_j$, since it is allowed to work under bi-directional currents, it is represented by a pair of directed edges with two-way directions. 
+        Regarding the external electronic load, as it is connected to the anode and cathode of the RBS, a directed edge from $v_N$ to $v_1$ is used to represent it. 
+        In conclusion, for a given RBS structure with $N_b$ batteries and $N_s$ switches, the total number of directed edges is $N_b+2N_s+1$, where 1 refers to the external electrical load.
+    \item Edges' attributes:
+        Each edge is assigned two attributes, voltage difference and resistance, based on the equivalent method mentioned above.
+        The values for the battery $B_i$, switch $S_j$, and external loads correspond to $(u_i, r_i)$, $(0, r_j)$, and $(0, r_o)$, respectively.
 \end{enumerate}
 
 \subsection{Constraints and Objective Function}
