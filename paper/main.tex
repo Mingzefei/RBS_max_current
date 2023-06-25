@@ -33,7 +33,7 @@
 % 统一用 electrical load 而非 electrical appliance (泛指家电)
 
 % magic
-% 你将扮演一位英文学术写作经验丰富的大学老师，指导一位非英文母语的学生完成并改进他的论文。 你的目标是帮助他写出一篇流畅、清晰、易读、符合规范的英文学术论文。 他会向你用中文说明自己想表达的内容，有时还会给你一些不完整的英文句子让你补充完整。你不应该逐字翻译他的内容，你需要和他经过多次的沟通，以确定最好的表达。 注意，你们交流的内容可能包含latex语法，你需要理解并使用；当你形成完整的句子或段落时，你要将这些句子或段落放在```和```之间，即 ```some sentence ```，其中每写完一句话都要换行。
+% 你将扮演一位英文学术写作经验丰富的大学老师，指导一位非英文母语的学生完成并改进他的论文。 你的目标是帮助他写出一篇流畅、清晰、易读、符合规范的英文学术论文。 他会向你用中文说明自己想表达的内容，有时还会给你一些不完整的英文句子让你补充完整。你不应该逐字翻译他的内容，你需要和他经过多次的沟通，以确定最好的表达。 注意，你们交流的内容可能包含latex语法，你需要理解并使用；当你形成完整的句子或段落时，你要将这些句子或段落放在```\n 和\n ```之间，即 ```\n some sentence\n ```，其中每写完一句话都要换行。
 
 \documentclass{article}
 \usepackage{graphicx}
@@ -170,7 +170,7 @@ Finally, a greedy algorithm is employed to organize the switches, allowing the b
     \begin{subfigure}[b]{0.8\textwidth}
         \includegraphics[width=\textwidth]{../attachments/battery_simple.png}
         \caption{}
-        \label{fig:batter_simple}
+        \label{fig:battery_simple}
     \end{subfigure}
     \caption{ 
         Directed graph models used in (a) He's work \cite{heExploringAdaptiveReconfiguration2013}, (b) our previous work , and (c) this paper.
@@ -193,7 +193,7 @@ With an emphasis on the stable output of the RBS, the capacitor in the Thevenin 
 Therefore, the battery $i$ in the RBS can be simplified as the series connection between a constant voltage source $u_{i}$ and a resistor $r_{i}$.
 Furthermore, the state of switch $j$ in the RBS is represented by a binary variable $x_j$, where 0 is for ON and 1 is for OFF, respectively.
 When the switch is closed, it can be regarded as a resistor with a very small resistance value $r_{j}$.
-Lastly, the external load is considered as a resistor with a value of $r_o$.
+Lastly, the external load is considered as a resistor with a value of $R_o$.
 
 
 For a given RBS structure, the directed graph model for the RBS is constructed as a directed graph $G(V,E)$ in such a way that:
@@ -210,100 +210,123 @@ For a given RBS structure, the directed graph model for the RBS is constructed a
         In conclusion, for a given RBS structure with $N_b$ batteries and $N_s$ switches, the total number of directed edges is $N_b+2N_s+1$, where 1 refers to the external electrical load.
     \item Edges' attributes:
         Each edge is assigned two attributes, voltage difference and resistance, based on the equivalent method mentioned above.
-        The values for the battery $B_i$, switch $S_j$, and external loads correspond to $(u_i, r_i)$, $(0, r_j)$, and $(0, r_o)$, respectively.
+        The values for the battery $B_i$, switch $S_j$, and external loads correspond to $(u_i, r_i)$, $(0, r_j)$, and $(0, R_o)$, respectively.
 \end{enumerate}
 
 \subsection{Constraints and Objective Function}
 
-% hat
-% 约束和目标函数-在hat部分说
-% 提前说下约束和目标函数是啥
-The constraints and objective function are obtained by analyzing the currents of batteries and external electrical load.
-% 添加过渡句
-% 文献或教科书上导纳矩阵的定义式
-For a directed graph with $N$ nodes and $N_b+2N_s+1$ directed edges, an incidence matrix $\bm{A}$, as shown in Eq. \ref{eq:A}, is defined to ... % 定义导纳矩阵的作用
-% 更换 a_ij 的下角标ij，这个已经被电池和开关用了
+Based on the definition of MAC, determining the MAC of RBS involves maximizing the RBS output current while ensuring that the currents of all batteries do not exceed the batteries' maximum allowable current. 
+In this subsection, the constraints and objective function to solve the RBS's MAC will be established through circuit analysis, based on the previously constructed directed graph model.
+
+
+First, the topology in the directed graph model is represented in matrix form $\bm{A}$, known as the incidence matrix , to facilitate circuit analysis.
+The specific definition of the incidence matrix is shown in Eq. \ref{eq:A}.
 \begin{align}\label{eq:A}
-    a_{ij}=
+    a_{kl}=
     \begin{cases}
-        1,  & \text{edge $j$ leaves vertex $i$},\\
-        -1, & \text{edge $j$ enters vertex $i$},\\
+        1,  & \text{edge $l$ leaves node $k$},\\
+        -1, & \text{edge $l$ enters node $k$},\\
         0,  & \text{otherwise}.
     \end{cases}
 \end{align}
-% 矩阵A的处理，要写得流畅
-% According to the XX (连通关系？) principle, the sum of currents at each node is zero.
-% 为保证后续矩阵计算满秩，不失一般性地将最后一行删除
-Since each column of $\bm{A}$ sums to zero, the last line are deleted.
-Furthermore, because of a couple of two-way directed edges for each switch, the $N_s$ columns corresponding to the switches are also deleted. % 好好写这句话，开关j在矩阵A中对应两列，且两列互为相反数，删除其中一列可以在不丢失信息的条件下降低矩阵维数，进而降低计算量
-Finally, the reduced incidence matrix $\bm{A}_{(N-1)\times(N_b+N_s+1)}$ are used in the following calculation.
-As a result, $\bm{A}$ can be reduced to a $(N-1)\times(N_b+N_s+1)$ matrix for further calculation of ... % 补全
-By distinguishing the components of the batteries, switches and external electrical load, $\bm{A}$ is rewritten as:
-\begin{equation}
+For a directed graph consisting of $N$ nodes and $N_b+2N_s+1$ directed edges, its incidence matrix $\bm{A}$ is an $N\times(N_b+2N_s+1)$ matrix. 
+In this matrix, the rows and columns represent the nodes and edges of the directed graph, respectively.
+By distinguishing the components in the RBS corresponding to each column , $\bm{A}$ can be rewritten as:
+\begin{equation}\label{eq:A_bso}
     \bm{A} =
     \begin{bmatrix}
         \bm{A}_b & \bm{A}_s & \bm{A}_o
+    \end{bmatrix},
+\end{equation}
+where $\bm{A}_b$, $\bm{A}_s$ and $\bm{A}_o$ are the sub-matrices corresponding to the batteries, switches and external electrical load, respectively.
+To alleviate computational complexity, matrix $\bm{A}$ undergoes dimensionality reduction.
+Since each directed edge has one node to leave and one to enter, the sum of the values in every column of $\bm{A}$ is zero.
+Therefore removing any single one row will not result in a loss of information. 
+Without loss of generality, the last row is removed here.
+On the other hand, since each switch in the RBS is represented by a pair of directed edges with two-way directions, the two columns corresponding to the switch are mutually opposite.
+Thus, for the sub-matrix $\bm{A}_s$, only one column is retained for each pair of columns representing the same switch.
+As a result, $\bm{A}$ can be reduced to a $(N-1)\times(N_b+N_s+1)$ matrix, denoted as $\bm{\tilde{A}}$, for further calculation of current and voltage.
+Similar to Eq. \ref{eq:A_bso}, $\bm{\tilde{A}}$ can be rewritten as:
+\begin{equation}\label{eq:A_bso_tilde}
+    \bm{\tilde{A}} =
+    \begin{bmatrix}
+        \bm{\tilde{A}}_b & \bm{\tilde{A}}_s & \bm{\tilde{A}}_o
     \end{bmatrix}.
 \end{equation}
 
-
+After obtaining the incidence matrix, the currents of all batteries and output in RBS are determined by solving the circuit equations.
 According to Kirchhoffs law, we have
 \begin{align}\label{eq:Kirchhoffs_law}
     \begin{cases}
-        \bm{A} \bm{I} = \bm{0}, \\
-        \bm{U}        = \bm{A}^\T \bm{U}_n,
+        \bm{\tilde{A}} \bm{I} = \bm{0}, \\
+        \bm{U}        = \bm{\tilde{A}}^\T \bm{U}_n,
     \end{cases}
 \end{align}
-where $\bm{I}$ and $\bm{U}$ indicate the current and voltage arrays of the $N_b+N_s+1$ edges, respectively;
+where $\bm{I}$ and $\bm{U}$ indicate the current and voltage difference arrays of the $N_b+N_s+1$ edges, respectively;
 $\bm{U}_n$ is the voltage array of the $N-1$ nodes.
 These directed edges are treated as generalized branches and expressed in matrix form as follows
 \begin{equation}\label{eq:generalized_branches}
     \bm{I} = \bm{Y}\bm{X} \bm{U} - \bm{Y}\bm{X} \bm{U}_s +\bm{I}_s,
 \end{equation}
-where $\bm{I}$ and $\bm{U}$ are the column vectors about $1+N_b+N_s$ edges' current and voltage, respectively;
-$\bm{U}_s$ and $\bm{I}_s$ denote the source voltage and source current of the generalized branches, respectively;
-$\bm{Y}$ is the admittance matrix of the circuit, and $\bm{X}$ is the state matrix defined as
+where $\bm{U}_s$ and $\bm{I}_s$ denote the source voltage and source current of the generalized branches, respectively.
+Because all batteries have been equivalent to voltage sources rather than current sources in the previous subsection, all elements of the array $\bm{I}_s$ are 0, 
+while the elements of the array $\bm{U}_s$ are equal to the first attribute of the corresponding edges in the directed graph.
+The $\bm{Y}$ in \ref{eq:generalized_branches} is the admittance matrix of the circuit, defined as the inverse of the impedance matrix.
+That is the elements of the diagonal matrix $\bm{Y}$ are equal to the reciprocal of the second attribute of the corresponding edges in the directed graph, and the off-diagonal elements are 0.
+The $\bm{X}$ is the state matrix, which describes whether the RBS batteries and switches are allowed to pass current.
+It is defined as
 \begin{equation}\label{eq:X}
     \bm{X} = \diag(
-    \underbrace{1, \cdots, 1}_{N_b~\text{of}~1},
+    \underbrace{1, 0 \cdots, 1}_{N_b~\text{of}~0/1},
     \underbrace{1, 0 \cdots, 1}_{N_s~\text{of}~0/1},
     1)
     =\begin{bmatrix}
-        \bm{E} & & \\
+        \bm{X}_b & & \\
         & \bm{X}_s &\\
-        & &\bm{E}
+        & & 1
     \end{bmatrix}.
 \end{equation}
-where $\bm{E}$ is the identity matrix, and $\bm{X}_s$ is a diagonal matrix with $N_s$ elements of 0 or 1.
+Where the elements $x_i$ of the matrix $\bm{X}_b$ represent whether the battery $i$ has been removed from the circuit, with $x_i=1$ indicating removal and $x_i=0$ indicating that it is still available to supply power. 
+When all batteries are health and capable of providing current to the external load, $\bm{X}_b$ is an identity matrix. 
+The elements $x_j$ of the matrix $\bm{X}_s$ represent whether the switch $j$ is closed, with $x_j=1$ indicating closure and $x_j=0$ indicating disconnection, which is consistent with the previous subsection.
 
 
-Furtherly, by assuming that the electromotive force and internal resistance of all batteries in the RBS are identical, denoted as $u_b$ and $r_b$ respectively, the output current $I_o$ and each battery's current $\bm{I}_b$ can be calculated by solving the Eqs. \ref{eq:Kirchhoffs_law} and \ref{eq:generalized_branches} eventually.
-Let
-\begin{equation}\label{eq:Yn}
-    \bm{Y}_n (\bm{X}_s) = \frac{1}{R_o} \bm{A}_o\bm{A}_o^\T + \frac{1}{r_b} \bm{A}_b\bm{A}_b^\T + \frac{1}{r_s}\bm{A}_s\bm{X}_s\bm{A}_s^\T,
+Theoretically, the output current $I_o$ and the currents of each battery $\bm{I}_b$ in the RBS  can be determined by solving Eqs. \ref{eq:Kirchhoffs_law}, \ref{eq:generalized_branches}, and \ref{eq:X} under any given state $\bm{X}$.
+In order to obtain specific constraint conditions and objective functions, it is further assumed that all batteries have the same electromotive force and internal resistance, denoted as $u_b$ and $r_b$, respectively.
+This allows for the derivation of explicit expressions for $I_o$ and $\bm{I}_b$.
+After derivation and simplification, the output current $I_o$ and the currents of each battery $\bm{I}_b$ are ultimately represented as Eqs. \ref{eq:I_o} and \ref{eq:I_b}, respectively.
+\begin{equation}\label{eq:I_o}
+    I_o = \frac{1}{R_o r_b} \bm{\tilde{A}}_o^\T \bm{Y}_n^{-1}(\bm{X}) \bm{\tilde{A}}_b \bm{U}_b,
 \end{equation}
-where $R_o$ is the equivalent resistance of the external electrical load.
-Then, if $\bm{Y}_n$ is an invertible matrix,
-\begin{align} % 统一下角标，不用在公式中表示矩阵形状；单位矩阵的符号
-    I_o(\bm{X}_s)      & = \frac{u_b}{R_o r_b} \bm{A}_o^\T \bm{Y}_n^{-1}(\bm{X}) \bm{A}_b \bm{I}_{N_b\times 1};\label{eq:I_o}\\
-    \bm{I}_b(\bm{X}_s) & = \frac{u_b}{r_b^2}[\bm{A}_b^\T \bm{Y}_n^{-1}(\bm{X}) \bm{A}_b\bm{I}_{N_b \times 1}  -r_b \bm{I}_{N_b \times 1}],\label{eq:I_b}
-\end{align}
-where $\bm{I}_{N_b\times 1}$ is an array with all elements equaling to 1.
+\begin{equation}\label{eq:I_b}
+    \bm{I}_b = \frac{1}{r_b^2}[\bm{\tilde{A}}_b^\T \bm{Y}_n^{-1}(\bm{X}) \bm{\tilde{A}}_b\bm{U}_b -r_b \bm{U}_b],
+\end{equation}
+where $\bm{U}_b$ is a $N_b\times 1$ array with all elements equaling to $u_b$;
+$\bm{Y}_n$ is the equivalent admittance matrix of the circuit, defined as
+\begin{equation}\label{eq:Yn}
+    \bm{Y}_n (\bm{X}) = \frac{1}{R_o} \bm{\tilde{A}}_o\bm{\tilde{A}}_o^\T + \frac{1}{r_b} \bm{\tilde{A}}_b\bm{X}_b\bm{\tilde{A}}_b^\T + \frac{1}{r_s}\bm{\tilde{A}}_s\bm{X}_s\bm{\tilde{A}}_s^\T.
+\end{equation}
 
 
-Then an indicator $\eta$ is defined by the ratio of $I_o$ and $\max (\bm{I}_b)$ shown in Eq. \ref{eq:eta}, to characterize the current output capacity of the RBS structure under different switching states:
+To characterize the current output capacity of the RBS structure under different switching states, an indicator $\eta$ is defined by the ratio of $I_o$ and $\max (\bm{I}_b)$ shown in Eq. \ref{eq:eta}:
 \begin{equation}\label{eq:eta}
     \eta = \frac{I_o}{\max (\bm{I}_b)}.
 \end{equation}
 Finally the problem of solving MAC can be formulated as
 \begin{align}
-    & \max \eta \label{eq:max_eta}\\
+    & \max \eta(\bm{X}_s) \label{eq:max_eta}\\
     \text{s.t.} & \max (\bm{I}_b) \leq I_m, \label{eq:Ib_leq_Im}
 \end{align}
 where $I_m$ is the maximum allowable current of the battery.
-However, it is computationally difficult to solve \ref{eq:max_eta} because of the presence of matrix $\bm{Y}_n^{-1}$. % 在此处说明 Yn-1的难求解，也是由于这一非线性项的存在，传统的优化方法无法求解
-As the number of batteries and switches in the RBS increase, the order of the matrix increases, and the time costed to compute increases sharply.
-A greedy algorithm will be proposed to solve this problem in the next subsection. % 扩写：为解决这个问题，需要从xx入手，采用greedy algorithm 代替xx，greedy algorithm 具体的实现过程如下节所示。
+
+
+However, it is computationally difficult to solve \ref{eq:max_eta} because of the $\bm{Y}_n^{-1}$.
+On one hand, due to the introduction of nonlinear terms by $\bm{Y}_n^{-1}$, many effective methods in linear optimization are not suitable for this problem.
+On the other hand, the rank of $Y_{n}$ is proportional to the number of batteries and switches, which can be very large for a large RBS system, leading to significant computational burden.
+Therefore, intelligent algorithms that rely on evolving by iteration may face efficiency issues when dealing with large RBS system.
+In order to address this issue, the problem should be considered from the perspective of guiding the RBS to reconstruct as many parallel structures as possible.
+Consequently, a greedy algorithm based on the shortest path is proposed. 
+The detailed implementation process is presented in the following two subsections.
 
 % Herein provides the solution procedure of …: 1. 2.
 % 考虑这部分怎么写，想不出就直接删了吧。
