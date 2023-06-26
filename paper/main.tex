@@ -14,7 +14,7 @@
 % -[ ] methodology 
 %      -[x] main 图重画，只保留文字；
 %      -[x] 有向图模型，说清三层关系，更规矩地写建模过程；
-%      -[ ] 优化目标和约束；
+%      -[x] 优化目标和约束；
 %      -[ ] 最短路径，逐句逐字去捋顺；
 %      -[ ] 贪心算法，结合流程图说明算法过程，把二分法融进去；
 %      -[ ] 增加隔离的处理，如约束、算法的改动
@@ -254,6 +254,7 @@ Similar to Eq. \ref{eq:A_bso}, $\bm{\tilde{A}}$ can be rewritten as:
     \end{bmatrix}.
 \end{equation}
 
+
 After obtaining the incidence matrix, the currents of all batteries and output in RBS are determined by solving the circuit equations.
 According to Kirchhoffs law, we have
 \begin{align}\label{eq:Kirchhoffs_law}
@@ -324,6 +325,7 @@ However, it is computationally difficult to solve \ref{eq:max_eta} because of th
 On one hand, due to the introduction of nonlinear terms by $\bm{Y}_n^{-1}$, many effective methods in linear optimization are not suitable for this problem.
 On the other hand, the rank of $Y_{n}$ is proportional to the number of batteries and switches, which can be very large for a large RBS system, leading to significant computational burden.
 Therefore, intelligent algorithms that rely on evolving by iteration may face efficiency issues when dealing with large RBS system.
+% 如果有时间，可以在案例部分做个对比，看看智能算法和本文算法的效率差距有多大。
 In order to address this issue, the problem should be considered from the perspective of guiding the RBS to reconstruct as many parallel structures as possible.
 Consequently, a greedy algorithm based on the shortest path is proposed. 
 The detailed implementation process is presented in the following two subsections.
@@ -338,30 +340,33 @@ The detailed implementation process is presented in the following two subsection
 % Since only the currents and voltages of the main circuit are of interest, only one of these solutions needs to be chosen for subsequent calculation.
 
 \subsection{Shortest Path}
-% 计算SP的部分单独一个 subsection
-% 添点内容，修改下面两句话
-A path is defined by the complete route passing through one battery (or a consecutive series of batteries) and closed switches from the anode $v_1$ to cathode $v_N$ of the RBS.
-Assuming a situation that battery $i$ is connected to the anode $v_1$ and the cathode $v_N$ of the RBS by a path $p$ in the graph model.
-Then the distance $\omega$ of the path $p$ is defined by the following equation: % 给出使用 Ns的原因，在这句开头，利用RBS的灵活性，通过额外的开关实现一条path上的电池数尽可能少，因此对路径p上的电池数量进行惩罚，设其权重为Ns，而路径p上的开关数量的权重设为1，从而使得最短路径表示的是电池数量最少的情况。 #TODO: 好好想这句话怎么写清楚
+
+The path $p$ used in this method is defined as the complete route that passes through one battery (or a consecutive series of batteries) and closed switches, connecting the anode $v_1$ to the cathode $v_N$ of the RBS.
+By applying a penalty to the series-connected batteries on the path, where additional batteries imply a longer distance, the algorithm encourages the RBS to form parallel structures as much as possible.
+Meanwhile, to reduce the number of switches controlled during the reconstruction process, a penalty is also applied to the total number of switches on the path, while ensuring the minimum number of batteries.
+Therefore, the distance $\omega$ of the path $p$ is defined by the following equation: 
 \begin{equation}\label{eq:weight}
     \omega(p) = N_s \cdot n_b (p) + n_s (p),
 \end{equation}
-where $N_s$ is the total number of switches in the system; $n_b(p)$ and $n_s(p)$ are number of batteries and switches in the path $p$ respectively. 
-$SP_i$ is defined as the path with the minimum $\omega$ for battery $i$.
+where $N_s$ is the total number of switches in the system; 
+$n_b(p)$ and $n_s(p)$ are number of batteries and switches in the path $p$ respectively. 
+Moreover, the shortest path $SP_i$ is defined as the path with the minimum $\omega$ for battery $i$, as shown in the following equation:
 \begin{equation}\label{eq:def_sp}
     SP_i = \mathop{\arg\min}_{p \in P_i} \omega(p),
 \end{equation}
 where $P_i$ is the set of all paths from $v_1$ to $v_N$ which pass through the directed edge $i$.
-The Dijkstra algorithm can be used to implement the $SP_i$. % 简短说下过程，给参考文献
 
 
-% SP 的控制角度意义
-% 在下一章节详细说明，如何利用SP求解MAC
-% SP 的作用，好好解释，下段重写(是不是该挪到下一subsection)
-According to the definition, $SP_i$ gives the simplest strategy by which the control of battery $i$ is achieved with a minimum of switches while minimizing the influence of other batteries.
-From the perspective of series/parallel, the more batteries are connected into circuit via their $SP$s, the more batteries are connected in parallel.
+The $SP_i$ can be solved by the Dijkstra algorithm.
+The Dijkstra algorithm is a graph search method that finds the shortest path between two given nodes in a weighted graph, efficiently solving the single-source shortest path problem.
+Assuming that the cathode and anode of battery $i$ are denoted as $v_i^-$ and $v_i^+$ respectively, the path $p$ of battery $i$  can be divided into three segments : $v_1 \rightarrow v_i^-$, $v_i^+ \rightarrow v_N$, and $v_i^- \rightarrow v_i^+$.
+The $v_i^- \rightarrow v_i^+$ is the directed edge corresponding to battery $i$. 
+With the Dijkstra algorithm, shortest paths for the $v_1 \rightarrow v_i^-$ and $v_i^+ \rightarrow v_N$ can be calculated under the weights given in Eq. \ref{eq:weight}, denoted as $SP(v_i^- \rightarrow v_i^+)$ and $SP(v_i^+ \rightarrow v_N)$, respectively.
+Finally, the $SP_i$ for battery $i$ is formed by the complete path with $SP(v_1 \rightarrow v_i^-)$, $v_i^- \rightarrow v_i^+$, and $SP(v_i^+ \rightarrow v_N)$.
 
 \subsection{Greedy Algorithm}\label{subsec:greedy_solution}
+
+From the perspective of series/parallel, the more batteries are connected into circuit via their $SP$s, the more batteries are connected in parallel.
 
 In this subsection, a greedy algorithm is proposed based on shortest paths ($SP$s), which is given here firstly. % 这句话改成 greedy algorithm 在整个 MAC 计算中的作用
 
