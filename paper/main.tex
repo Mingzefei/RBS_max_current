@@ -11,15 +11,15 @@
 %      -[ ] 增加重构灵活性的文献；
 %      -[ ] 有向图的文献；
 %      -[ ] 点明普适性、自动化
-% -[ ] methodology 
+% -[x] methodology 
 %      -[x] main 图重画，只保留文字；
 %      -[x] 有向图模型，说清三层关系，更规矩地写建模过程；
 %      -[x] 优化目标和约束；
-%      -[ ] 最短路径，逐句逐字去捋顺；
-%      -[ ] 贪心算法，结合流程图说明算法过程，把二分法融进去；
-%      -[ ] 增加隔离的处理，如约束、算法的改动
+%      -[x] 最短路径，逐句逐字去捋顺；
+%      -[x] 贪心算法，结合流程图说明算法过程，把二分法融进去；
+%      -[x] 增加隔离的处理，如约束、算法的改动
 % -[ ] case study 
-%      -[ ] 考虑新结构（MAC=4，想不到就算了，仍用ef结构）；
+%      -[ ] 考虑新结构（MAC=4，想不到就算了，仍用ef结构）(0626: 想不到)；
 %      -[ ] results 直接给出结果，略去计算细节；
 %      -[ ] discussion 说明eta的合理性；
 %      -[ ] 什么样的结构能获得更大的MAC（易隔离性和输出性能的冲突）（想不出来就算了）；
@@ -366,19 +366,18 @@ Finally, the $SP_i$ for battery $i$ is formed by the complete path with $SP(v_1 
 
 \subsection{Greedy Algorithm}\label{subsec:greedy_solution}
 
-From the perspective of series/parallel, the more batteries are connected into circuit via their $SP$s, the more batteries are connected in parallel.
+From the perspective of series/parallel connections, integrating more batteries into the circuit through their shortest paths ($SP$s) results in a larger number of batteries connected in parallel, thereby increasing the total output current of the RBS.
+However, conflicts may arise between the $SP$s of different batteries. 
+For instance, the $SP$s of two batteries might form a short-circuited RBS structure, which is not allowed. 
+To address this issue, a greedy algorithm is employed to incorporate as many $SP$s as possible while satisfying the reconstruction requirements.
 
-In this subsection, a greedy algorithm is proposed based on shortest paths ($SP$s), which is given here firstly. % 这句话改成 greedy algorithm 在整个 MAC 计算中的作用
-
-% 说明 利用 SP 求解 MAC 的原理
-Since batteries can provide more total output current when connected in parallel than in series, the algorithm greedily selects as many cells as possible to be connected into to the overall circuit via their $SP$s to obtain the MAC.
-% the maximu....SP.....I(两句话合到一起); 这种并联结构可以通过贪心算法得到;
-
-% 贪心算法的具体步骤
-The dichotomy method is also performed to faster find the right number of $SP$s. % 添加对贪心算法的步骤介绍，具体某一步说明采用了二分法…
-% 二分法融入贪心算法，添加贪心算法步骤
-After finding the potential SPs combinations in correspondence MAC, the state variable $\bm{X}_s$ of the switches can be determined, and the optimization problem \ref{eq:max_eta} can be solved using Eq. \ref{eq:eta}, \ref{eq:I_o} and \ref{eq:I_b}.
-The overall flowchart is shown in Fig. \ref{fig:flowchart}, and the corresponding pseudo-code of the algorithm is shown in Appendix \ref{alg:eta_RBS}. % 这句话应该放前面说，采用“总-分”架构，先给出流程图，然后再结合流程各步骤介绍每类具体算法的应用过程
+The algorithm, as illustrated in Fig. \ref{fig:flowchart}, can be summarized as follows, with the corresponding pseudo-code presented in Algorithm \ref{alg:eta_RBS}.
+First, the shortest paths ($SP$s) are obtained using Eqs. \ref{eq:weight} and \ref{eq:def_sp} in conjunction with Dijkstra Search. 
+Next, the matrix $\bm{A}$ is calculated using Eq. \ref{eq:A}, and the initial $N_{set}$ is set to $N_b$. 
+The algorithm iteratively checks different combinations of $c_b$ batteries from $N_b$ and updates $N_{set}$ using a dichotomy method until convergence is reached. 
+For each combination, the algorithm constructs an effective solution if possible, and calculates the currents $I_o$ and $\bm{I}_b$ using Eqs. \ref{eq:I_o} and \ref{eq:I_b}. 
+If the maximum current $\bm{I}_b$ is less than or equal to $I_m$, the $\eta$ is calculated using Eq. \ref{eq:eta}, and the maximum $\eta$ is updated accordingly. 
+Finally, the algorithm outputs the maximum $\eta$ once $N_{set}$ converges.
 
 \tikzset{
   meta box/.style={draw, black, very thick, text centered, },
@@ -685,7 +684,7 @@ This work presents an effective approach to evaluate the MAC of RBS, which is es
 Future research could focus on developing new performance indicators for evaluating RBS performance using the currents and voltages obtained by this method, as well as modifying the equivalent model of the battery to enable more accurate simulations of RBS, including transient analysis.
 
 \section{Appendix} 
-\begin{algorithm}% #TODO 待修改
+\begin{algorithm}
     \caption{Get the max available currents of a certain RBS}\label{alg:eta_RBS}
     \KwData{Directed graph model $G(V,E)$ of the RBS}
     \KwResult{$\max \eta$}
@@ -696,8 +695,8 @@ Future research could focus on developing new performance indicators for evaluat
     get $\bm{A}$ by Equation \ref{eq:A}\;
     \While{not yet determine $\max \eta$ }
     {
-        $N_{sel} \leftarrow \text{number of selected $SP$s calculated by dichotomy}$\;
-        $C_b    \leftarrow \text{set of all combinations of $N_{sel} $~batteries from $N_b$}$\;
+        $N_{set} \leftarrow \text{number of setected $SP$s calculated by dichotomy}$\;
+        $C_b    \leftarrow \text{set of all combinations of $N_{set} $~batteries from $N_b$}$\;
         \For{$c_b \in C_b$}{
             $\bm{x}_s \leftarrow \text{list of all switches' state: $x_s[j]=1$ if $ j \in \bigcup_{i\in c_b}SP_i $ else 0}$\;
             $\bm{X} \leftarrow diag[1,1,\cdots,1,\bm{x}_s] $\;
