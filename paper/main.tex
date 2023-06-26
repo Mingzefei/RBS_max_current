@@ -18,12 +18,12 @@
 %      -[x] 最短路径，逐句逐字去捋顺；
 %      -[x] 贪心算法，结合流程图说明算法过程，把二分法融进去；
 %      -[x] 增加隔离的处理，如约束、算法的改动
-% -[ ] case study 
+% -[x] case study 
 %      -[-] 考虑新结构（MAC=4，想不到就算了，仍用ef结构）(0626: 想不到)；
 %      -[x] results 直接给出结果，略去计算细节；
-%      -[ ] discussion 说明eta的合理性；
+%      -[x] discussion 说明eta的合理性；
 %      -[-] 什么样的结构能获得更大的MAC（易隔离性和输出性能的冲突）（想不出来就算了）(0626:有想法，但是要引入互斥片段的概念)；
-%      -[ ] 电池隔离场景下的MAC变化(比较不同结构)
+%      -[x] 电池隔离场景下的MAC变化(比较不同结构)
 
 % keep in mind
 % 1. 用最简洁、读者最能接受的话说明清楚自己想表达的内容
@@ -622,11 +622,11 @@ In summary, the structure proposed in this paper has the advantages of both Laws
 
 \section{Conclusion}
 
-This paper firstly proposes a method to calculation the MAC of RBS according to its architecture. 
-To find the circuit in RBS that enable the MAC, a greedy strategy incorporate with the topologic model is developed to. 
-The effectiveness of proposed method is tested on a more complex RBS structure based on two proposed structure.
-This work presents an effective approach to evaluate the MAC of RBS, which is essential for design and management of the RBS. 
-Future research could focus on developing new performance indicators for evaluating RBS performance using the currents and voltages obtained by this method, as well as modifying the equivalent model of the battery to enable more accurate simulations of RBS, including transient analysis.
+This paper proposes a method for computing the MAC of an RBS pervasively and automatically based on its structure.
+To identify the circuit within the RBS that enables the MAC, a greedy strategy combined with a directed graph model is developed.
+The effectiveness of the proposed method is tested on a more complex RBS structure, which is based on two proposed structures.
+The method remains effective for the application scenario of battery isolation in RBS and demonstrates that the new structure has the advantage of both output current flexibility and easy battery isolation.
+Future research could focus on developing new performance metrics to evaluate the performance of the RBS using the currents and voltages obtained by the method, as well as modifying the equivalent model of the battery to allow for more accurate simulations of the RBS, including transient analysis.
 
 \newpage
 \section{Appendix} 
