@@ -5,12 +5,12 @@
 % 0623 v3.0 plan 具体修改计划
 % !!!!!! 先改方法、后改案例、最后改介绍和其他
 % -[ ] 题目 点明我们的普适性、自动化？
-% -[ ] 摘要 中间段重写；点明普适性、自动化
-% -[ ] introduction 
-%      -[ ] 只放 V的结构，并展示串联、并联和隔离；
-%      -[ ] 增加重构灵活性的文献；
-%      -[ ] 有向图的文献；
-%      -[ ] 点明普适性、自动化
+% -[x] 摘要 中间段重写；点明普适性、自动化
+% -[x] introduction 
+%      -[x] 只放 V的结构，并展示串联、并联和隔离；
+%      -[-] 增加重构灵活性的文献；
+%      -[-] 有向图的文献；
+%      -[x] 点明普适性、自动化
 % -[x] methodology 
 %      -[x] main 图重画，只保留文字；
 %      -[x] 有向图模型，说清三层关系，更规矩地写建模过程；
@@ -52,74 +52,87 @@
 
 
 \title{Maximum Allowable Current Determination of Arbitrary Reconfigurable Battery Systems By Using a Directed Graph Model Combined with Greedy Algorithm}
+
 \author{3057761608 }
 
 \begin{document}
 
 \maketitle
 
-\begin{abstract} % #TODO: rewrite
+\begin{abstract} % # TODO: check
     Reconfigurable Battery Systems (RBSs) offer a promising alternative to traditional battery systems owing to their flexible and dynamic changeable topologic structure subjected to battery charging and discharging strategies. 
     During the operation of the RBS, Maximum Allowable Current (MAC) is a critical indicator to guide the reconfiguring control of the system in terms of safety and reliability. 
-    In this paper, the MAC of the RBS is calculated by using a greedy algorithm based on the directed graph model of the RBS. % 这句话展开讲， Greedy algorithm方法被用于…/与…方法相结合，实现了对任意RBS结构的MAC提取，
-    % The greedy algorithm method has been used to solve a model based on topology structure, achieving MAC estimation for any RBS structure.
-    The effectiveness of this method is validated on a more complex RBS structure based on two proposed structure. 
-    This proposed Greedy-based method paves the way for more flexible design and more complex application scenarios, such as battery isolation, for RBS.
+    In this paper, the MAC of the RBS is calculated using a greedy algorithm combined with the directed graph model of the RBS.
+    Based on the directed graph model, the algorithm guides the RBS to allow as many batteries to be connected in parallel as possible, thus maximizing the output current of the system while ensuring proper battery operation.
+    The effectiveness of this method is validated on a novel and complex RBS structure.
+    This method paves the way for next-generation RBS design and application, such as battery isolation.
 
-    keywords:  Reconfigurable Battery System, Maximum Allowable Current, Greedy Algorithm
+    keywords:  Reconfigurable Battery System, Maximum Allowable Current, Directed Graph Model , Greedy Algorithm
 \end{abstract}
 
 \section{Introduction}
-% 不放案例
-% 重构灵活性的文献
-% 有向图的文献
 
 Battery Energy Storage Systems (BESSs) are widely used to store and release high-quality electrical energy in various applications, such as smart grids and wind power plants \cite{desiqueiraControlStrategySmooth2021,karandehTwoStageAlgorithmOptimal2019,yangBatteryEnergyStorage2018,choCommercialResearchBattery2015}.
 Typically, a BESS consists of numerous batteries that are interconnected by series-parallel circuitry to provide the required capacity storage.
 The traditional BESS, in which the batteries are connected in a fixed topology, has a significant weakness on its worst battery, caused by the so-called cask effect.
-Furthermore, if this worst battery is failed during the operation process, it will exacerbate the degradation of the other batteries with a high possibility, and arouse reliability and even safety issues \cite{yangUnbalancedDischargingAging2016,fengPropagationMechanismsDiagnosis2019}.
+Furthermore, if this worst battery is failed during the operation process, it will exacerbate the degradation of the other batteries with a high possibility, and arouse reliability and even safety issues \cite{yangUnbalancedDischargingAging2016,fengPropagationMechanismsDiagnosis2019}. % #TODO: 放些 space 电池组的文献
 
 
 Reconfigurable Battery System (RBS), which can dynamically switch to different circuit topology configurations as required, is expected to solve the above problem\cite{hanNextGenerationBatteryManagement2020a}.
 The ability of switching circuit helps to isolate unhealthy batteries, and thereby improve the safety and reliability of the battery system.
-Fig.\ref{fig:arch} shows two popular typologies of the RBSs developed by Lawson\cite{lawsonSoftwareConfigurableBattery2012} and Visairo \cite{visairoReconfigurableBatteryPack2008} respectively. 
-Taking the RBS shown in Fig.\ref{fig:stru-Visairo} as example, the batteries in the RBS can be connected not only in series when the switches $S_1$, $S_5$, $S_6$, $S_7$, $S_8$, $S_9$, and $S_{13}$ are closed, but also in parallel when $S_1$, $S_2$, $S_3$, $S_4$, $S_5$, $S_9$, $S_{10}$, $S_{11}$, $S_{12}$, and $S_{13}$ are closed.
-Furthermore, when an unhealthy battery, for instance the orange one in Fig.\ref{fig:stru-Lawson}, exits in the RBS, it can be isolated by closing its three adjacent switches (i.e. $S_5$, $S_7$ and $S_8$) and opening the switch below that battery (i.e. $S_6$) to ensure the system still remains a reliable working mode.
-% 补充一句话总结，visairo的网络与固定串并联结构相比具有哪些优点，更适合使用在什么场合
+Fig.\ref{fig:stru-Visairo} shows a typical RBS structure developed by Visairo \cite{visairoReconfigurableBatteryPack2008} for dynamically adjusting the output voltage and current.
+In this structure, the batteries can be connected not only in series when the switches $S_1$, $S_5$, $S_6$, $S_7$, $S_8$, $S_9$, and $S_{13}$ are closed (Fig.\ref{fig:stru-Visairo-serial}), but also in parallel when $S_1$, $S_2$, $S_3$, $S_4$, $S_5$, $S_9$, $S_{10}$, $S_{11}$, $S_{12}$, and $S_{13}$ are closed (Fig.\ref{fig:stru-Visairo-parallel}).
+Furthermore, when an unhealthy battery, for instance the orange one $B_3$ in Fig.\ref{fig:stru-Visairo-isolate}, appears in the RBS, it can be isolated by opening its two adjacent switches (i.e. $S_4$ and $S_{11}$), ensuring the system still remains a reliable working mode.
 
-\begin{figure}[htbp]
+\begin{figure}[htbp] % #TODO: V 的结构示意图
     \centering
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/arch-e.png}
-        \caption{}
-        \label{fig:stru-Lawson}
-    \end{subfigure}
-    \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/arch-f.png}
+        \includegraphics[width=\textwidth]{../attachments/arch-f.png} % 完整结构
         \caption{}
         \label{fig:stru-Visairo}
     \end{subfigure}
-    \caption{The RBS structure proposed by (a)Lawson\cite{lawsonSoftwareConfigurableBattery2012}, (b)Visairo\cite{visairoReconfigurableBatteryPack2008}.}
+    \hspace{0.05\textwidth}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/arch-f.png} % 全串联
+        \caption{}
+        \label{fig:stru-Visairo-serial}
+    \end{subfigure}
+    \\
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/arch-f.png} % 全并联
+        \caption{}
+        \label{fig:stru-Visairo-parallel}
+    \end{subfigure}
+    \hspace{0.05\textwidth}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/arch-f.png} % 电池隔离 右二 B3 全并联
+        \caption{}
+        \label{fig:stru-Visairo-isolate}
+    \end{subfigure}
+    \caption{
+        (a) The RBS structure proposed by Visairo\cite{visairoReconfigurableBatteryPack2008}, with
+        all batteries in (b) series connection, (c) parallel connection, and
+        (d) battery $B_3$ isolated.
+        }
     \label{fig:arch}
 \end{figure}
 
-The complex connecting structure between batteries and switches enables the flexibility of the RBS, but on the other hand brings the challenges in desgin and control cost as well.
-All switches of the RBS need to be controlled to output currents and powers that match the external load in read-time while avoiding batteries short-circuit.
-The Maximum Allowable Current (MAC) of the RBS system is defined as the maximum current that is allowed for each individual battery of the system, and is a critical indictor to be evaluate the RBS output current to the electronic appliances.% 这里缺少过渡，MAC和设计与控制成本有什么关系？
-It helps the designer to assess whether the RBS meets the output current requirements, and contributes to the formulation of appropriate and safe management stragegies for the battery management system (BMS). 
-Despite its importance, there is currently no way to automatically evaluate MAC for RBSs. 
-Especially when one (or more) stochastic battery is isolated, it is not possible to simultaneously determine the MAC of the rest of the RBS to assist the BMS to provide a timely adjustment of the control strategy. 
-Under such circumstance, a universal and effective method for calculating the MAC of the RBS is urgently needed for the practical application of RBSs. 
-To achieve this, a directed graph model that builds the relationship between RBS circuit topology and internal resistance and voltage of its batteries are established. 
-Then, a greedy algorithm is employed to search the available circuit of the RBS for reaching the MAC.
-% 以上两句话争取合并成一句话，提出的方法应该紧扣标题（即与标题的方法一致）
-With this proposed method, the MAC of RBSs with arbitrary structures can be calculated effectively, including application scenarios with isolated batteries.
+The complex connection structure between batteries and switches in the RBS provides flexibility but also introduces challenges in design and operational control. 
+Unlike traditional BESSs with fixed outputs, the RBS output must be dynamically adjusted by controlling switch states to meet external load requirements. 
+This necessitates additional, time-consuming output performance analysis during design and corresponding control strategies. 
+An incorrect switch control strategy may cause battery short-circuiting or overload, risking the entire system. 
+The Maximum Allowable Current (MAC), an RBS performance indicator, can guide designers in addressing this issue. 
+MAC is defined as the maximum RBS output current that ensures each battery's current remains within a safe range.
+Therefore, it provides a benchmark for RBS output current, protecting individual batteries and identifying overall system output limits during operation. 
+Despite its importance, no method currently exists for automatically evaluating MAC for RBSs.
+In particular, when one or more random cells are isolated, there is still no method to determine the MAC of the remaining RBS in time to assist the system in adjusting the control strategy timely. 
+A universal and automatical method for calculating RBS MAC is urgently needed for practical applications. 
+In this study, a directed graph model and greedy algorithm are employed to determine the MAC of RBS and the corresponding control strategy, effectively calculating the MAC for RBSs with arbitrary structures, including scenarios with isolated batteries.
 
 
 The remainder of this paper is organized as follows: 
-Section II presents the framework and details of the proposed topologic model and the greedy algorithm. 
-In Section III, a case study of using the proposed model and algorithm to enumerate the MAC of a new and complex structure is demonstrated. 
+Section II presents the framework and details of the proposed directed graph model and the greedy algorithm. 
+Section III demonstrated a case study of using the proposed method to determine the MAC of a novel and complex structure. 
 The calculation results and scenarios such as batteries isolation also are discussed. 
 Finally, the concluding remarks are drawn in Section IV.
 
@@ -161,7 +174,7 @@ Finally, a greedy algorithm is employed to organize the switches, allowing the b
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.24\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/direct-graph-my.png}
+        \includegraphics[width=\textwidth]{../attachments/direct-graph-my.png} % #TODO: 蓝色线段由实变虚
         \caption{}
         \label{fig:direct-graph-my}
     \end{subfigure}
@@ -440,7 +453,7 @@ Finally, the algorithm outputs the maximum $\eta$ once $N_{set}$ converges.
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/arch-ef.png}
+        \includegraphics[width=\textwidth]{../attachments/arch-ef.png} % #TODO: 去掉虚线框
         \caption{}
         \label{fig:study-stru-my}
     \end{subfigure}
@@ -454,8 +467,8 @@ Lawson et al. conducted research on battery isolation in RBS and specifically de
 This structure has the advantage of easily isolating batteries, but it cannot dynamically adjust the output current of RBS. 
 Based on the structures of Visairo and Lawson, this paper presents a new structure, as shown in Fig.\ref{fig:study-stru-my}, which combines the advantages of both.
 By integrating the Visairo RBS structure into the Lawson RBS structure, the new structure not only allows the flexibility to switch the batteries between series, parallel, and mixed series-parallel modes, but also easily enables the isolation of highly degraded batteries from the RBS.
-These three structures will be employed to validate the effectiveness of this paper's proposed method for calculating the MAC. 
 And their variations in output current under battery isolation conditions will be studied.
+This RBS structure will be used to validate the effectiveness of the proposed method for calculating the MAC, and be compared with the Lawson's and Visairo's structure to illustrate its advantage on battery isolation.
 
 \subsection{Result}
 
@@ -463,7 +476,7 @@ As shown in Fig.\ref{fig:study-stru-my}, the new RBS structure consists of 4 bat
 The corresponding directed graph is depicted in Fig.\ref{fig:study-dirgraph-my}, which is composed of of a total of 18 nodes and 43 edges. 
 Batteries $B_1$, $B_2$, $B_3$, and $B_4$ are denoted by green directed edges in the graph, while the 19 switches are represented by gray directed edges with bi-directional arrows. 
 The external electrical load is treated as a directed edge from the cathode of the RBS (i.e., node 18) to the anode (i.e., node 1), as indicated by the blue directed edge in the graph.
-Utilizing Eq.\ref{eq:weight} and the Dijkstra algorithm, the $SP$s of the four batteries in the RBS structure of Fig.\ref{fig:study-stru-my} are shown in Figs.\ref{fig:sp1}-\ref{fig:sp4}, highlighted in red.
+Utilizing Eq.\ref{eq:weight} and the Dijkstra algorithm, the $SP$s of the four batteries in the RBS structure of Fig.\ref{fig:study-stru-my} are highlighted by red in Figs.\ref{fig:sp1}-\ref{fig:sp4}.
 Finally, the MAC calculation results of the structure in Fig.\ref{fig:study-stru-my} are shown as Tab.\ref{tab:study-results-my} and Fig.\ref{fig:study-results-my}, obtained by the greedy algorithm \ref{alg:greedy}.
 Tab.\ref{tab:study-results-my} contains the switches states, the output current $I_o$, battery current $\bm{I}_b$ and ratio $\eta$ of the RBS structure with all batteries in good health when the RBS output reaches the MAC.
 Fig.\ref{fig:study-results-my} presents the corresponding circuit, with the red highlight indicating that current is flowing through the respective branches.
@@ -520,7 +533,6 @@ Fig.\ref{fig:study-results-my} presents the corresponding circuit, with the red 
     \begin{tabular}{cc}
     \toprule
         Structure & Fig.\ref{fig:study-stru-my} with 4 batteries and 19 switches  \\
-        % Battery isolated & None \\
     \midrule
     Switch ON & $S_1$,$S_3$,$S_5$,$S_6$,$S_8$,$S_9$,$S_{10}$,$S_{12}$,$S_{18}$,$S_{19}$ \\
     $I_o$ & $2u_b/(2R_o+r_b)$ \\
@@ -539,7 +551,6 @@ Similarly, the MAC calculation results of the structures in Figs.\ref{fig:study-
     \begin{tabular}{cc}
     \toprule
         Structure & Fig.\ref{fig:study-stru-Lawson} with 4 batteries and 15 switches  \\
-        % Battery isolated & None \\
     \midrule
     Switch ON & $S_1$,$S_3$,$S_5$,$S_7$,$S_{10}$,$S_{13}$,$S_{14}$,$S_{15}$ \\
     $I_o$ & $u_b/(R_o+r_b)$ \\
@@ -556,7 +567,6 @@ Similarly, the MAC calculation results of the structures in Figs.\ref{fig:study-
     \begin{tabular}{cc}
     \toprule
         Structure & Fig.\ref{fig:study-stru-Visairo} with 4 batteries and 13 switches  \\
-        % Battery isolated & None \\
     \midrule
     Switch ON & $S_1$,$S_2$,$S_3$,$S_4$,$S_5$,$S_9$,$S_{10}$,$S_{11}$,$S_{12}$,$S_{13}$ \\
     $I_o$ & $4u_b/(4R_o+r_b)$ \\
@@ -586,11 +596,12 @@ Assuming that the maximum allowed current of batteries in the RBS is $I_m$, the 
 Therefore, compared to $I_o$, $\eta$ is more suitable for structure design.
 
 
-Furthermore, the significance of the method proposed in this paper is discussed from the perspective of next-generation RBS design.
+The method proposed in this paper is significant for the design of next-generation RBSs in the following aspects.
 Most of the currently proposed RBS structures\cite{ciNovelDesignAdaptive2007,alahmadBatterySwitchArray2008,kimDependableEfficientScalable2010b,kimBalancedReconfigurationStorage2011a,taesickimSeriesconnectedSelfreconfigurableMulticell2012a,6843711} exhibit simple topological characteristics, and the calculation of MACs is relatively straightforward, even intuitive.
 However, these simple structures do not always fully satisfy the requirements of complex applications, such as dynamically adapting the circuit to variable and random operating conditions, and actively equalizing differences among the batteries in the RBS.
 Moreover, isolating the batteries disrupts the original regularity and symmetry of the topology, which complicates the otherwise simple structure, and the maximum output current of the system becomes more challenging to obtain.
 Owing to the advantages of pervasiveness and automation, the proposed method can be employed to calculate the MAC of arbitrary RBS structures, which helps to address the aforementioned issues and paves the way for more complex and flexible RBS structure design.
+
 
 To illustrate this point, the MACs of the three RBS structures mentioned above are calculated after the batteries are isolated, as shown in Fig.\ref{fig:isolated_mac}. 
 Specifically, for the structure presented in Fig.\ref{fig:study-stru-my}, the corresponding circuit states of MACs when isolating different numbers of batteries are depicted in Figs.\ref{fig:my-isolated-1}-\ref{fig:my-isolated-3}. 
@@ -598,7 +609,8 @@ This structure has two cases of isolating two batteries:
 one is to isolate two batteries within the same substructure (Fig.\ref{fig:my-isolated-2b}), in which case $\eta=2$; the other is to isolate one battery in each of the two substructures (Fig.\ref{fig:my-isolated-2w}), in which case $\eta=1$. 
 From the results, it can be observed that the proposed method provides reasonable outcomes for isolating batteries with any number and position.
 
-Furthermore, the performance of output current for the three RBS when isolating batteries is also illustrated in Fig. \ref{fig:isolated_mac}. 
+
+Furthermore, the performance of output current for the three RBS when isolating batteries is also illustrated in Fig.\ref{fig:isolated_mac}. 
 For the structure proposed by Lawson et al., the MAC remains the same as that without isolated battery cells, i.e., $\eta=1$, when the number of isolated battery cells increases, until all the cells in the RBS are isolated. 
 For Visairo's structure, the MAC decreases as the number of isolated battery cells increases, until $\eta=0$. 
 In contrast, the MAC of the structure proposed in this work is positioned between the two structures. 
@@ -622,13 +634,13 @@ In summary, the structure proposed in this paper has the advantages of both Laws
 
 \section{Conclusion}
 
-This paper proposes a method for computing the MAC of an RBS pervasively and automatically based on its structure.
-To identify the circuit within the RBS that enables the MAC, a greedy strategy combined with a directed graph model is developed.
-The effectiveness of the proposed method is tested on a more complex RBS structure, which is based on two proposed structures.
-The method remains effective for the application scenario of battery isolation in RBS and demonstrates that the new structure has the advantage of both output current flexibility and easy battery isolation.
-Future research could focus on developing new performance metrics to evaluate the performance of the RBS using the currents and voltages obtained by the method, as well as modifying the equivalent model of the battery to allow for more accurate simulations of the RBS, including transient analysis.
+This paper proposes a pervasive and automatical method for computing the MAC of the given RBS.
+The method is  implemented by a greedy algorithm combined with a directed graph model, whose effectiveness is tested on a novel and complex RBS structure.
+The method remains effective for the application scenario of RBS battery isolation and demonstrates that the novel structure has the advantage on flexible output current and convenient battery isolation.
+Future research could focus on developing new indictors to evaluate the performance of the RBS with the currents and voltages obtained by the method, as well as modifying the equivalent model of the battery to allow for more accurate simulations of the RBS, including transient analysis.
 
 \newpage
+
 \section{Appendix} 
 
 \begin{algorithm}
