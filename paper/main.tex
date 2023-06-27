@@ -67,14 +67,15 @@
 
 \section{Introduction}
 
-% #TODO: 根据 space 的背景进行修改，放点它们的文献
-Battery Energy Storage Systems (BESSs) are widely used to store and release high-quality electrical energy in various applications, such as smart grids and wind power plants \cite{desiqueiraControlStrategySmooth2021,karandehTwoStageAlgorithmOptimal2019,yangBatteryEnergyStorage2018,choCommercialResearchBattery2015}.
-Typically, a BESS consists of numerous batteries that are interconnected by series-parallel circuitry to provide the required capacity storage.
-The traditional BESS, in which the batteries are connected in a fixed topology, has a significant weakness on its worst battery, caused by the so-called cask effect.
-Furthermore, if this worst battery is failed during the operation process, it will exacerbate the degradation of the other batteries with a high possibility, and arouse reliability and even safety issues \cite{yangUnbalancedDischargingAging2016,fengPropagationMechanismsDiagnosis2019}. 
+
+Battery Energy Storage Systems (BESSs) are extensively employed in various applications, such as wind power plants and space power systems, to store and release high-quality electrical energy \cite{desiqueiraControlStrategySmooth2021,yangBatteryEnergyStorage2018,choCommercialResearchBattery2015,zhangDevelopmentProspectChinese2021,schwanbeckInternationalSpaceStation2019}.
+Typically, a BESS consists of numerous batteries interconnected by series-parallel circuitry to provide the required capacity storage.
+However, traditional BESSs, in which the batteries are connected in a fixed topology, exhibit a significant weakness in their worst battery due to the so-called cask effect.
+Moreover, if this worst battery fails during operation, it can exacerbate the degradation of other batteries with a high possibility, leading to reliability and safety issues \cite{yangUnbalancedDischargingAging2016,fengPropagationMechanismsDiagnosis2019,jeevarajanBatterySafetyQualifications2012}.
+These problems have become significant technical barriers in the development of new-generation space vehicles and urgently need to be addressed \cite{pomboHybridPowerSystem2021}.
 
 
-Reconfigurable Battery System (RBS), which can dynamically switch to different circuit topology configurations as required, is expected to solve the above problem\cite{hanNextGenerationBatteryManagement2020a}.
+Reconfigurable Battery System (RBS), which can dynamically switch to different circuit topology configurations as required, is expected to solve the above problems\cite{hanNextGenerationBatteryManagement2020a}.
 The ability of switching circuit helps to isolate unhealthy batteries, and thereby improve the safety and reliability of the battery system.
 Fig.\ref{fig:stru-Visairo} shows a typical RBS structure developed by Visairo \cite{visairoReconfigurableBatteryPack2008} for dynamically adjusting the output voltage and current.
 In this structure, the batteries can be connected not only in series when the switches $S_1$, $S_5$, $S_6$, $S_7$, $S_8$, $S_9$, and $S_{13}$ are closed (Fig.\ref{fig:stru-Visairo-serial}), but also in parallel when $S_1$, $S_2$, $S_3$, $S_4$, $S_5$, $S_9$, $S_{10}$, $S_{11}$, $S_{12}$, and $S_{13}$ are closed (Fig.\ref{fig:stru-Visairo-parallel}).
