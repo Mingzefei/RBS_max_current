@@ -4,7 +4,7 @@
 
 % 0623 v3.0 plan 具体修改计划
 % !!!!!! 先改方法、后改案例、最后改介绍和其他
-% -[ ] 题目 点明我们的普适性、自动化？
+% -[x] 题目 点明我们的普适性、自动化？
 % -[x] 摘要 中间段重写；点明普适性、自动化
 % -[x] introduction 
 %      -[x] 只放 V的结构，并展示串联、并联和隔离；
@@ -25,15 +25,10 @@
 %      -[-] 什么样的结构能获得更大的MAC（易隔离性和输出性能的冲突）（想不出来就算了）(0626:有想法，但是要引入互斥片段的概念)；
 %      -[x] 电池隔离场景下的MAC变化(比较不同结构)
 
-% keep in mind
-% 1. 用最简洁、读者最能接受的话说明清楚自己想表达的内容
-
 % mark
 % 统一为 directed graph model
 % 统一用 electrical load 而非 electrical appliance (泛指家电)
 
-% magic
-% 你将扮演一位英文学术写作经验丰富的大学老师，指导一位非英文母语的学生完成并改进他的论文。 你的目标是帮助他写出一篇流畅、清晰、易读、符合规范的英文学术论文。 他会向你用中文说明自己想表达的内容，有时还会给你一些不完整的英文句子让你补充完整。你不应该逐字翻译他的内容，你需要和他经过多次的沟通，以确定最好的表达。 注意，你们交流的内容可能包含latex语法，你需要理解并使用；当你形成完整的句子或段落时，你要将这些句子或段落放在```\n 和\n ```之间，即 ```\n some sentence\n ```，其中每写完一句话都要换行。
 
 \documentclass{article}
 \usepackage{graphicx}
@@ -59,13 +54,13 @@
 
 \maketitle
 
-\begin{abstract} % # TODO: check
-    Reconfigurable Battery Systems (RBSs) offer a promising alternative to traditional battery systems owing to their flexible and dynamic changeable topologic structure subjected to battery charging and discharging strategies. 
-    During the operation of the RBS, Maximum Allowable Current (MAC) is a critical indicator to guide the reconfiguring control of the system in terms of safety and reliability. 
-    In this paper, the MAC of the RBS is calculated using a greedy algorithm combined with the directed graph model of the RBS.
-    Based on the directed graph model, the algorithm guides the RBS to allow as many batteries to be connected in parallel as possible, thus maximizing the output current of the system while ensuring proper battery operation.
+\begin{abstract}
+    Reconfigurable Battery Systems (RBSs) present a promising alternative to traditional battery systems due to their flexible and dynamically changeable topological structure subjected to battery charging and discharging strategies.
+    During the operation of the RBS, the Maximum Allowable Current (MAC) is a critical indicator to guide the system's reconfiguring control, ensuring safety and reliability.
+    In this paper, we propose a calculation method for the MAC of an RBS using a greedy algorithm in conjunction with a directed graph model of the RBS.
+    By employing the directed graph model, the greedy algorithm guides the RBS to establish parallel connections among batteries, aiming to maximize the system's output current while ensuring that none of the batteries are overloaded or short-circuited.
     The effectiveness of this method is validated on a novel and complex RBS structure.
-    This method paves the way for next-generation RBS design and application, such as battery isolation.
+    The results demonstrate the viability of this method and its potential in facilitating next-generation RBS designs and applications, including battery isolation.
 
     keywords:  Reconfigurable Battery System, Maximum Allowable Current, Directed Graph Model , Greedy Algorithm
 \end{abstract}
