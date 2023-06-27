@@ -67,10 +67,11 @@
 
 \section{Introduction}
 
+% #TODO: 根据 space 的背景进行修改，放点它们的文献
 Battery Energy Storage Systems (BESSs) are widely used to store and release high-quality electrical energy in various applications, such as smart grids and wind power plants \cite{desiqueiraControlStrategySmooth2021,karandehTwoStageAlgorithmOptimal2019,yangBatteryEnergyStorage2018,choCommercialResearchBattery2015}.
 Typically, a BESS consists of numerous batteries that are interconnected by series-parallel circuitry to provide the required capacity storage.
 The traditional BESS, in which the batteries are connected in a fixed topology, has a significant weakness on its worst battery, caused by the so-called cask effect.
-Furthermore, if this worst battery is failed during the operation process, it will exacerbate the degradation of the other batteries with a high possibility, and arouse reliability and even safety issues \cite{yangUnbalancedDischargingAging2016,fengPropagationMechanismsDiagnosis2019}. % #TODO: 放些 space 电池组的文献
+Furthermore, if this worst battery is failed during the operation process, it will exacerbate the degradation of the other batteries with a high possibility, and arouse reliability and even safety issues \cite{yangUnbalancedDischargingAging2016,fengPropagationMechanismsDiagnosis2019}. 
 
 
 Reconfigurable Battery System (RBS), which can dynamically switch to different circuit topology configurations as required, is expected to solve the above problem\cite{hanNextGenerationBatteryManagement2020a}.
@@ -79,28 +80,28 @@ Fig.\ref{fig:stru-Visairo} shows a typical RBS structure developed by Visairo \c
 In this structure, the batteries can be connected not only in series when the switches $S_1$, $S_5$, $S_6$, $S_7$, $S_8$, $S_9$, and $S_{13}$ are closed (Fig.\ref{fig:stru-Visairo-serial}), but also in parallel when $S_1$, $S_2$, $S_3$, $S_4$, $S_5$, $S_9$, $S_{10}$, $S_{11}$, $S_{12}$, and $S_{13}$ are closed (Fig.\ref{fig:stru-Visairo-parallel}).
 Furthermore, when an unhealthy battery, for instance the orange one $B_3$ in Fig.\ref{fig:stru-Visairo-isolate}, appears in the RBS, it can be isolated by opening its two adjacent switches (i.e. $S_4$ and $S_{11}$), ensuring the system still remains a reliable working mode.
 
-\begin{figure}[htbp] % #TODO: V 的结构示意图
+\begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/arch-f.png} % 完整结构
+        \includegraphics[width=\textwidth]{../attachments/stru-V-origin.png} % 完整结构
         \caption{}
         \label{fig:stru-Visairo}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/arch-f.png} % 全串联
+        \includegraphics[width=\textwidth]{../attachments/stru-V-serial.png} % 全串联
         \caption{}
         \label{fig:stru-Visairo-serial}
     \end{subfigure}
     \\
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/arch-f.png} % 全并联
+        \includegraphics[width=\textwidth]{../attachments/stru-V-parallel.png} % 全并联
         \caption{}
         \label{fig:stru-Visairo-parallel}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/arch-f.png} % 电池隔离 右二 B3 全并联
+        \includegraphics[width=\textwidth]{../attachments/stru-V-isolate} % 电池隔离 右二 B3 全并联
         \caption{}
         \label{fig:stru-Visairo-isolate}
     \end{subfigure}
@@ -143,7 +144,7 @@ Finally, a greedy algorithm is employed to organize the switches, allowing the b
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.8\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/main.png} % #TODO: 修改step2中的公式
+        \includegraphics[width=\textwidth]{../attachments/main.png}
         \caption{}
         \label{fig:main}
     \end{subfigure}
@@ -169,7 +170,7 @@ Finally, a greedy algorithm is employed to organize the switches, allowing the b
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.24\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/direct-graph-my.png} % #TODO: 蓝色线段由实变虚
+        \includegraphics[width=\textwidth]{../attachments/direct-graph-my.png}
         \caption{}
         \label{fig:direct-graph-my}
     \end{subfigure}
@@ -436,19 +437,19 @@ Finally, the algorithm outputs the maximum $\eta$ once $N_{set}$ converges.
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/arch-e.png} % #TODO: 把不健康电池改为健康
+        \includegraphics[width=\textwidth]{../attachments/stru-L-origin.png}
         \caption{}
         \label{fig:study-stru-Lawson}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/arch-f.png}
+        \includegraphics[width=\textwidth]{../attachments/stru-V-origin.png}
         \caption{}
         \label{fig:study-stru-Visairo}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/arch-ef.png} % #TODO: 去掉虚线框
+        \includegraphics[width=\textwidth]{../attachments/stru-my-origin.png}
         \caption{}
         \label{fig:study-stru-my}
     \end{subfigure}
@@ -476,10 +477,10 @@ Finally, the MAC calculation results of the structure in Fig.\ref{fig:study-stru
 Tab.\ref{tab:study-results-my} contains the switches states, the output current $I_o$, battery current $\bm{I}_b$ and ratio $\eta$ of the RBS structure with all batteries in good health when the RBS output reaches the MAC.
 Fig.\ref{fig:study-results-my} presents the corresponding circuit, with the red highlight indicating that current is flowing through the respective branches.
 
-\begin{figure}[htbp] % #TODO：补上两个开关
+\begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/ef-topo.png} % #TODO：补上两个开关
+        \includegraphics[width=\textwidth]{../attachments/ef-topo.png}
         \caption{}
         \label{fig:study-dirgraph-my}
     \end{subfigure}
@@ -509,7 +510,7 @@ Fig.\ref{fig:study-results-my} presents the corresponding circuit, with the red 
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/ef-mac.png} % #TODO: 闭合开关。移除开关，直接连上
+        \includegraphics[width=\textwidth]{../attachments/ef-mac.png}
         \caption{}
         \label{fig:study-results-my}
     \end{subfigure}
@@ -615,17 +616,41 @@ In summary, the structure proposed in this paper has the advantages of both Laws
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.65\textwidth]{../attachments/isolated_mac.png}
+    \includegraphics[width=0.5\textwidth]{../attachments/isolated_mac.png}
     \caption{
         The variation of MAC with the number of isolated batteries for different RBS structures, including the structure proposed by Lawson et al., Visairo et al. , and the structure proposed in this paper.
     }\label{fig:isolated_mac}
 \end{figure}
 
-% 对 my 结构的具体示意图 #TODO
-% 隔离1个 fig:my-isolated-1
-% 隔离2个，最好的情况 fig:my-isolated-2b
-% 隔离2个，最差的情况 fig:my-isolated-2w
-% 隔离3个 fig:my-isolated-3
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/my-isolated-1.png}
+        \caption{}
+        \label{fig:my-isolated-1}
+    \end{subfigure}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/my-isolated-2b.png}
+        \caption{}
+        \label{fig:my-isolated-2b}
+    \end{subfigure}
+    \\
+    \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/my-isolated-2w.png}
+        \caption{}
+        \label{fig:my-isolated-2w}
+    \end{subfigure}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\textwidth]{../attachments/my-isolated-3.png}
+        \caption{}
+        \label{fig:my-isolated-3}
+    \end{subfigure}
+    \caption{
+        The circuit states of MACs when isolating (a)one, (b)two(best case), (c)two(worst case) and (d)three batteries for the structure in Fig.\ref{fig:study-stru-my}.
+        }
+\end{figure}
 
 \section{Conclusion}
 
