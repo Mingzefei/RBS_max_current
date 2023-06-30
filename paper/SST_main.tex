@@ -11,17 +11,29 @@
 \usepackage{lineno}
 \linenumbers
 
+\usepackage{enumerate}
+\DeclareMathOperator{\diag}{diag}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{footnote}
+\usepackage{bm}
+\usepackage[ruled,linesnumbered]{algorithm2e}
+\setcounter{MaxMatrixCols}{20}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, calc, fit, positioning, quotes, graphs, shapes.geometric}
+\def\T{\mathrm{T}}
+
 %%%%%% Bibliography %%%%%%
 % Replace "sample" in the \addbibresource line below with the name of your .bib file.
 \usepackage[style=nejm, 
 citestyle=numeric-comp,
 sorting=none]{biblatex}
-\addbibresource{my_ref.bib}
+\addbibresource{main.bib}
 
 %%%%%% Title %%%%%%
 % Full titles can be a maximum of 100 characters, including spaces. 
 % Title Format: Use title case, capitalizing the first letter of each word, except for certain small words, such as articles and short prepositions
-\title{Maximum Allowable Current Determination of Arbitrary Reconfigurable Battery Systems By Using a Directed Graph Model Combined with Greedy Algorithm}
+\title{Maximum Allowable Current Determination of RBS By Using a Directed Graph Model and Greedy Algorithm}
 
 %%%%%% Authors %%%%%%
 % Authors should be listed in order of contribution to the paper, by first name, then middle initial (if any), followed by last name.
@@ -31,13 +43,14 @@ sorting=none]{biblatex}
 \author[1$\dag$]{Binghui Xu}
 \author[1$\dag$]{Guangbin Hua}
 \author[1*]{Cheng Qian}
-\author[1]{Quan Xia}
+\author[1,2]{Quan Xia}
 \author[1]{Bo Sun}
 \author[1]{Yi Ren}
 \author[1]{Zili Wang}
 
 %%%%%% Affiliations %%%%%%
 \affil[1]{School of Reliability and Systems Engineering, Beihang University, Beijing, 100191, China}
+\affil[2]{School of Aeronautic Science and Engineering at Beihang University, Beijing, China}
 \affil[*]{Address correspondence to: cqian@buaa.edu.cn}
 \affil[$\dag$]{These authors contributed equally to this work.}
 
@@ -55,12 +68,7 @@ sorting=none]{biblatex}
 
 %%%%%% Abstract %%%%%%
 \begin{abstract}
-    Reconfigurable Battery Systems (RBSs) present a promising alternative to traditional battery systems due to their flexible and dynamically changeable topological structure subjected to battery charging and discharging strategies.
-    During the operation of the RBS, the Maximum Allowable Current (MAC) is a critical indicator to guide the system's reconfiguring control, ensuring safety and reliability.
-    In this paper, we propose a calculation method for the MAC of arbitrary RBS using a greedy algorithm in conjunction with a directed graph model of the RBS.
-    By employing the directed graph model, the greedy algorithm guides the RBS to establish parallel connections among batteries, aiming to maximize the system's output current while ensuring that none of the batteries are overloaded or short-circuited.
-    The effectiveness of this method is validated on a novel and complex RBS structure.
-    The results demonstrate the effectiveness of this method and its potential in facilitating next-generation RBS designs and applications, including battery isolation.
+Reconfigurable Battery Systems (RBSs) present a promising alternative to traditional battery systems due to their flexible and dynamically changeable topological structure subjected to battery charging and discharging strategies. During the operation of the RBS, the Maximum Allowable Current (MAC) of system that ensures each battery’s current remains within a safe range, is a critical indicator to guide the system’s reconfiguring control, ensuring its safety and reliability. In this paper, we firstly propose a calculation method for the MAC of arbitrary RBS using a greedy algorithm in conjunction with a directed graph model of the RBS.  In this method, a new directed graph model is developed to model the structure of RBS, and a greedy algorithm is designed to find the possible circuit that enable MAC. Then, the MAC is calculated based on the circuit in-cooperate with the equivalent model of batteries and switches. The effectiveness of the proposed method is validated by a novel and complex RBS structure. The results show that this method is capable to calculated the MAC of RBSs with different structures or different battery sizes efficiently, which proves the correctness of this method and its potential in facilitating next-generation RBS designs and applications, including battery isolation.
 \end{abstract}
 
 %%%%%% Main Text %%%%%%
@@ -76,9 +84,9 @@ These problems have become significant technical barriers in the development of 
 
 Reconfigurable Battery System (RBS), which can dynamically switch to different circuit topology configurations as required, is expected to solve the above problems\cite{hanNextGenerationBatteryManagement2020a}.
 The ability of switching circuit helps to isolate unhealthy batteries, and thereby improve the safety and reliability of the battery system.
-Fig.\ref{fig:stru-Visairo} shows a typical RBS structure developed by Visairo \cite{visairoReconfigurableBatteryPack2008} for dynamically adjusting the output voltage and current.
-In this structure, the batteries can be connected not only in series when the switches $S_1$, $S_5$, $S_6$, $S_7$, $S_8$, $S_9$, and $S_{13}$ are closed (Fig.\ref{fig:stru-Visairo-serial}), but also in parallel when $S_1$, $S_2$, $S_3$, $S_4$, $S_5$, $S_9$, $S_{10}$, $S_{11}$, $S_{12}$, and $S_{13}$ are closed (Fig.\ref{fig:stru-Visairo-parallel}).
-Furthermore, when an unhealthy battery, for instance the orange one $B_3$ in Fig.\ref{fig:stru-Visairo-isolate}, appears in the RBS, it can be isolated by opening its two adjacent switches (i.e. $S_4$ and $S_{11}$), ensuring the system still remains a reliable working mode.
+Figure \ref{fig:stru-Visairo} shows a typical RBS structure developed by Visairo \cite{visairoReconfigurableBatteryPack2008} for dynamically adjusting the output voltage and current.
+In this structure, the batteries can be connected not only in series when the switches $S_1$, $S_5$, $S_6$, $S_7$, $S_8$, $S_9$, and $S_{13}$ are closed (Figure \ref{fig:stru-Visairo-serial}), but also in parallel when $S_1$, $S_2$, $S_3$, $S_4$, $S_5$, $S_9$, $S_{10}$, $S_{11}$, $S_{12}$, and $S_{13}$ are closed (Figure \ref{fig:stru-Visairo-parallel}).
+Furthermore, when an unhealthy battery, for instance the orange one $B_3$ in Figure \ref{fig:stru-Visairo-isolate}, appears in the RBS, it can be isolated by opening its two adjacent switches (i.e. $S_4$ and $S_{11}$), ensuring the system still remains a reliable working mode.
 
 \begin{figure}[htbp]
     \centering
@@ -135,7 +143,7 @@ Finally, the concluding remarks are drawn in Section IV.
 \section{Methodology}
 
 The central principle of this method is to make the batteries in RBS connected in parallel as much as possible, thereby maximizing the output current of the RBS.
-To universally and automatically achieve this, the overall process is divided into four steps, as shown in Fig.\ref{fig:main}.
+To universally and automatically achieve this, the overall process is divided into four steps, as shown in Figure \ref{fig:main}.
 Firstly, a directed graph model is established for subsequent computing, which not only contains the connected relationships between batteries and switches, but also retains the performance parameters of the batteries.
 Subsequently, based on the equivalent circuit, the MAC problem is transformed into specific objective functions and constraints.
 Then, the shortest paths (SPs, where additional batteries and switches on the path are penalized as distance) for the batteries are obtained using the Dijkstra algorithm to guide the batteries in the RBS connect in parallel.
@@ -144,7 +152,7 @@ Finally, a greedy algorithm is employed to organize the switches, allowing the b
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.8\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/main.png}
+        \includegraphics[width=\textwidth]{main}
         \caption{}
         \label{fig:main}
     \end{subfigure}
@@ -158,25 +166,25 @@ Finally, a greedy algorithm is employed to organize the switches, allowing the b
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/direct-graph-he.png}
+        \includegraphics[width=\textwidth]{direct-graph-he}
         \caption{}
         \label{fig:direct-graph-he}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.23\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/direct-graph-xu.png}
+        \includegraphics[width=\textwidth]{direct-graph-xu}
         \caption{}
         \label{fig:direct-graph-xu}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.24\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/direct-graph-my.png}
+        \includegraphics[width=\textwidth]{direct-graph-my}
         \caption{}
         \label{fig:direct-graph-my}
     \end{subfigure}
     \\
     \begin{subfigure}[b]{0.8\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/battery_simple.png}
+        \includegraphics[width=\textwidth]{battery_simple}
         \caption{}
         \label{fig:battery_simple}
     \end{subfigure}
@@ -186,17 +194,17 @@ Finally, a greedy algorithm is employed to organize the switches, allowing the b
     }
 \end{figure}
 
-He et al. \cite{heExploringAdaptiveReconfiguration2013} once proposed an abstracted directed graph model for RBS, where the nodes represented the batteries, the edges represented the configuration flexibility, and the weight of each vertex corresponded to the battery voltage ( Fig.\ref{fig:direct-graph-he}). 
+He et al. \cite{heExploringAdaptiveReconfiguration2013} once proposed an abstracted directed graph model for RBS, where the nodes represented the batteries, the edges represented the configuration flexibility, and the weight of each vertex corresponded to the battery voltage ( Figure \ref{fig:direct-graph-he}). 
 The model effectively captured all potential system configurations and offered a direct metric for configuration flexibility, but it did not specify the physical implementation of the connectivity between batteries, meaning one graph might have had multiple RBS structures.
-We previously proposed a novel directed graph model that, in contrast to He's model, used nodes to represent the connections between batteries and switches, and directed edges to represent batteries and switches (Fig.\ref{fig:direct-graph-xu}), allowing for a one-to-one correspondence between the RBS structure and the directed graph model. 
+We previously proposed a novel directed graph model that, in contrast to He's model, used nodes to represent the connections between batteries and switches, and directed edges to represent batteries and switches (Figure \ref{fig:direct-graph-xu}), allowing for a one-to-one correspondence between the RBS structure and the directed graph model. 
 This model was able to accurately and comprehensively represent the RBS topological structure but could not be used for quantitative MAC calculations due to the lack of consideration for battery and switch performance parameters. 
-To address this, an improved directed graph model is used here based on our original model, adding electromotive force and resistance attributes on the edges based to equivalent circuits (Fig.\ref{fig:direct-graph-my}).
+To address this, an improved directed graph model is used here based on our original model, adding electromotive force and resistance attributes on the edges based to equivalent circuits (Figure \ref{fig:direct-graph-my}).
 The model also considers the external load as an equivalent resistance and integrate it into the analysis, making it a complete circuit model for later circuit analysis.
 The following will provide a detailed explanation of the method for equating the components in RBS and constructing the directed graph model.
 
 
 In order to use circuit analysis methods to solve the MAC of the RBS, the components in the RBS are equated to ideal circuit elements.
-As shown in Fig.\ref{fig:battery_simple}, the battery in the RBS can be represented as a black-box circuit consisting of two resistors (i.e., $r_1$ and $r_2$) and a capacitor (i.e., $C$), known as the Thevenin model\cite{hongwenheStateofChargeEstimationLithiumIon2011,mousavig.VariousBatteryModels2014}.
+As shown in Figure \ref{fig:battery_simple}, the battery in the RBS can be represented as a black-box circuit consisting of two resistors (i.e., $r_1$ and $r_2$) and a capacitor (i.e., $C$), known as the Thevenin model\cite{hongwenheStateofChargeEstimationLithiumIon2011,mousavig.VariousBatteryModels2014}.
 With an emphasis on the stable output of the RBS, the capacitor in the Thevenin model can be considered as an open circuit without affecting the steady-state current.
 Therefore, the battery $i$ in the RBS can be simplified as the series connection between a constant voltage source $u_{i}$ and a resistor $r_{i}$.
 Furthermore, the state of switch $j$ in the RBS is represented by a binary variable $x_j$, where 0 is for ON and 1 is for OFF, respectively.
@@ -228,7 +236,7 @@ In this subsection, the constraints and objective function to solve the RBS's MA
 
 
 First, the topology in the directed graph model is represented in matrix form $\bm{A}$, known as the incidence matrix , to facilitate circuit analysis.
-The specific definition of the incidence matrix is shown in Eq.\ref{eq:A}.
+The specific definition of the incidence matrix is shown in Equation \ref{eq:A}.
 \begin{align}\label{eq:A}
     a_{kl}=
     \begin{cases}
@@ -254,7 +262,7 @@ Without loss of generality, the last row is removed here.
 On the other hand, since each switch in the RBS is represented by a pair of directed edges with two-way directions, the two columns corresponding to the switch are mutually opposite.
 Thus, for the sub-matrix $\bm{A}_s$, only one column is retained for each pair of columns representing the same switch.
 As a result, $\bm{A}$ can be reduced to a $(N-1)\times(N_b+N_s+1)$ matrix, denoted as $\bm{\tilde{A}}$, for further calculation of current and voltage.
-Similar to Eq.\ref{eq:A_bso}, $\bm{\tilde{A}}$ can be rewritten as:
+Similar to Equation \ref{eq:A_bso}, $\bm{\tilde{A}}$ can be rewritten as:
 \begin{equation}\label{eq:A_bso_tilde}
     \bm{\tilde{A}} =
     \begin{bmatrix}
@@ -300,10 +308,10 @@ When all batteries are health and capable of providing current to the external l
 The elements $x_j$ of the matrix $\bm{X}_s$ represent whether the switch $j$ is closed, with $x_j=1$ indicating closure and $x_j=0$ indicating disconnection, which is consistent with the previous subsection.
 
 
-Theoretically, the output current $I_o$ and the currents of each battery $\bm{I}_b$ in the RBS  can be determined by solving Eqs.\ref{eq:Kirchhoffs_law}, \ref{eq:generalized_branches}, and \ref{eq:X} under any given state $\bm{X}$.
+Theoretically, the output current $I_o$ and the currents of each battery $\bm{I}_b$ in the RBS  can be determined by solving Equations \ref{eq:Kirchhoffs_law}, \ref{eq:generalized_branches}, and \ref{eq:X} under any given state $\bm{X}$.
 In order to obtain specific constraint conditions and objective functions, it is further assumed that all batteries have the same electromotive force and internal resistance, denoted as $u_b$ and $r_b$, respectively.
 This allows for the derivation of explicit expressions for $I_o$ and $\bm{I}_b$.
-After derivation and simplification, the output current $I_o$ and the currents of each battery $\bm{I}_b$ are ultimately represented as Eqs.\ref{eq:I_o} and \ref{eq:I_b}, respectively.
+After derivation and simplification, the output current $I_o$ and the currents of each battery $\bm{I}_b$ are ultimately represented as Equations \ref{eq:I_o} and \ref{eq:I_b}, respectively.
 \begin{equation}\label{eq:I_o}
     I_o = \frac{1}{R_o r_b} \bm{\tilde{A}}_o^\T \bm{Y}_n^{-1}(\bm{X}) \bm{\tilde{A}}_b \bm{U}_b,
 \end{equation}
@@ -317,7 +325,7 @@ $\bm{Y}_n$ is the equivalent admittance matrix of the circuit, defined as
 \end{equation}
 
 
-To characterize the current output capacity of the RBS structure under different switching states, an indicator $\eta$ is defined by the ratio of $I_o$ and $\max (\bm{I}_b)$ shown in Eq.\ref{eq:eta}:
+To characterize the current output capacity of the RBS structure under different switching states, an indicator $\eta$ is defined by the ratio of $I_o$ and $\max (\bm{I}_b)$ shown in Equation \ref{eq:eta}:
 \begin{equation}\label{eq:eta}
     \eta = \frac{I_o}{\max (\bm{I}_b)}.
 \end{equation}
@@ -359,7 +367,7 @@ The $SP_i$ can be solved by the Dijkstra algorithm.
 The Dijkstra algorithm is a graph search method that finds the shortest path between two given nodes in a weighted graph, efficiently solving the single-source shortest path problem.
 Assuming that the cathode and anode of battery $i$ are denoted as $v_i^-$ and $v_i^+$ respectively, the path $p$ of battery $i$  can be divided into three segments : $v_1 \rightarrow v_i^-$, $v_i^+ \rightarrow v_N$, and $v_i^- \rightarrow v_i^+$.
 The $v_i^- \rightarrow v_i^+$ is the directed edge corresponding to battery $i$. 
-With the Dijkstra algorithm, shortest paths for the $v_1 \rightarrow v_i^-$ and $v_i^+ \rightarrow v_N$ can be calculated under the weights given in Eq.\ref{eq:weight}, denoted as $SP(v_i^- \rightarrow v_i^+)$ and $SP(v_i^+ \rightarrow v_N)$, respectively.
+With the Dijkstra algorithm, shortest paths for the $v_1 \rightarrow v_i^-$ and $v_i^+ \rightarrow v_N$ can be calculated under the weights given in Equation \ref{eq:weight}, denoted as $SP(v_i^- \rightarrow v_i^+)$ and $SP(v_i^+ \rightarrow v_N)$, respectively.
 Finally, the $SP_i$ for battery $i$ is formed by the complete path with $SP(v_1 \rightarrow v_i^-)$, $v_i^- \rightarrow v_i^+$, and $SP(v_i^+ \rightarrow v_N)$.
 
 \subsection{Greedy Algorithm}\label{subsec:greedy_solution}
@@ -369,12 +377,12 @@ However, conflicts may arise between the $SP$s of different batteries.
 For instance, the $SP$s of two batteries might form a short-circuited RBS structure, which is not allowed. 
 To address this issue, a greedy algorithm is employed to incorporate as many $SP$s as possible while satisfying the reconstruction requirements.
 
-The algorithm, as illustrated in Fig.\ref{fig:flowchart}, can be summarized as follows, with the corresponding pseudo-code presented in Algorithm \ref{alg:greedy}.
-First, the shortest paths ($SP$s) are obtained using Eqs.\ref{eq:weight} and \ref{eq:def_sp} in conjunction with Dijkstra Search. 
-Next, the matrix $\bm{A}$ is calculated using Eq.\ref{eq:A}, and the initial $N_{set}$ is set to $N_b$. 
+The algorithm, as illustrated in Figure \ref{fig:flowchart}, can be summarized as follows, with the corresponding pseudo-code presented in Algorithm \ref{alg:greedy}.
+First, the shortest paths ($SP$s) are obtained using Equations \ref{eq:weight} and \ref{eq:def_sp} in conjunction with Dijkstra Search. 
+Next, the matrix $\bm{A}$ is calculated using Equation \ref{eq:A}, and the initial $N_{set}$ is set to $N_b$. 
 The algorithm iteratively checks different combinations of $c_b$ batteries from $N_b$ and updates $N_{set}$ using a dichotomy method until convergence is reached. 
-For each combination, the algorithm constructs an effective solution if possible, and calculates the currents $I_o$ and $\bm{I}_b$ using Eqs.\ref{eq:I_o} and \ref{eq:I_b}. 
-If the maximum current $\bm{I}_b$ is less than or equal to $I_m$, the $\eta$ is calculated using Eq.\ref{eq:eta}, and the maximum $\eta$ is updated accordingly. 
+For each combination, the algorithm constructs an effective solution if possible, and calculates the currents $I_o$ and $\bm{I}_b$ using Equations \ref{eq:I_o} and \ref{eq:I_b}. 
+If the maximum current $\bm{I}_b$ is less than or equal to $I_m$, the $\eta$ is calculated using Equation \ref{eq:eta}, and the maximum $\eta$ is updated accordingly. 
 Finally, the algorithm outputs the maximum $\eta$ once $N_{set}$ converges.
 
 \tikzset{
@@ -386,8 +394,8 @@ Finally, the algorithm outputs the maximum $\eta$ once $N_{set}$ converges.
 \begin{figure}
 \begin{tikzpicture}[font=\small, node font=\small, node distance=1.5em]
     \node[punkt]     (input) {Input: RBS structure};
-    \node[punkt, below=0.3of input] (get_SP) {get $SP$s by Eqs.\ref{eq:weight} and \ref{eq:def_sp} and Dijkstra Search};
-    \node[punkt, below=0.3of get_SP] (get_A) {get $\bm{A}$ from Eq.\ref{eq:A}};
+    \node[punkt, below=0.3of input] (get_SP) {get $SP$s by Equations \ref{eq:weight} and \ref{eq:def_sp} and Dijkstra Search};
+    \node[punkt, below=0.3of get_SP] (get_A) {get $\bm{A}$ from Equation \ref{eq:A}};
     \node[punkt, below=0.3of get_A] (get_Nset) {init $N_{set}=N_b$ };
     \node[punkt, below=0.3of get_Nset] (get_cb) {get $c_b$s by combinating $N_{set}$ batteries from $N_b$};
     \node[draw, diamond, aspect=2, below=0.3of get_cb] (is_check_all_cb) {are all $c_b$s checked?};
@@ -397,13 +405,13 @@ Finally, the algorithm outputs the maximum $\eta$ once $N_{set}$ converges.
         select an unchecked $c_b$, and get its $\bm{X}_m$ by \\ 
         if switch $j$ $\in \bigcup_{i\in c_b}SP_i$:\\
         $\bm{X}[j]=1$ else $0$};
-    \node[punkt, below=0.3of get_Xs] (get_Yn) {get $\bm{Y}_n$ by Eq.\ref{eq:Yn}};
+    \node[punkt, below=0.3of get_Xs] (get_Yn) {get $\bm{Y}_n$ by Equation \ref{eq:Yn}};
     \node[draw, diamond, aspect=2, below=0.3of get_Yn] (is_Yn_invertible) {is $\bm{Y}_n$ invertible?};
     \node[punkt, right=1.3of is_Yn_invertible] (construct) {construct an effective solution};
-    \node[punkt, below=0.3of is_Yn_invertible] (get_I) {get $I_o$ and $\bm{I}_b$ by Eqs.\ref{eq:I_o} and \ref{eq:I_b}};
+    \node[punkt, below=0.3of is_Yn_invertible] (get_I) {get $I_o$ and $\bm{I}_b$ by Equations \ref{eq:I_o} and \ref{eq:I_b}};
     \node[draw, diamond, aspect=2, below=0.3of get_I] (is_leq_Im) {is $\max \bm{I}_b \leq I_m$?};
     \node[punkt, right=1.3of is_leq_Im] (drop_eta) {drop this $\eta$};
-    \node[punkt, below=0.3of is_leq_Im] (get_eta) {get $\eta$ by Eq.\ref{eq:eta}};
+    \node[punkt, below=0.3of is_leq_Im] (get_eta) {get $\eta$ by Equation \ref{eq:eta}};
     \node[punkt, below=0.3of get_eta] (update_max_eta) {update $\max \eta$};
     \node[punkt, right=1of is_Nset_converged] (output) {Output: $\max \eta$};
     \node[round,left=1.5of update_max_eta](point1){};
@@ -427,19 +435,19 @@ Finally, the algorithm outputs the maximum $\eta$ once $N_{set}$ converges.
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/stru-L-origin.png}
+        \includegraphics[width=\textwidth]{stru-L-origin}
         \caption{}
         \label{fig:study-stru-Lawson}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/stru-V-origin.png}
+        \includegraphics[width=\textwidth]{stru-V-origin}
         \caption{}
         \label{fig:study-stru-Visairo}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/stru-my-origin.png}
+        \includegraphics[width=\textwidth]{stru-my-origin}
         \caption{}
         \label{fig:study-stru-my}
     \end{subfigure}
@@ -447,65 +455,65 @@ Finally, the algorithm outputs the maximum $\eta$ once $N_{set}$ converges.
 \end{figure}
 
 Currently, two types of RBS structures have been proposed by Visairo et al. \cite{visairoReconfigurableBatteryPack2008} and Lawson et al. \cite{lawsonSoftwareConfigurableBattery2012}, both of which have been applied in practice. 
-The primary goal of Visairo's structure (Fig.\ref{fig:study-stru-Visairo}) was to achieve dynamic adjustment of RBS output; however, the isolation of unhealthy batteries was not sufficiently addressed. 
+The primary goal of Visairo's structure (Figure \ref{fig:study-stru-Visairo}) was to achieve dynamic adjustment of RBS output; however, the isolation of unhealthy batteries was not sufficiently addressed. 
 When batteries need to be isolated in the RBS of Visairo's structure, the methods for isolating them and the subsequent changes in RBS output warrant further investigation.
-Lawson et al. conducted research on battery isolation in RBS and specifically designed the structure shown in Fig.\ref{fig:study-stru-Lawson}. 
+Lawson et al. conducted research on battery isolation in RBS and specifically designed the structure shown in Figure \ref{fig:study-stru-Lawson}. 
 This structure has the advantage of easily isolating batteries, but it cannot dynamically adjust the output current of RBS. 
-Based on the structures of Visairo and Lawson, this paper presents a new structure, as shown in Fig.\ref{fig:study-stru-my}, which combines the advantages of both.
+Based on the structures of Visairo and Lawson, this paper presents a new structure, as shown in Figure \ref{fig:study-stru-my}, which combines the advantages of both.
 By integrating the Visairo RBS structure into the Lawson RBS structure, the new structure not only allows the flexibility to switch the batteries between series, parallel, and mixed series-parallel modes, but also easily enables the isolation of highly degraded batteries from the RBS.
 And their variations in output current under battery isolation conditions will be studied.
 This RBS structure will be used to validate the effectiveness of the proposed method for calculating the MAC, and be compared with the Lawson's and Visairo's structure to illustrate its advantage on battery isolation.
 
 \subsection{Result}
 
-As shown in Fig.\ref{fig:study-stru-my}, the new RBS structure consists of 4 batteries and 19 switches. 
-The corresponding directed graph is depicted in Fig.\ref{fig:study-dirgraph-my}, which is composed of of a total of 18 nodes and 43 edges. 
+As shown in Figure \ref{fig:study-stru-my}, the new RBS structure consists of 4 batteries and 19 switches. 
+The corresponding directed graph is depicted in Figure \ref{fig:study-dirgraph-my}, which is composed of of a total of 18 nodes and 43 edges. 
 Batteries $B_1$, $B_2$, $B_3$, and $B_4$ are denoted by green directed edges in the graph, while the 19 switches are represented by gray directed edges with bi-directional arrows. 
 The external electrical load is treated as a directed edge from the cathode of the RBS (i.e., node 18) to the anode (i.e., node 1), as indicated by the blue directed edge in the graph.
-Utilizing Eq.\ref{eq:weight} and the Dijkstra algorithm, the $SP$s of the four batteries in the RBS structure of Fig.\ref{fig:study-stru-my} are highlighted by red in Figs.\ref{fig:sp1}-\ref{fig:sp4}.
-Finally, the MAC calculation results of the structure in Fig.\ref{fig:study-stru-my} are shown as Tab.\ref{tab:study-results-my} and Fig.\ref{fig:study-results-my}, obtained by the greedy algorithm \ref{alg:greedy}.
-Tab.\ref{tab:study-results-my} contains the switches states, the output current $I_o$, battery current $\bm{I}_b$ and ratio $\eta$ of the RBS structure with all batteries in good health when the RBS output reaches the MAC.
-Fig.\ref{fig:study-results-my} presents the corresponding circuit, with the red highlight indicating that current is flowing through the respective branches.
+Utilizing Equation \ref{eq:weight} and the Dijkstra algorithm, the $SP$s of the four batteries in the RBS structure of Figure \ref{fig:study-stru-my} are highlighted by red in Figures \ref{fig:sp1}-\ref{fig:sp4}.
+Finally, the MAC calculation results of the structure in Figure \ref{fig:study-stru-my} are shown as Table \ref{tab:study-results-my} and Figure \ref{fig:study-results-my}, obtained by the greedy algorithm \ref{alg:greedy}.
+Table \ref{tab:study-results-my} contains the switches states, the output current $I_o$, battery current $\bm{I}_b$ and ratio $\eta$ of the RBS structure with all batteries in good health when the RBS output reaches the MAC.
+Figure \ref{fig:study-results-my} presents the corresponding circuit, with the red highlight indicating that current is flowing through the respective branches.
 
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/ef-topo.png}
+        \includegraphics[width=\textwidth]{ef-topo}
         \caption{}
         \label{fig:study-dirgraph-my}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/ef-sp1.png}
+        \includegraphics[width=\textwidth]{ef-sp1}
         \caption{}
         \label{fig:sp1}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/ef-sp2.png}
+        \includegraphics[width=\textwidth]{ef-sp2}
         \caption{}
         \label{fig:sp2}
     \end{subfigure}
     \\
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/ef-sp3.png}
+        \includegraphics[width=\textwidth]{ef-sp3}
         \caption{}
         \label{fig:sp3}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/ef-sp4.png}
+        \includegraphics[width=\textwidth]{ef-sp4}
         \caption{}
         \label{fig:sp4}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/ef-mac.png}
+        \includegraphics[width=\textwidth]{ef-mac}
         \caption{}
         \label{fig:study-results-my}
     \end{subfigure}
     \caption{
-        For the RBS structure in Fig.\ref{fig:study-stru-my}, 
+        For the RBS structure in Figure \ref{fig:study-stru-my}, 
         (a)its directed graph 
         and the $SP$s (highlighted in red) of battery (b)$B_1$, (c)$B_2$, (d)$B_3$, (e)$B_4$.
         (f)The circuit of the RBS with its output reaching the MAC.
@@ -515,10 +523,10 @@ Fig.\ref{fig:study-results-my} presents the corresponding circuit, with the red 
 
 \begin{table}[htbp]
   \centering
-    \caption{MAC Calculating result of the 4-battery RBS structure in Fig.\ref{fig:study-stru-my}.}
+    \caption{MAC Calculating result of the 4-battery RBS structure in Figure \ref{fig:study-stru-my}.}
     \begin{tabular}{cc}
     \toprule
-        Structure & Fig.\ref{fig:study-stru-my} with 4 batteries and 19 switches  \\
+        Structure & Figure \ref{fig:study-stru-my} with 4 batteries and 19 switches  \\
     \midrule
     Switch ON & $S_1$,$S_3$,$S_5$,$S_6$,$S_8$,$S_9$,$S_{10}$,$S_{12}$,$S_{18}$,$S_{19}$ \\
     $I_o$ & $2u_b/(2R_o+r_b)$ \\
@@ -529,14 +537,14 @@ Fig.\ref{fig:study-results-my} presents the corresponding circuit, with the red 
   \label{tab:study-results-my}
 \end{table}
 
-Similarly, the MAC calculation results of the structures in Figs.\ref{fig:study-stru-Lawson} and \ref{fig:study-stru-Visairo} are shown as Tab.\ref{tab:study-results-Lawson} and Tab.\ref{tab:study-results-Visairo}, respectively.
+Similarly, the MAC calculation results of the structures in Figures \ref{fig:study-stru-Lawson} and \ref{fig:study-stru-Visairo} are shown as Table \ref{tab:study-results-Lawson} and Table \ref{tab:study-results-Visairo}, respectively.
 
 \begin{table}[htbp]
   \centering
-    \caption{MAC Calculating result of the 4-battery RBS structure in Fig.\ref{fig:study-stru-Lawson}.}
+    \caption{MAC Calculating result of the 4-battery RBS structure in Figure \ref{fig:study-stru-Lawson}.}
     \begin{tabular}{cc}
     \toprule
-        Structure & Fig.\ref{fig:study-stru-Lawson} with 4 batteries and 15 switches  \\
+        Structure & Figure \ref{fig:study-stru-Lawson} with 4 batteries and 15 switches  \\
     \midrule
     Switch ON & $S_1$,$S_3$,$S_5$,$S_7$,$S_{10}$,$S_{13}$,$S_{14}$,$S_{15}$ \\
     $I_o$ & $u_b/(R_o+r_b)$ \\
@@ -549,10 +557,10 @@ Similarly, the MAC calculation results of the structures in Figs.\ref{fig:study-
 
 \begin{table}[htbp]
   \centering
-    \caption{MAC Calculating result of the 4-battery RBS structure in Fig.\ref{fig:study-stru-Visairo}.}
+    \caption{MAC Calculating result of the 4-battery RBS structure in Figure \ref{fig:study-stru-Visairo}.}
     \begin{tabular}{cc}
     \toprule
-        Structure & Fig.\ref{fig:study-stru-Visairo} with 4 batteries and 13 switches  \\
+        Structure & Figure \ref{fig:study-stru-Visairo} with 4 batteries and 13 switches  \\
     \midrule
     Switch ON & $S_1$,$S_2$,$S_3$,$S_4$,$S_5$,$S_9$,$S_{10}$,$S_{11}$,$S_{12}$,$S_{13}$ \\
     $I_o$ & $4u_b/(4R_o+r_b)$ \\
@@ -564,8 +572,8 @@ Similarly, the MAC calculation results of the structures in Figs.\ref{fig:study-
 \end{table}
 
 Furthermore, the RBS under the scenario of isolated batteries is taken into consideration and calculated. 
-The MAC calculation results for the three structures under study, with varying numbers of isolated batteries, are presented in Tab.\ref{tab:isolated_mac}. 
-Figs.\ref{fig:my-isolated-1}-\ref{fig:my-isolated-3} illustrate the corresponding switch control schemes for the new structure proposed in this paper under different isolated battery conditions.
+The MAC calculation results for the three structures under study, with varying numbers of isolated batteries, are presented in Table \ref{tab:isolated_mac}. 
+Figures \ref{fig:my-isolated-1}-\ref{fig:my-isolated-3} illustrate the corresponding switch control schemes for the new structure proposed in this paper under different isolated battery conditions.
 The characteristics of these three structures in the context of battery isolation will be discussed in the next subsection.
 
 \begin{table}[htbp]
@@ -586,52 +594,52 @@ The characteristics of these three structures in the context of battery isolatio
       \bottomrule
       \end{tabular}
       \\
-      \footnotesize{$^{\rm a}$ isolate two batteries within the same substructure, as shown in Fig.\ref{fig:my-isolated-2b}}\\
-      \footnotesize{$^{\rm b}$ isolate one battery in each of the two substructures, as shown in Fig.\ref{fig:my-isolated-2w}}
+      \footnotesize{$^{\rm a}$ isolate two batteries within the same substructure, as shown in Figure \ref{fig:my-isolated-2b}}\\
+      \footnotesize{$^{\rm b}$ isolate one battery in each of the two substructures, as shown in Figure \ref{fig:my-isolated-2w}}
   \end{table}
   
   
   \begin{figure}[htbp]
       \centering
       \begin{subfigure}[b]{0.31\textwidth}
-          \includegraphics[width=\textwidth]{../attachments/my-isolated-1.png}
+          \includegraphics[width=\textwidth]{my-isolated-1}
           \caption{}
           \label{fig:my-isolated-1}
       \end{subfigure}
       \hspace{0.02\textwidth}
       \begin{subfigure}[b]{0.31\textwidth}
-          \includegraphics[width=\textwidth]{../attachments/my-isolated-2b.png}
+          \includegraphics[width=\textwidth]{my-isolated-2b}
           \caption{}
           \label{fig:my-isolated-2b}
       \end{subfigure}
       \\
       \begin{subfigure}[b]{0.31\textwidth}
-          \includegraphics[width=\textwidth]{../attachments/my-isolated-2w.png}
+          \includegraphics[width=\textwidth]{my-isolated-2w}
           \caption{}
           \label{fig:my-isolated-2w}
       \end{subfigure}
       \hspace{0.02\textwidth}
       \begin{subfigure}[b]{0.31\textwidth}
-          \includegraphics[width=\textwidth]{../attachments/my-isolated-3.png}
+          \includegraphics[width=\textwidth]{my-isolated-3}
           \caption{}
           \label{fig:my-isolated-3}
       \end{subfigure}
       \caption{
-          The circuit states of MACs when isolating (a)one, (b)two(best case), (c)two(worst case) and (d)three batteries for the structure in Fig.\ref{fig:study-stru-my}.
+          The circuit states of MACs when isolating (a)one, (b)two(best case), (c)two(worst case) and (d)three batteries for the structure in Figure \ref{fig:study-stru-my}.
           }
   \end{figure}
 
 \subsection{Discussion}
 
-In this subsection, we firstly discuss the correctness of the results presented in Fig.\ref{fig:all-results-my} and Tab.\ref{tab:study-results-my}. 
+In this subsection, we firstly discuss the correctness of the results presented in Figure \ref{fig:all-results-my} and Table \ref{tab:study-results-my}. 
 When $B_1$ and $B_2$ or $B_3$ and $B_4$ are connected in parallel, the RBS can output the maximum current, which is $\eta=2$, i.e., twice the current output of a single battery in RBS. 
 Adding more batteries to the main circuit can only form a series structure and will not improve the MAC. 
-Therefore, the switches state given in Tab.\ref{tab:study-results-my} can make the RBS output current reach the maximum.
+Therefore, the switches state given in Table \ref{tab:study-results-my} can make the RBS output current reach the maximum.
 
 
 It is important to note that when solving for MAC, $\eta$ is used as the objective function instead of $I_o$. 
 This choice makes the result of MAC more reasonable. 
-As shown in Tab.\ref{tab:study-results-my}, $I_o$ and $\bm{I}_b$ are functions of $R_o$, $u_b$, and $r_b$. 
+As shown in Table \ref{tab:study-results-my}, $I_o$ and $\bm{I}_b$ are functions of $R_o$, $u_b$, and $r_b$. 
 If $I_o$ were used as the objective function, even for the same RBS structure, the MAC result and corresponding switches state could change due to different external electrical appliances.
 It would increase the difficulty and uncertainty in RBS structure design. 
 In contrast, by using $\eta$ as the objective function, which is defined as the ratio of $I_o$ and $\max\bm{I}_b$, the influence of these factors on the results can be eliminated. 
@@ -647,14 +655,14 @@ Moreover, isolating the batteries disrupts the original regularity and symmetry 
 Owing to the advantages of pervasiveness and automation, the proposed method can be employed to calculate the MAC of arbitrary RBS structures, which helps to address the aforementioned issues and paves the way for more complex and flexible RBS structure design.
 
 
-To illustrate this point, the MACs of the three RBS structures mentioned above are calculated after the batteries are isolated, as shown in Tab.\ref{tab:isolated_mac}. 
-Specifically, for the structure presented in Fig.\ref{fig:study-stru-my}, the corresponding circuit states of MACs when isolating different numbers of batteries are depicted in Figs.\ref{fig:my-isolated-1}-\ref{fig:my-isolated-3}. 
+To illustrate this point, the MACs of the three RBS structures mentioned above are calculated after the batteries are isolated, as shown in Table \ref{tab:isolated_mac}. 
+Specifically, for the structure presented in Figure \ref{fig:study-stru-my}, the corresponding circuit states of MACs when isolating different numbers of batteries are depicted in Figures \ref{fig:my-isolated-1}-\ref{fig:my-isolated-3}. 
 This structure has two cases of isolating two batteries: 
-one is to isolate two batteries within the same substructure (Fig.\ref{fig:my-isolated-2b}), in which case $\eta=2$; the other is to isolate one battery in each of the two substructures (Fig.\ref{fig:my-isolated-2w}), in which case $\eta=1$. 
+one is to isolate two batteries within the same substructure (Figure \ref{fig:my-isolated-2b}), in which case $\eta=2$; the other is to isolate one battery in each of the two substructures (Figure \ref{fig:my-isolated-2w}), in which case $\eta=1$. 
 From the results, it can be observed that the proposed method provides reasonable outcomes for isolating batteries with any number and position.
 
 
-Furthermore, the performance of output current for the three RBS when isolating batteries is also shown in Tab.\ref{tab:isolated_mac}. 
+Furthermore, the performance of output current for the three RBS when isolating batteries is also shown in Table \ref{tab:isolated_mac}. 
 For the structure proposed by Lawson et al., the MAC remains the same as that without isolated battery cells, i.e., $\eta=1$, when the number of isolated battery cells increases, until all the cells in the RBS are isolated. 
 For Visairo's structure, the MAC decreases as the number of isolated battery cells increases, until $\eta=0$. 
 In contrast, the MAC of the structure proposed in this work is positioned between the two structures. 
@@ -669,19 +677,47 @@ The method is  implemented by a greedy algorithm combined with a directed graph 
 The method remains effective for the application scenario of RBS battery isolation and demonstrates that the novel structure has the advantage on flexible output current and convenient battery isolation.
 Future research could focus on developing new indictors to evaluate the performance of the RBS with the currents and voltages obtained by the method, as well as modifying the equivalent model of the battery to allow for more accurate simulations of the RBS, including transient analysis.
 
+\section{Appendix} 
+
+\begin{algorithm}
+    \caption{Get the max available currents of a certain RBS}\label{alg:greedy}
+    \KwData{Directed graph model $G(V,E)$ of the RBS}
+    \KwResult{$\max \eta$}
+    \For{$i \in E_b$}{
+        $P_i \leftarrow \{path| \text{starts at $v_1$ and ends at $v_n$} \}$\;
+        $SP_i \leftarrow p_i \text{ which has the minimum}~\omega(p_i)~\text{among all}~p_i \in P_i. $
+    }
+    get $\bm{A}$ by Equation \ref{eq:A}\;
+    \While{not yet determine $\max \eta$ }
+    {
+        $N_{set} \leftarrow \text{number of setected $SP$s calculated by dichotomy}$\;
+        $C_b    \leftarrow \text{set of all combinations of $N_{set} $~batteries from $N_b$}$\;
+        \For{$c_b \in C_b$}{
+            $\bm{x}_s \leftarrow \text{list of all switches' state: $x_s[j]=1$ if $ j \in \bigcup_{i\in c_b}SP_i $ else 0}$\;
+            $\bm{X} \leftarrow diag[1,1,\cdots,1,\bm{x}_s] $\;
+            get $\bm{Y}_n$ by Equation \ref{eq:Yn}\;
+            \eIf{$\bm{Y}_n$ is invertible}{
+            }{construct an effective solution}
+            get $I_o$ by Equation \ref{eq:I_o}\;
+            get $\bm{I}_b$ by Equation \ref{eq:I_b}\;
+            \eIf{$\max(\bm{I}_b)\leq I_m$}{
+                $\eta \leftarrow I_o/\max(\bm{I}_b)$\;
+            }{break}
+        }
+    }
+\end{algorithm}
 
 \section*{Acknowledgments}
 
-
 \subsection*{Author Contributions} 
 
-% # TODO
-
-``S. Zhang conceived the idea and designed the experiments.''
-
-``E. F. Mustermann and J. F. Smith conducted the experiments.''
-
-``All authors contributed equally to the writing of the manuscript.''
+B. Xu conceived the main idea, formulated the overarching research goals and aims, designed the algorithm, and reviewed and revised the manuscript.
+G. Hua developed and analyzed the model, implemented the code and supporting algorithms, and wrote the initial draft.
+C. Qian provided critical review, commentary, and revisions.
+Q. Xia contributed to shaping the research, analysis, and manuscript.
+B. Sun conducted the research and investigation process.
+Y. Ren secured the funding and supervised the project.
+Z. Wang verified the results and provided necessary resources.
 
 \subsection*{Funding}
 
@@ -692,22 +728,9 @@ This work was supported by the National Natural Science Foundation of China (NSF
 The authors declare that there is no conflict of interest regarding the publication of this article.
 
 \subsection*{Data Availability}
-% # TODO
 
+This work does not require any data to be declared or publicly disclosed.
 
-\section*{Guidelines for References}
-% #TODO 细看
-Authors are responsible for ensuring that the information in each reference is complete and accurate. All data must be cited and references to ``data not shown'' or citations to unpublished results are permitted.
-
-All references should be cited within the text and uncited references will be removed.
-
-There is only one reference list for all sources cited in the main text, figure and table legends, and Supplementary Materials. Do not include a second reference list in the Supplementary Materials section. References cited only in the Supplementary Materials section are not counted toward length guidelines.
-
-Please do not include any extraneous language such as explanatory notes as part of a reference to a given source. The journal prefers that manuscripts do not include end notes; if information is important enough to include, please put into main text.  If you need to include notes, please explain why they are needed in your cover letter to the editor.
-
-DOIs, if available, should be included for each reference.
-
-% # TODO bib 删去多余的
 \printbibliography
 
 \end{document}

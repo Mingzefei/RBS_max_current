@@ -45,7 +45,7 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta, calc, fit, positioning, quotes, graphs, shapes.geometric}
 \def\T{\mathrm{T}}
-
+\graphicspath{ {../attachments/} }
 
 \title{Maximum Allowable Current Determination of Arbitrary Reconfigurable Battery Systems By Using a Directed Graph Model Combined with Greedy Algorithm}
 
@@ -85,25 +85,25 @@ Furthermore, when an unhealthy battery, for instance the orange one $B_3$ in Fig
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/stru-V-origin.png} % 完整结构
+        \includegraphics[width=\textwidth]{stru-V-origin} % 完整结构
         \caption{}
         \label{fig:stru-Visairo}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/stru-V-serial.png} % 全串联
+        \includegraphics[width=\textwidth]{stru-V-serial} % 全串联
         \caption{}
         \label{fig:stru-Visairo-serial}
     \end{subfigure}
     \\
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/stru-V-parallel.png} % 全并联
+        \includegraphics[width=\textwidth]{stru-V-parallel} % 全并联
         \caption{}
         \label{fig:stru-Visairo-parallel}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/stru-V-isolate} % 电池隔离 右二 B3 全并联
+        \includegraphics[width=\textwidth]{stru-V-isolate} % 电池隔离 右二 B3 全并联
         \caption{}
         \label{fig:stru-Visairo-isolate}
     \end{subfigure}
@@ -146,7 +146,7 @@ Finally, a greedy algorithm is employed to organize the switches, allowing the b
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.8\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/main.png}
+        \includegraphics[width=\textwidth]{main}
         \caption{}
         \label{fig:main}
     \end{subfigure}
@@ -160,25 +160,25 @@ Finally, a greedy algorithm is employed to organize the switches, allowing the b
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/direct-graph-he.png}
+        \includegraphics[width=\textwidth]{direct-graph-he}
         \caption{}
         \label{fig:direct-graph-he}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.23\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/direct-graph-xu.png}
+        \includegraphics[width=\textwidth]{direct-graph-xu}
         \caption{}
         \label{fig:direct-graph-xu}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.24\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/direct-graph-my.png}
+        \includegraphics[width=\textwidth]{direct-graph-my}
         \caption{}
         \label{fig:direct-graph-my}
     \end{subfigure}
     \\
     \begin{subfigure}[b]{0.8\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/battery_simple.png}
+        \includegraphics[width=\textwidth]{battery_simple}
         \caption{}
         \label{fig:battery_simple}
     \end{subfigure}
@@ -439,19 +439,19 @@ Finally, the algorithm outputs the maximum $\eta$ once $N_{set}$ converges.
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/stru-L-origin.png}
+        \includegraphics[width=\textwidth]{stru-L-origin}
         \caption{}
         \label{fig:study-stru-Lawson}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/stru-V-origin.png}
+        \includegraphics[width=\textwidth]{stru-V-origin}
         \caption{}
         \label{fig:study-stru-Visairo}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/stru-my-origin.png}
+        \includegraphics[width=\textwidth]{stru-my-origin}
         \caption{}
         \label{fig:study-stru-my}
     \end{subfigure}
@@ -482,37 +482,37 @@ Fig.\ref{fig:study-results-my} presents the corresponding circuit, with the red 
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/ef-topo.png}
+        \includegraphics[width=\textwidth]{ef-topo}
         \caption{}
         \label{fig:study-dirgraph-my}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/ef-sp1.png}
+        \includegraphics[width=\textwidth]{ef-sp1}
         \caption{}
         \label{fig:sp1}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/ef-sp2.png}
+        \includegraphics[width=\textwidth]{ef-sp2}
         \caption{}
         \label{fig:sp2}
     \end{subfigure}
     \\
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/ef-sp3.png}
+        \includegraphics[width=\textwidth]{ef-sp3}
         \caption{}
         \label{fig:sp3}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/ef-sp4.png}
+        \includegraphics[width=\textwidth]{ef-sp4}
         \caption{}
         \label{fig:sp4}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/ef-mac.png}
+        \includegraphics[width=\textwidth]{ef-mac}
         \caption{}
         \label{fig:study-results-my}
     \end{subfigure}
@@ -642,25 +642,25 @@ In summary, the structure proposed in this paper has the advantages of both Laws
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/my-isolated-1.png}
+        \includegraphics[width=\textwidth]{my-isolated-1}
         \caption{}
         \label{fig:my-isolated-1}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/my-isolated-2b.png}
+        \includegraphics[width=\textwidth]{my-isolated-2b}
         \caption{}
         \label{fig:my-isolated-2b}
     \end{subfigure}
     \\
     \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/my-isolated-2w.png}
+        \includegraphics[width=\textwidth]{my-isolated-2w}
         \caption{}
         \label{fig:my-isolated-2w}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{../attachments/my-isolated-3.png}
+        \includegraphics[width=\textwidth]{my-isolated-3}
         \caption{}
         \label{fig:my-isolated-3}
     \end{subfigure}
