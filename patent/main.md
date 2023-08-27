@@ -54,21 +54,24 @@ $$
 $$
    I_b = \frac{1}{r_b^2}[\tilde{A}_b^\mathrm{T} Y_n^{-1}(X_s) \tilde{A}_b U_b -r_b U_b],
 $$
-其中，$I_b$为电池电流，$r_b$为电池内阻，$U_b$为电池电压，$I_{b,max}$为电池最大许用电流，$Y_n(X_s)$为系统节点电导矩阵，其通过下式计算得到：
+其中，$I_b$为电池电流，$r_b$为电池内阻，$U_b$为电池电压，$I_{b,\mathrm{max}}$为电池最大许用电流，$Y_n(X_s)$为系统节点电导矩阵，其通过下式计算得到：
 $$
-   Y_n (X_s) = \frac{1}{R_o} \tilde{A}_o\tilde{A}_o^\mathrm{T} + \frac{1}{r_b} \tilde{A}_b \tilde{A}_b^\mathrm{T} + \frac{1}{r_s}\tilde{A}_s\bm{X}_s \tilde{A}_s^\mathrm{T}.
+Y_n (X_s) = \frac{1}{R_o} \tilde{A}_o\tilde{A}_o^\mathrm{T} + \frac{1}{r_b} \tilde{A}_b \tilde{A}_b^\mathrm{T} + \frac{1}{r_s}\tilde{A}_s X_s \tilde{A}_s^\mathrm{T}.
 $$
 其中，$R_o$为外部负载电阻，$r_s$为开关内阻。
 
 **步骤25：** 系统的输出电流用下式计算得到：
 $$
-   I_b = \frac{1}{r_b^2}[\tilde{A}_b^\mathrm{T} Y_n^{-1}(X_s) \tilde{A}_b U_b -r_b U_b].
+I_b = \frac{1}{r_b^2}[\tilde{A}_b^\mathrm{T} Y_n^{-1}(X_s) \tilde{A}_b U_b -r_b U_b].
 $$
 
 **步骤26：** 基于**步骤24**和**步骤25**，最终得到如下形式的优化模型：
 $$
-   \max I(X_s) \\
-   \text{s.t.} \max (I_b) \leq I_{b,\max}.
+\mathrm{max} I(X_s)
+$$
+
+$$
+\text{s.t.} \mathrm{max} (I_b) \leq I_{b,\mathrm{max}}.
 $$
 
 # 说明书
@@ -114,24 +117,27 @@ $$
 $$
    I_b = \frac{1}{r_b^2}[\tilde{A}_b^\mathrm{T} Y_n^{-1}(X_s) \tilde{A}_b U_b -r_b U_b],
 $$
-其中，$r_b$为电池内阻，$U_b$为电池电压，$I_{b,\max}$为电池最大许用电流，$Y_n(X_s)$为系统节点电导矩阵，其通过下式计算得到：
+其中，$r_b$为电池内阻，$U_b$为电池电压，$I_{b,\mathrm{max}}$为电池最大许用电流，$Y_n(X_s)$为系统节点电导矩阵，其通过下式计算得到：
 $$
-   Y_n (X_s) = \frac{1}{R_o} \tilde{A}_o\tilde{A}_o^\mathrm{T} + \frac{1}{r_b} \tilde{A}_b \tilde{A}_b^\mathrm{T} + \frac{1}{r_s}\tilde{A}_s\bm{X}_s \tilde{A}_s^\mathrm{T}.
+Y_n (X_s) = \frac{1}{R_o} \tilde{A}_o\tilde{A}_o^\mathrm{T} + \frac{1}{r_b} \tilde{A}_b \tilde{A}_b^\mathrm{T} + \frac{1}{r_s}\tilde{A}_s X_s \tilde{A}_s^\mathrm{T}.
 $$
 其中，$R_o$为外部负载电阻，$r_s$为开关内阻。
 系统的输出电流用下式计算得到：
 $$
-   I_b = \frac{1}{r_b^2}[\tilde{A}_b^\mathrm{T} Y_n^{-1}(X_s) \tilde{A}_b U_b -r_b U_b].
+I_b = \frac{1}{r_b^2}[\tilde{A}_b^\mathrm{T} Y_n^{-1}(X_s) \tilde{A}_b U_b -r_b U_b].
 $$
 最后，得到如下形式的优化模型：
 $$
-   \max I(X_s) \\
-   \text{s.t.} \max (I_b) \leq I_{b,\max}.
+\mathrm{max} I(X_s)
+$$
+
+$$
+\text{s.t.} \mathrm{max} (I_b) \leq I_{b,\mathrm{max}}.
 $$
 
 **第三步：** 基于第一步中构建的有向图模型，对其中的$N_b$个电池分别求解对应的最短通路，其中通路$p$的距离通过下式计算得到：
 $$
-   \omega(p) = N_s \cdot n_b (p) + n_s (p),
+\omega(p) = N_s \cdot n_b (p) + n_s (p),
 $$
 其中，$n_b$为通路中电池数量，$n_s$为通路中开关的数量。
 
@@ -212,14 +218,14 @@ $$
 \end{pmatrix} ^\text{T},
 $$
 设系统中$N_s$个开关的状态为$X_s$，是一个$N_s$阶方阵，其对角线上的元素为1或0，分别表示开关闭合或断开；其非对角线上的元素均为0。
-在本示例中，系统中电池的内阻$r_b=50\,\mathrm{m\Omega}$，外部负载的电阻$R_o=2\,\Omega$，开关的内阻为$r_s=0.1\,\mathrm{m\Omega}$，电池最大寻用电流$I_{b,\max}=5\,\mathrm{A}$，电池电压$U_b=3.6\,\mathrm{V}$。
+在本示例中，系统中电池的内阻$r_b=50\,\mathrm{m\Omega}$，外部负载的电阻$R_o=2\,\Omega$，开关的内阻为$r_s=0.1\,\mathrm{m\Omega}$，电池最大寻用电流$I_{b,\mathrm{max}}=5\,\mathrm{A}$，电池电压$U_b=3.6\,\mathrm{V}$。
 系统中$N_b$个电池的电流用下式计算得到：
 $$
    I_b = \frac{1}{r_b^2}[\tilde{A}_b^\mathrm{T} Y_n^{-1}(X_s) \tilde{A}_b U_b -r_b U_b],
 $$
 其中，$Y_n(X_s)$通过下式计算得到：
 $$
-   Y_n (X_s) = \frac{1}{R_o} \tilde{A}_o\tilde{A}_o^\mathrm{T} + \frac{1}{r_b} \tilde{A}_b \tilde{A}_b^\mathrm{T} + \frac{1}{r_s}\tilde{A}_s\bm{X}_s \tilde{A}_s^\mathrm{T}.
+Y_n (X_s) = \frac{1}{R_o} \tilde{A}_o\tilde{A}_o^\mathrm{T} + \frac{1}{r_b} \tilde{A}_b \tilde{A}_b^\mathrm{T} + \frac{1}{r_s}\tilde{A}_s X_s \tilde{A}_s^\mathrm{T}.
 $$
 系统的输出电流用下式计算得到：
 $$
@@ -227,13 +233,18 @@ $$
 $$
 最后，得到如下形式的优化模型：
 $$
-   \max I(X_s) \\
-   \text{s.t.} \max (I_b) \leq 5\,\mathrm{A}.
+\mathrm{max} I(X_s)
 $$
+
+$$
+   \text{s.t.} \mathrm{max} (I_b) \leq 5\,\mathrm{A}.
+$$
+
+
 
 S3. 对图3中的4个电池按照下式，分别求解对应的最短通路：
 $$
-   \omega(p) = 19 \cdot n_b (p) + n_s (p),
+\omega(p) = 19 \cdot n_b (p) + n_s (p),
 $$
 其中，$n_b$为通路中电池数量，$n_s$为通路中开关的数量。
 求解结果如图4所示。
@@ -274,13 +285,4 @@ S8. 使用如下规则更新S4中的$N_{set}$的值，重复S5至S8：
 
 # 说明书摘要
 
-本发明公开了一种可重构电池系统最大许用电流计算方法。
-该方法针对可重构电池系统的实际应用场景，通过以下步骤进行计算。
-首先，基于电池和开关之间的连接关系构建具有物理信息的有向图模型。
-然后，根据该有向图模型建立优化模型，以开关状态为变量，电池流经电流不超过电池许用电流为约束条件，系统输出电流为目标函数。
-接着，对有向图模型中的电池分别求解对应的最短通路，并计算通路的距离。
-随后，根据计算得到的最短通路数量，组合选取通路，生成不同的组合方式。
-对每一种组合方式，根据开关状态设置，带入优化模型判断是否满足约束条件，若满足则记录系统输出电流。
-从满足约束条件的组合方式中选取输出电流最大的组合方式，得到系统的最大许用电流值。
-最后，更新选取的最短通路数量的值，重复上述步骤，直至求解得到系统的最大许用电流值。
-本发明的可重构电池系统最大许用电流计算方法具有普适性和实际应用价值，能够对任意可重构电池系统计算最大许用电流值和相应的开关策略。
+本发明公开了一种可重构电池系统最大许用电流计算方法。该方法针对可重构电池系统的实际应用场景，通过以下步骤进行计算。首先，基于电池和开关之间的连接关系构建具有物理信息的有向图模型。然后，根据该有向图模型建立优化模型，以开关状态为变量，电池流经电流不超过电池许用电流为约束条件，系统输出电流为目标函数。接着，对有向图模型中的电池分别求解对应的最短通路，并计算通路的距离。随后，根据计算得到的最短通路数量，组合选取通路，生成不同的组合方式。对每一种组合方式，根据开关状态设置，带入优化模型判断是否满足约束条件，若满足则记录系统输出电流。从满足约束条件的组合方式中选取输出电流最大的组合方式，得到系统的最大许用电流值。最后，更新选取的最短通路数量的值，重复上述步骤，直至求解得到系统的最大许用电流值。本发明的可重构电池系统最大许用电流计算方法具有普适性和实际应用价值，能够对任意可重构电池系统计算最大许用电流值和相应的开关策略。
