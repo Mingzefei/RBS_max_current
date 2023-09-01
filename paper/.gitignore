@@ -87,6 +87,8 @@ target/
 *.blg
 *.synctex.gz
 *.xwm
+*.soc
+*.loc
 
 # docs
 ~$*.docx

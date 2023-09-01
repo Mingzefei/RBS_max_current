@@ -1,3 +1,5 @@
+% tex2docx 报错时优先删除流程图部分图片
+
 % 0622 v3.0 plan
 % -[x] 将 word 批注和修改内容整理到 tex 中
 % -[x] 确定修改要点，批注和obsidian记录
@@ -45,11 +47,17 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta, calc, fit, positioning, quotes, graphs, shapes.geometric}
 \def\T{\mathrm{T}}
-\graphicspath{ {../attachments/} }
+\graphicspath{ {./figures/} }
+
+% \usepackage[defaultcolor=red]{changes}
+% \added{xxx}
+% \deleted{xxxx}
+% \replaced{a}{b} 原文的b替换成a
+% \usepackage[final]{changes}
 
 \title{Maximum Allowable Current Determination of Arbitrary Reconfigurable Battery Systems By Using a Directed Graph Model Combined with Greedy Algorithm}
 
-\author{3057761608 }
+\author{3057761608}
 
 \begin{document}
 
@@ -68,7 +76,6 @@
 
 \section{Introduction}
 
-
 Battery Energy Storage Systems (BESSs) are extensively employed in various applications, such as wind power plants and space power systems, to store and release high-quality electrical energy \cite{desiqueiraControlStrategySmooth2021,yangBatteryEnergyStorage2018,choCommercialResearchBattery2015,zhangDevelopmentProspectChinese2021,schwanbeckInternationalSpaceStation2019}.
 Typically, a BESS consists of numerous batteries interconnected by series-parallel circuitry to provide the required capacity storage.
 However, traditional BESSs, in which the batteries are connected in a fixed topology, exhibit a significant weakness in their worst battery due to the so-called cask effect.
@@ -85,25 +92,25 @@ Furthermore, when an unhealthy battery, for instance the orange one $B_3$ in Fig
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{stru-V-origin} % 完整结构
+        \includegraphics[width=\textwidth]{stru-V-origin.png} % 完整结构
         \caption{}
         \label{fig:stru-Visairo}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{stru-V-serial} % 全串联
+        \includegraphics[width=\textwidth]{stru-V-serial.png} % 全串联
         \caption{}
         \label{fig:stru-Visairo-serial}
     \end{subfigure}
     \\
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{stru-V-parallel} % 全并联
+        \includegraphics[width=\textwidth]{stru-V-parallel.png} % 全并联
         \caption{}
         \label{fig:stru-Visairo-parallel}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{stru-V-isolate} % 电池隔离 右二 B3 全并联
+        \includegraphics[width=\textwidth]{stru-V-isolate.png} % 电池隔离 右二 B3 全并联
         \caption{}
         \label{fig:stru-Visairo-isolate}
     \end{subfigure}
@@ -146,7 +153,7 @@ Finally, a greedy algorithm is employed to organize the switches, allowing the b
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.8\textwidth}
-        \includegraphics[width=\textwidth]{main}
+        \includegraphics[width=\textwidth]{main.png}
         \caption{}
         \label{fig:main}
     \end{subfigure}
@@ -160,25 +167,25 @@ Finally, a greedy algorithm is employed to organize the switches, allowing the b
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{direct-graph-he}
+        \includegraphics[width=\textwidth]{direct-graph-he.png}
         \caption{}
         \label{fig:direct-graph-he}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.23\textwidth}
-        \includegraphics[width=\textwidth]{direct-graph-xu}
+        \includegraphics[width=\textwidth]{direct-graph-xu.png}
         \caption{}
         \label{fig:direct-graph-xu}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.24\textwidth}
-        \includegraphics[width=\textwidth]{direct-graph-my}
+        \includegraphics[width=\textwidth]{direct-graph-my.png}
         \caption{}
         \label{fig:direct-graph-my}
     \end{subfigure}
     \\
     \begin{subfigure}[b]{0.8\textwidth}
-        \includegraphics[width=\textwidth]{battery_simple}
+        \includegraphics[width=\textwidth]{battery_simple.png}
         \caption{}
         \label{fig:battery_simple}
     \end{subfigure}
@@ -395,42 +402,42 @@ Finally, the algorithm outputs the maximum $\eta$ once $N_{set}$ converges.
   round/.style={meta box, circle, minimum size=0, inner sep=0pt, outer sep=0pt },
   every fit/.style={draw, thick, dashed, gray, inner xsep=.5em, inner ysep=.75em }
 }
-\begin{figure}
-\begin{tikzpicture}[font=\small, node font=\small, node distance=1.5em]
-    \node[punkt]     (input) {Input: RBS structure};
-    \node[punkt, below=0.3of input] (get_SP) {get $SP$s by Eqs.\ref{eq:weight} and \ref{eq:def_sp} and Dijkstra Search};
-    \node[punkt, below=0.3of get_SP] (get_A) {get $\bm{A}$ from Eq.\ref{eq:A}};
-    \node[punkt, below=0.3of get_A] (get_Nset) {init $N_{set}=N_b$ };
-    \node[punkt, below=0.3of get_Nset] (get_cb) {get $c_b$s by combinating $N_{set}$ batteries from $N_b$};
-    \node[draw, diamond, aspect=2, below=0.3of get_cb] (is_check_all_cb) {are all $c_b$s checked?};
-    \node[draw, diamond, aspect=2, right=1of is_check_all_cb] (is_Nset_converged) {is $N_{set}$ converged?};
-    \node[punkt, above=of is_Nset_converged] (reset_Nset) {reset $N_{set}$ by dichotomy};
-    \node[punkt, text width=15em, below=0.3of is_check_all_cb] (get_Xs) {
-        select an unchecked $c_b$, and get its $\bm{X}_m$ by \\ 
-        if switch $j$ $\in \bigcup_{i\in c_b}SP_i$:\\
-        $\bm{X}[j]=1$ else $0$};
-    \node[punkt, below=0.3of get_Xs] (get_Yn) {get $\bm{Y}_n$ by Eq.\ref{eq:Yn}};
-    \node[draw, diamond, aspect=2, below=0.3of get_Yn] (is_Yn_invertible) {is $\bm{Y}_n$ invertible?};
-    \node[punkt, right=1.3of is_Yn_invertible] (construct) {construct an effective solution};
-    \node[punkt, below=0.3of is_Yn_invertible] (get_I) {get $I_o$ and $\bm{I}_b$ by Eqs.\ref{eq:I_o} and \ref{eq:I_b}};
-    \node[draw, diamond, aspect=2, below=0.3of get_I] (is_leq_Im) {is $\max \bm{I}_b \leq I_m$?};
-    \node[punkt, right=1.3of is_leq_Im] (drop_eta) {drop this $\eta$};
-    \node[punkt, below=0.3of is_leq_Im] (get_eta) {get $\eta$ by Eq.\ref{eq:eta}};
-    \node[punkt, below=0.3of get_eta] (update_max_eta) {update $\max \eta$};
-    \node[punkt, right=1of is_Nset_converged] (output) {Output: $\max \eta$};
-    \node[round,left=1.5of update_max_eta](point1){};
-
-    \graph{
-      (input) -> (get_SP) -> (get_A) -> (get_Nset) -> (get_cb) -> (is_check_all_cb) ->["No"] (get_Xs) -> (get_Yn) -> (is_Yn_invertible) ->["Yes"] (get_I) -> (is_leq_Im) ->["Yes"] (get_eta) -> (update_max_eta);
-      (is_check_all_cb) ->["Yes"] (is_Nset_converged) ->["No"] (reset_Nset) -> (get_cb);
-      (is_Yn_invertible) ->["No"] (construct) ->[to path={|- (\tikztotarget)}] (get_I);
-      (is_leq_Im) ->["No"] (drop_eta) ->[to path={|- (\tikztotarget)}] (update_max_eta);
-      (is_Nset_converged) ->["Yes"] (output);
-      (update_max_eta) -- (point1) ->[to path={|- (\tikztotarget)}] (is_check_all_cb);
-    };
-\end{tikzpicture}
-\caption{The computational flowchart of the MAC for a given RBS.}\label{fig:flowchart}
-\end{figure}
+% \begin{figure}
+% \begin{tikzpicture}[font=\small, node font=\small, node distance=1.5em]
+%     \node[punkt]     (input) {Input: RBS structure};
+%     \node[punkt, below=0.3of input] (get_SP) {get $SP$s by Eqs.\ref{eq:weight} and \ref{eq:def_sp} and Dijkstra Search};
+%     \node[punkt, below=0.3of get_SP] (get_A) {get $\bm{A}$ from Eq.\ref{eq:A}};
+%     \node[punkt, below=0.3of get_A] (get_Nset) {init $N_{set}=N_b$ };
+%     \node[punkt, below=0.3of get_Nset] (get_cb) {get $c_b$s by combinating $N_{set}$ batteries from $N_b$};
+%     \node[draw, diamond, aspect=2, below=0.3of get_cb] (is_check_all_cb) {are all $c_b$s checked?};
+%     \node[draw, diamond, aspect=2, right=1of is_check_all_cb] (is_Nset_converged) {is $N_{set}$ converged?};
+%     \node[punkt, above=of is_Nset_converged] (reset_Nset) {reset $N_{set}$ by dichotomy};
+%     \node[punkt, text width=15em, below=0.3of is_check_all_cb] (get_Xs) {
+%         select an unchecked $c_b$, and get its $\bm{X}_m$ by \\ 
+%         if switch $j$ $\in \bigcup_{i\in c_b}SP_i$:\\
+%         $\bm{X}[j]=1$ else $0$};
+%     \node[punkt, below=0.3of get_Xs] (get_Yn) {get $\bm{Y}_n$ by Eq.\ref{eq:Yn}};
+%     \node[draw, diamond, aspect=2, below=0.3of get_Yn] (is_Yn_invertible) {is $\bm{Y}_n$ invertible?};
+%     \node[punkt, right=1.3of is_Yn_invertible] (construct) {construct an effective solution};
+%     \node[punkt, below=0.3of is_Yn_invertible] (get_I) {get $I_o$ and $\bm{I}_b$ by Eqs.\ref{eq:I_o} and \ref{eq:I_b}};
+%     \node[draw, diamond, aspect=2, below=0.3of get_I] (is_leq_Im) {is $\max \bm{I}_b \leq I_m$?};
+%     \node[punkt, right=1.3of is_leq_Im] (drop_eta) {drop this $\eta$};
+%     \node[punkt, below=0.3of is_leq_Im] (get_eta) {get $\eta$ by Eq.\ref{eq:eta}};
+%     \node[punkt, below=0.3of get_eta] (update_max_eta) {update $\max \eta$};
+%     \node[punkt, right=1of is_Nset_converged] (output) {Output: $\max \eta$};
+%     \node[round,left=1.5of update_max_eta](point1){};
+% 
+%     \graph{
+%       (input) -> (get_SP) -> (get_A) -> (get_Nset) -> (get_cb) -> (is_check_all_cb) ->["No"] (get_Xs) -> (get_Yn) -> (is_Yn_invertible) ->["Yes"] (get_I) -> (is_leq_Im) ->["Yes"] (get_eta) -> (update_max_eta);
+%       (is_check_all_cb) ->["Yes"] (is_Nset_converged) ->["No"] (reset_Nset) -> (get_cb);
+%       (is_Yn_invertible) ->["No"] (construct) ->[to path={|- (\tikztotarget)}] (get_I);
+%       (is_leq_Im) ->["No"] (drop_eta) ->[to path={|- (\tikztotarget)}] (update_max_eta);
+%       (is_Nset_converged) ->["Yes"] (output);
+%       (update_max_eta) -- (point1) ->[to path={|- (\tikztotarget)}] (is_check_all_cb);
+%     };
+% \end{tikzpicture}
+% \caption{The computational flowchart of the MAC for a given RBS.}\label{fig:flowchart}
+% \end{figure}
 
 \section{Case Study}
 
@@ -439,19 +446,19 @@ Finally, the algorithm outputs the maximum $\eta$ once $N_{set}$ converges.
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[width=\textwidth]{stru-L-origin}
+        \includegraphics[width=\textwidth]{stru-L-origin.png}
         \caption{}
         \label{fig:study-stru-Lawson}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=\textwidth]{stru-V-origin}
+        \includegraphics[width=\textwidth]{stru-V-origin.png}
         \caption{}
         \label{fig:study-stru-Visairo}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{stru-my-origin}
+        \includegraphics[width=\textwidth]{stru-my-origin.png}
         \caption{}
         \label{fig:study-stru-my}
     \end{subfigure}
@@ -482,37 +489,37 @@ Fig.\ref{fig:study-results-my} presents the corresponding circuit, with the red 
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{ef-topo}
+        \includegraphics[width=\textwidth]{ef-topo.png}
         \caption{}
         \label{fig:study-dirgraph-my}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{ef-sp1}
+        \includegraphics[width=\textwidth]{ef-sp1.png}
         \caption{}
         \label{fig:sp1}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{ef-sp2}
+        \includegraphics[width=\textwidth]{ef-sp2.png}
         \caption{}
         \label{fig:sp2}
     \end{subfigure}
     \\
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{ef-sp3}
+        \includegraphics[width=\textwidth]{ef-sp3.png}
         \caption{}
         \label{fig:sp3}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{ef-sp4}
+        \includegraphics[width=\textwidth]{ef-sp4.png}
         \caption{}
         \label{fig:sp4}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{ef-mac}
+        \includegraphics[width=\textwidth]{ef-mac.png}
         \caption{}
         \label{fig:study-results-my}
     \end{subfigure}
@@ -629,38 +636,38 @@ In summary, the structure proposed in this paper has the advantages of both Laws
     \midrule
     0     & 2     & 4     & 1 \\
     1     & 2     & 3     & 1 \\
-    2     & 2$^{\rm a}$ or 1$^{\rm b}$ & 2     & 1 \\
+    2     & 2$^{\mathrm{a}}$ or 1$^{\mathrm{b}}$ & 2     & 1 \\
     3     & 1     & 1     & 1 \\
     \bottomrule
     \end{tabular}
     \\
-    \footnotesize{$^{\rm a}$ isolate two batteries within the same substructure, as shown in Fig.\ref{fig:my-isolated-2b}}\\
-    \footnotesize{$^{\rm b}$ isolate one battery in each of the two substructures, as shown in Fig.\ref{fig:my-isolated-2w}}
+    \footnotesize{$^{\mathrm{a}}$ isolate two batteries within the same substructure, as shown in Fig.\ref{fig:my-isolated-2b}}\\
+    \footnotesize{$^{\mathrm{b}}$ isolate one battery in each of the two substructures, as shown in Fig.\ref{fig:my-isolated-2w}}
 \end{table}
 
 
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{my-isolated-1}
+        \includegraphics[width=\textwidth]{my-isolated-1.png}
         \caption{}
         \label{fig:my-isolated-1}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{my-isolated-2b}
+        \includegraphics[width=\textwidth]{my-isolated-2b.png}
         \caption{}
         \label{fig:my-isolated-2b}
     \end{subfigure}
     \\
     \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{my-isolated-2w}
+        \includegraphics[width=\textwidth]{my-isolated-2w.png}
         \caption{}
         \label{fig:my-isolated-2w}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{my-isolated-3}
+        \includegraphics[width=\textwidth]{my-isolated-3.png}
         \caption{}
         \label{fig:my-isolated-3}
     \end{subfigure}
