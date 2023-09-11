@@ -97,10 +97,10 @@ Reconfigurable Battery Systems (RBSs) present a promising alternative to traditi
 During the operation of the RBS, the Maximum Allowable Current (MAC) of system that ensures each battery's current remains within a safe range, is a critical indicator to guide the system's reconfiguring control, ensuring its safety and reliability. 
 In this paper, we firstly propose a calculation method for the MAC of arbitrary RBS using a greedy algorithm in conjunction with a directed graph model of the RBS.
 \added{
-By introducing the shortest path of the battery, the greedy algorithm reconfigures the structure that can output MAC more efficiently, compared to the complete traversal method.
+By introducing the shortest path of the battery, the greedy algorithm reconfigures the structure that can output MAC more efficiently, compared to the complete brute force algorithm method.
 The directed graph model is based on the equivalent circuit and provides a specific method for calculating the MAC of a given structure.
 This method has been validated on two published 4-battery-RBSs and one with more complex structure.
-It obtaining the same results as the traversal method, while achieves significantly improved computational efficiency (3000 to 75000 times, primarily depending on the number of switches).
+It obtaining the same results as the brute force algorithm method, while achieves significantly improved computational efficiency (3000 to 75000 times, primarily depending on the number of switches).
 The main advantage of this method is its ability to calculate the MAC of RBSs with arbitrary structures, even in the scenarios with random isolated batteries.
 }
 \deleted{
@@ -176,7 +176,7 @@ A universal and automatical method for calculating RBS MAC is urgently needed fo
 \added{To calculate the MAC of a given RBS, an analysis of the RBS's topology is required, and the voltage, internal resistance, and maximum allowable current of the battery should be taken into account meanwhile.
 Currently, the RBS's topology analysis is mainly dependent on methods and algorithms from graph theory.
 For instance, Chen et al. \cite{chenSneakCircuitTheory2021} proposed a systematic approach based on the sneak circuit theory is proposed to fundamentally avoid the short-circuit problem of reconfigurable battery systems.
-This research traverses and analyzes all paths between the positive and negative terminals of each battery in the RBS, and identifies paths that only contain switches as short-circuit paths to form a short-circuit path table for pre-check and before system reconfiguration.
+This research goes through and analyzes all paths between the positive and negative terminals of each battery in the RBS, and identifies paths that only contain switches as short-circuit paths to form a short-circuit path table for pre-check and before system reconfiguration.
 The maximum flow problem (MFP) in graph theory has a similar formulation to the problem on MAC. 
 MFP is defined as finding the path with the maximum flow in a network flow with a single source node and a single sink node.
 In the RBS, the system positive and negative terminals can be taken as the source and sink nodes respectively, and the current can be regarded as the flow of the graph. 
@@ -599,9 +599,9 @@ Figure \ref{fig:study-results-my} presents the corresponding circuit, with the r
 
 Similarly, the MAC calculation results of the structures in Figures \ref{fig:study-stru-Lawson} and \ref{fig:study-stru-Visairo} are shown as Table \ref{tab:study-results-Lawson} and Table \ref{tab:study-results-Visairo}, respectively.
 \added{
-In order to verify and compare the results from the greedy algorithm, we also utilized an algorithm that iterates through all possible switch states to calculate the MAC of the same three RBS. 
+In order to verify and compare the results from the greedy algorithm, we also utilized a brute force algorithm that go through all possible switch states to calculate the MAC of the same three RBS. 
 For a given RBS structure with $N_s$ switches, the final $\max$ $\eta$ is the maximum of $\eta$s from all $2^{N_s}$ reconfigured structures.
-The obtained results are the same as the results shown in Tables \ref{tab:study-results-my}-\ref{tab:study-results-Visairo}.
+The final results are the same as the results shown in Tables \ref{tab:study-results-my}-\ref{tab:study-results-Visairo}.
 It is worth noting that the method used the greedy algorithm only calculated 7, 11, and 1 reconfigured structures for the RBS structure in Figures \ref{fig:study-stru-my}, \ref{fig:study-stru-Lawson}, \ref{fig:study-stru-Visairo}, respectively. 
 While for the same RBS, the method counted all possible switch states computed $2^{19}$, $2^{15}$, and $2^{13}$ structures, respectively.
 }
@@ -702,27 +702,29 @@ Figures \ref{fig:my-isolated-1}-\ref{fig:my-isolated-3} illustrate the correspon
 When $B_1$ and $B_2$ or $B_3$ and $B_4$ are connected in parallel, the RBS can output the maximum current, which is $\eta=2$, i.e., twice the current output of a single battery in RBS. 
 Adding more batteries to the main circuit can only form a series structure and will not improve the MAC. 
 Therefore, the switches state given in Table \ref{tab:study-results-my} can make the RBS output current reach the maximum.
+\added{The results of MAC obtained by going through all reconfigured structures is identical to the one by the greedy algorithm. 
+This further validates the algorithm we proposed.}
+
+
 \added{
-The results of MAC obtained by traversing all reconfigured structures is identical to the one by the greedy algorithm. 
-This further validates the algorithm we proposed.
 From the literature search we have conducted, no formal report on the algorithm for MAC in RBS has been found yet.
-Therefore, the time complexity of the proposed algorithm is analyzed and compared with the algorithm that traverses all reconfigured structures to demonstrate the advantage of this algorithm.
+Therefore, the time complexity of the proposed algorithm is analyzed and compared with the algorithm that goes through all reconfigured structures to demonstrate the advantage of this algorithm.
 Assuming that a RBS has $N_b$ batteries and $N_s$ switches, and the corresponding directed graph has $N$ nodes, it requires $2^{N_s}$ iterations to traverse all reconfigured structures.
 The calculation for each reconfigured structure by Equations \ref{eq:I_o}-\ref{eq:eta} requires matrix inversion and matrix multiplication, with a time complexity of $O(N^3+2N^2N_b+N^2N_s+NN^2_b)$.
-Therefore, the time complexity of the algorithm that traverses all reconfigured structures is $O(2^{N_s}(N^3+2N^2N_b+N^2N_s+NN^2_b))$.
+Therefore, the time complexity of the brute force algorithm is $O(2^{N_s}(N^3+2N^2N_b+N^2N_s+NN^2_b))$.
 The greedy algorithm proposed in this paper requires find the SP for each battery, which requires $N_b$ iterations.
-Each SP can be obtained by two Dijkstra algorithms.
+Each SP can be obtained by couple Dijkstra algorithms.
 Therefore, the total time complexity of calculating all SPs is $O(2N_b(N_b+2N_s)\log N)$.
-According to the Appendix \ref{alg:greedy}, $C^{N_{set}}_{N_b}$ structures can be reconfigured by selecting $N_{set}$ batteries from $N_b$ batteries, which is $\sum^{N_b}_{N_{set}=1}C^{N_{set}}_{N_b}/N_b \approx 2^{N_b}/N_b$ on average.
+According to the Appendix \ref{alg:greedy}, the RBS can reconfigure $C^{N_{set}}_{N_b}$ structures by selecting $N_{set}$ batteries from $N_b$ batteries, which is $\sum^{N_b}_{N_{set}=1}C^{N_{set}}_{N_b}/N_b \approx 2^{N_b}/N_b$ on average.
 Hence, with bisection method, the time complexity of the greedy algorithm is $O(2^{N_b}/N_b(N^3+2N^2N_b+N^2N_s+NN^2_b)\log N_b+2N_b(N_b+2N_s)\log N)$, i.e., $O(2^{N_b}/N_b(N^3+2N^2N_b+N^2N_s+NN^2_b)\log N_b)$.
 Based on currently proposed RBS structures\cite{ciNovelDesignAdaptive2007,alahmadBatterySwitchArray2008,kimDependableEfficientScalable2010b,kimBalancedReconfigurationStorage2011a,taesickimSeriesconnectedSelfreconfigurableMulticell2012a,6843711}, the number of batteries $N_b$, switches $N_s$, and nodes $N$ have the following quantitative relationships: $N_s \approx (3\sim 5)N_b$, $N \approx N_s$. 
-After simplifying, the time complexity of the greedy algorithm is $O(2^{N_b}N_s^2\log N_b)$, while it is $O(2^{N_s}N_s^3)$ for traversing all reconstruction structures.
-Therefore, it is reasonable to believe that as the size of the RBS increases, especially the number of the swithes, the greedy algorithm will have an advantage over the algorithm that traverses all reconfigured structures.
+After simplifying, the time complexity of the greedy algorithm is $O(2^{N_b}N_s^2\log N_b)$, while it is $O(2^{N_s}N_s^3)$ for brute force algorithm.
+Therefore, it is reasonable to believe that as the size of the RBS increases, especially the number of the swithes, the greedy algorithm will have an advantage over the algorithm that goes through all reconfigured structures.
 This can be comfirmed from the number of structures required for MAC determination in the previous subsection. 
-Compared to the algorithm that traverses all reconstruction structures, the efficiency of the method based on the greedy algorithm has been improved by 3000 to 75000 times.
+Compared to the brute force algorithm, the efficiency of the method based on the greedy algorithm has been improved by 3000 to 75000 times.
 Among the three RBS structures, the highest is the RBS structure with 19 switches (Figure \ref{fig:study-stru-my}).
 This benefit from two key points:
-(1) The SPs guide the RBS to reconfigure reasonable structures, rather than blindly traversing all possible structures. This reduces the factor in complexity from $2^{N_s}$ to $2^{N_b}$, which is the main reason for the improvement in efficiency;
+(1) The SPs guide the RBS to reconfigure reasonable structures, rather than blindly going through all possible structures. This reduces the factor in complexity from $2^{N_s}$ to $2^{N_b}$, which is the main reason for the improvement in efficiency;
 (2) The bisection method further accelerates this process.
 However, the greedy algorithm proposed in this paper still contains exponential terms in the time complexity, which means it may not be able to handle extremely large-scale RBS structures.
 }
@@ -768,7 +770,7 @@ This paper proposes a pervasive and automatical method for computing the MAC of 
 The method is implemented by a greedy algorithm combined with a directed graph model which considers the voltage, internal resistance, and maximum allowable current of the batteries, as well as the external load.
 The main advantage of this method is its ability to calculate the MAC of RBSs with arbitrary structures.
 Even in the scenarios with random isolated batteries, the method remains effective.
-Compared with the method that traverses all reconfigured structures, the proposed method has higher computational efficiency under the same calculation results.
+Compared with the brute force algorithm, the proposed method has higher computational efficiency under the same calculation results.
 This is achieved by two key points when constructing the greedy algorithm: 
 (1) Calculate the shortest path of each battery by Dijkstra algorithm to obtain the SP of each battery; 
 (2) determine the maximum number of available batteries by bisection method to reduce the computational complexity.
