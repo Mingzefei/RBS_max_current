@@ -1,22 +1,4 @@
-% 【done】 
-% 按 Q 修改意见修改 0901 【优先】
-% 1. 摘要修改，量化我们的成果：explain the most important achievements of the proposed method quantitatively
-% 2. 介绍修改，相关文献：
-%   2.1 RBS 结构分析相关的
-%   2.2 网络流（最大流）相关（但因为问题不同，无法使用，提一句穷举）
-% 3. 介绍修改，逐点列出我们的贡献：state research contribution and achievements as bullet points at the end of the Introduction section
-% 4. 讨论修改，增加算法复杂度，以及和穷举法的比较（该领域尚为空白，没有sota的算法）
-% 5. 讨论修改，增加算法的 limitations（根据复杂度，大规模不好用）
-% 6. 讨论修改，增加结果的准确性介绍（和穷举结果比较）：explain about the accuracy, sufficiency and reliability of their results? How do they verify and validate the results
-% 7. 修改算法的第15步
-% 8. 重写总结
-% 
 
-% 【doing】
-% 添加文献
-
-% 【todo】
-% 按 SST 修改意见修改 0902 【14号前交给润色机构】
 
 \documentclass{article}
 \usepackage[utf8]{inputenc}
@@ -44,71 +26,10 @@
 \def\T{\mathrm{T}}
 
 \usepackage[defaultcolor=red]{changes}
-% \added{xxx}
-% \deleted{xxxx}
-% \replaced{a}{b} 原文的b替换成a
-% \usepackage[final]{changes}
-
-
-%%%%%% Bibliography %%%%%%
-% Replace "sample" in the \addbibresource line below with the name of your .bib file.
-% \usepackage[style=nejm, citestyle=numeric-comp, sorting=none]{biblatex}
-% \addbibresource{SST_main.bib}
-
-%%%%%% Title %%%%%%
-% Full titles can be a maximum of 100 characters, including spaces. 
-% Title Format: Use title case, capitalizing the first letter of each word, except for certain small words, such as articles and short prepositions
-\title{Maximum Allowable Current Determination of RBS By Using a Directed Graph Model and Greedy Algorithm}
-
-%%%%%% Authors %%%%%%
-% Authors should be listed in order of contribution to the paper, by first name, then middle initial (if any), followed by last name.
-% Authors should be listed in the order in which they will appear in the published version if the manuscript is accepted. 
-% Use an asterisk (*) to identify the corresponding author, and be sure to include that person’s e-mail address. Use symbols (in this order: †, ‡, §, ||, ¶, #, ††, ‡‡, etc.) for author notes, such as present addresses, “These authors contributed equally to this work” notations, and similar information.
-% You can include group authors, but please include a list of the actual authors (the group members) in the Supplementary Materials.
-\author[1$\dag$]{Binghui Xu}
-\author[1$\dag$]{Guangbin Hua}
-\author[1*]{Cheng Qian}
-\author[1,2]{Quan Xia}
-\author[1]{Bo Sun}
-\author[1]{Yi Ren}
-\author[1]{Zili Wang}
-
-%%%%%% Affiliations %%%%%%
-\affil[1]{School of Reliability and Systems Engineering, Beihang University, Beijing, 100191, China}
-\affil[2]{School of Aeronautic Science and Engineering at Beihang University, Beijing, China}
-\affil[*]{Address correspondence to: cqian@buaa.edu.cn}
-\affil[$\dag$]{These authors contributed equally to this work.}
-
-%%%%%% Date %%%%%%
-% Date is optional
-\date{}
-
-%%%%%% Spacing %%%%%%
-% Use paragraph spacing of 1.5 or 2 (for double spacing, use command \doublespacing)
-\onehalfspacing
-
-\begin{document}
-
-\maketitle
 
 %%%%%% Abstract %%%%%%
 \begin{abstract}
-Reconfigurable Battery Systems (RBSs) present a promising alternative to traditional battery systems due to their flexible and dynamically changeable topological structure subjected to battery charging and discharging strategies.
-During the operation of the RBS, the Maximum Allowable Current (MAC) of system that ensures each battery's current remains within a safe range, is a critical indicator to guide the system's reconfiguring control, ensuring its safety and reliability. 
-In this paper, we firstly propose a calculation method for the MAC of arbitrary RBS using a greedy algorithm in conjunction with a directed graph model of the RBS.
-\added{
-By introducing the shortest path of the battery, the greedy algorithm reconfigures the structure that can output MAC more efficiently, compared to the complete traversal method.
-The directed graph model is based on the equivalent circuit and provides a specific method for calculating the MAC of a given structure.
-This method has been validated on two published 4-battery-RBSs and one with more complex structure.
-It obtaining the same results as the traversal method, while achieves significantly improved computational efficiency (3000 to 75000 times, primarily depending on the number of switches).
-The main advantage of this method is its ability to calculate the MAC of RBSs with arbitrary structures, even in the scenarios with random isolated batteries.
-}
-\deleted{
-In this method, a new directed graph model is developed to model the structure of RBS, and a greedy algorithm is designed to find the possible circuit that enable MAC.
-Then, the MAC is calculated based on the circuit in-cooperate with the equivalent model of batteries and switches. 
-The effectiveness of the proposed method is validated by a novel and complex RBS structure. 
-The results show that this method is capable to calculated the MAC of RBSs with different structures or different battery sizes efficiently, which proves the correctness of this method and its potential in facilitating next-generation RBS designs and applications, including battery isolation.
-}
+Reconfigurable Battery Systems (RBSs) present a promising alternative to traditional battery systems due to their flexible and dynamically changeable topological structure subjected to battery charging and discharging strategies. During the operation of the RBS, the Maximum Allowable Current (MAC) of system that ensures each battery’s current remains within a safe range, is a critical indicator to guide the system’s reconfiguring control, ensuring its safety and reliability. In this paper, we firstly propose a calculation method for the MAC of arbitrary RBS using a greedy algorithm in conjunction with a directed graph model of the RBS.  In this method, a new directed graph model is developed to model the structure of RBS, and a greedy algorithm is designed to find the possible circuit that enable MAC. Then, the MAC is calculated based on the circuit in-cooperate with the equivalent model of batteries and switches. The effectiveness of the proposed method is validated by a novel and complex RBS structure. The results show that this method is capable to calculated the MAC of RBSs with different structures or different battery sizes efficiently, which proves the correctness of this method and its potential in facilitating next-generation RBS designs and applications, including battery isolation.
 \end{abstract}
 
 %%%%%% Main Text %%%%%%
@@ -130,29 +51,6 @@ Furthermore, when an unhealthy battery, for instance the orange one $B_3$ in Fig
 
 \begin{figure}[htbp]
     \centering
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{stru-V-origin.png}
-        \caption{}
-        \label{fig:stru-Visairo}
-    \end{subfigure}
-    \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{stru-V-serial.png}
-        \caption{}
-        \label{fig:stru-Visairo-serial}
-    \end{subfigure}
-    \\
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{stru-V-parallel.png}
-        \caption{}
-        \label{fig:stru-Visairo-parallel}
-    \end{subfigure}
-    \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{stru-V-isolate.png}
-        \caption{}
-        \label{fig:stru-Visairo-isolate}
-    \end{subfigure}
     \caption{
         (a) The RBS structure proposed by Visairo\cite{visairoReconfigurableBatteryPack2008}, with
         all batteries in (b) series connection, (c) parallel connection, and
@@ -181,7 +79,7 @@ The maximum flow problem (MFP) in graph theory has a similar formulation to the 
 MFP is defined as finding the path with the maximum flow in a network flow with a single source node and a single sink node.
 In the RBS, the system positive and negative terminals can be taken as the source and sink nodes respectively, and the current can be regarded as the flow of the graph. 
 However, the Kirchhoff's laws that describe the current in circuit , and the function of switches to control the circuit on-off should be translated into constraints in the MFP, resulting in a special maximum flow problem.
-Despite mature algorithms for the MFP, such as the Edmonds-Karp algorithm \cite{10.1145/321694.321699} and Dinic's blocking flow algorithm \cite{doi:10.1137/0204043}, these algorithms cannot be directly applied to solve the MAC due to the speciality of the problem. 
+Despite mature algorithms for the MFP, such as the Edmonds-Karp algorithm and Dinic's blocking flow algorithm, these algorithms cannot be directly applied to solve the MAC due to the speciality of the problem. 
 Moreover, these algorithms need to traverse all switch states to calculate the MAC comprehensively, which means high computational complexity and not suitable for large-scale RBS.}
 
 
@@ -211,9 +109,7 @@ Finally, a greedy algorithm is employed to organize the switches, allowing the b
 
 \begin{figure}[htbp]
     \centering
-    \begin{subfigure}[b]{0.8\textwidth}
-        \includegraphics[width=\textwidth]{main.png}
-    \end{subfigure}
+
     \caption{ 
         Diagram of this method, which contains four main steps.
     }
@@ -224,29 +120,7 @@ Finally, a greedy algorithm is employed to organize the switches, allowing the b
 
 \begin{figure}[htbp]
     \centering
-    \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{direct-graph-he.png}
-        \caption{}
-        \label{fig:direct-graph-he}
-    \end{subfigure}
-    \hspace{0.02\textwidth}
-    \begin{subfigure}[b]{0.23\textwidth}
-        \includegraphics[width=\textwidth]{direct-graph-xu.png}
-        \caption{}
-        \label{fig:direct-graph-xu}
-    \end{subfigure}
-    \hspace{0.02\textwidth}
-    \begin{subfigure}[b]{0.24\textwidth}
-        \includegraphics[width=\textwidth]{direct-graph-my.png}
-        \caption{}
-        \label{fig:direct-graph-my}
-    \end{subfigure}
-    \\
-    \begin{subfigure}[b]{0.8\textwidth}
-        \includegraphics[width=\textwidth]{battery_simple.png}
-        \caption{}
-        \label{fig:battery_simple}
-    \end{subfigure}
+ 
     \caption{ 
         Directed graph models used in (a) He's work \cite{heExploringAdaptiveReconfiguration2013}, (b) our previous work , and (c) \added{the improved model in} this paper.
         (d) The equivalent circuit of a battery in this method.
@@ -445,46 +319,9 @@ For each combination, the algorithm constructs an effective solution if possible
 If the maximum current $\bm{I}_b$ is less than or equal to $I_m$, the $\eta$ is calculated using Equation \ref{eq:eta}, and the maximum $\eta$ is updated accordingly. 
 Finally, the algorithm outputs the maximum $\eta$ once $N_{set}$ converges.
 
-\tikzset{
-  meta box/.style={draw, black, very thick, text centered, },
-  punkt/.style={meta box, rectangle, rounded corners, inner sep=.25em, minimum height=2em, minimum width=4em, align=center, text width=10em },
-  round/.style={meta box, circle, minimum size=0, inner sep=0pt, outer sep=0pt },
-  every fit/.style={draw, thick, dashed, gray, inner xsep=.5em, inner ysep=.75em }
-}
-\begin{figure}
-\begin{tikzpicture}[font=\small, node font=\small, node distance=1.5em]
-    \node[punkt]     (input) {Input: RBS structure};
-    \node[punkt, below=0.3of input] (get_SP) {get $SP$s by Equations \ref{eq:weight} and \ref{eq:def_sp} and Dijkstra Search};
-    \node[punkt, below=0.3of get_SP] (get_A) {get $\bm{A}$ from Equation \ref{eq:A}};
-    \node[punkt, below=0.3of get_A] (get_Nset) {init $N_{set}=N_b$ };
-    \node[punkt, below=0.3of get_Nset] (get_cb) {get $c_b$s by combinating $N_{set}$ batteries from $N_b$};
-    \node[draw, diamond, aspect=2, below=0.3of get_cb] (is_check_all_cb) {are all $c_b$s checked?};
-    \node[draw, diamond, aspect=2, right=1of is_check_all_cb] (is_Nset_converged) {is $N_{set}$ converged?};
-    \node[punkt, above=of is_Nset_converged] (reset_Nset) {reset $N_{set}$ by dichotomy};
-    \node[punkt, text width=15em, below=0.3of is_check_all_cb] (get_Xs) {
-        select an unchecked $c_b$, and get its $\bm{X}_m$ by \\ 
-        if switch $j$ $\in \bigcup_{i\in c_b}SP_i$:\\
-        $\bm{X}[j]=1$ else $0$};
-    \node[punkt, below=0.3of get_Xs] (get_Yn) {get $\bm{Y}_n$ by Equation \ref{eq:Yn}};
-    \node[draw, diamond, aspect=2, below=0.3of get_Yn] (is_Yn_invertible) {is $\bm{Y}_n$ invertible?};
-    \node[punkt, right=1.3of is_Yn_invertible] (construct) {construct an effective solution};
-    \node[punkt, below=0.3of is_Yn_invertible] (get_I) {get $I_o$ and $\bm{I}_b$ by Equations \ref{eq:I_o} and \ref{eq:I_b}};
-    \node[draw, diamond, aspect=2, below=0.3of get_I] (is_leq_Im) {is $\max \bm{I}_b \leq I_m$?};
-    \node[punkt, right=1.3of is_leq_Im] (drop_eta) {drop this $\eta$};
-    \node[punkt, below=0.3of is_leq_Im] (get_eta) {get $\eta$ by Equation \ref{eq:eta}};
-    \node[punkt, below=0.3of get_eta] (update_max_eta) {update $\max \eta$};
-    \node[punkt, right=1of is_Nset_converged] (output) {Output: $\max \eta$};
-    \node[round,left=1.5of update_max_eta](point1){};
 
-    \graph{
-      (input) -> (get_SP) -> (get_A) -> (get_Nset) -> (get_cb) -> (is_check_all_cb) ->["No"] (get_Xs) -> (get_Yn) -> (is_Yn_invertible) ->["Yes"] (get_I) -> (is_leq_Im) ->["Yes"] (get_eta) -> (update_max_eta);
-      (is_check_all_cb) ->["Yes"] (is_Nset_converged) ->["No"] (reset_Nset) -> (get_cb);
-      (is_Yn_invertible) ->["No"] (construct) ->[to path={|- (\tikztotarget)}] (get_I);
-      (is_leq_Im) ->["No"] (drop_eta) ->[to path={|- (\tikztotarget)}] (update_max_eta);
-      (is_Nset_converged) ->["Yes"] (output);
-      (update_max_eta) -- (point1) ->[to path={|- (\tikztotarget)}] (is_check_all_cb);
-    };
-\end{tikzpicture}
+\begin{figure}
+
 \caption{The computational flowchart of the MAC for a given RBS.}\label{fig:flowchart}
 \end{figure}
 
@@ -494,23 +331,7 @@ Finally, the algorithm outputs the maximum $\eta$ once $N_{set}$ converges.
 
 \begin{figure}[htbp]
     \centering
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[width=\textwidth]{stru-L-origin.png}
-        \caption{}
-        \label{fig:study-stru-Lawson}
-    \end{subfigure}
-    \hspace{0.02\textwidth}
-    \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=\textwidth]{stru-V-origin.png}
-        \caption{}
-        \label{fig:study-stru-Visairo}
-    \end{subfigure}
-    \hspace{0.02\textwidth}
-    \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{stru-my-origin.png}
-        \caption{}
-        \label{fig:study-stru-my}
-    \end{subfigure}
+
     \caption{The 4-battery RBS structures proposed by (a)Lawson\cite{lawsonSoftwareConfigurableBattery2012}, (b)Visairo\cite{visairoReconfigurableBatteryPack2008} and (c)this paper.}
 \end{figure}
 
@@ -537,41 +358,7 @@ Figure \ref{fig:study-results-my} presents the corresponding circuit, with the r
 
 \begin{figure}[htbp]
     \centering
-    \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{ef-topo.png}
-        \caption{}
-        \label{fig:study-dirgraph-my}
-    \end{subfigure}
-    \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{ef-sp1.png}
-        \caption{}
-        \label{fig:sp1}
-    \end{subfigure}
-    \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{ef-sp2.png}
-        \caption{}
-        \label{fig:sp2}
-    \end{subfigure}
-    \\
-    \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{ef-sp3.png}
-        \caption{}
-        \label{fig:sp3}
-    \end{subfigure}
-    \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{ef-sp4.png}
-        \caption{}
-        \label{fig:sp4}
-    \end{subfigure}
-    \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{ef-mac.png}
-        \caption{}
-        \label{fig:study-results-my}
-    \end{subfigure}
+
     \caption{
         For the RBS structure in Figure \ref{fig:study-stru-my}, 
         (a)its directed graph 
@@ -602,8 +389,6 @@ Similarly, the MAC calculation results of the structures in Figures \ref{fig:stu
 In order to verify and compare the results from the greedy algorithm, we also utilized an algorithm that iterates through all possible switch states to calculate the MAC of the same three RBS. 
 For a given RBS structure with $N_s$ switches, the final $\max$ $\eta$ is the maximum of $\eta$s from all $2^{N_s}$ reconfigured structures.
 The obtained results are the same as the results shown in Tables \ref{tab:study-results-my}-\ref{tab:study-results-Visairo}.
-It is worth noting that the method used the greedy algorithm only calculated 7, 11, and 1 reconfigured structures for the RBS structure in Figures \ref{fig:study-stru-my}, \ref{fig:study-stru-Lawson}, \ref{fig:study-stru-Visairo}, respectively. 
-While for the same RBS, the method counted all possible switch states computed $2^{19}$, $2^{15}$, and $2^{13}$ structures, respectively.
 }
 
 \begin{table}[htbp]
@@ -668,29 +453,7 @@ Figures \ref{fig:my-isolated-1}-\ref{fig:my-isolated-3} illustrate the correspon
   
   \begin{figure}[htbp]
       \centering
-      \begin{subfigure}[b]{0.31\textwidth}
-          \includegraphics[width=\textwidth]{my-isolated-1.png}
-          \caption{}
-          \label{fig:my-isolated-1}
-      \end{subfigure}
-      \hspace{0.02\textwidth}
-      \begin{subfigure}[b]{0.31\textwidth}
-          \includegraphics[width=\textwidth]{my-isolated-2b.png}
-          \caption{}
-          \label{fig:my-isolated-2b}
-      \end{subfigure}
-      \\
-      \begin{subfigure}[b]{0.31\textwidth}
-          \includegraphics[width=\textwidth]{my-isolated-2w.png}
-          \caption{}
-          \label{fig:my-isolated-2w}
-      \end{subfigure}
-      \hspace{0.02\textwidth}
-      \begin{subfigure}[b]{0.31\textwidth}
-          \includegraphics[width=\textwidth]{my-isolated-3.png}
-          \caption{}
-          \label{fig:my-isolated-3}
-      \end{subfigure}
+
       \caption{
           The circuit states of MACs when isolating (a)one, (b)two(best case), (c)two(worst case) and (d)three batteries for the structure in Figure \ref{fig:study-stru-my}.
           }
@@ -716,15 +479,9 @@ Therefore, the total time complexity of calculating all SPs is $O(2N_b(N_b+2N_s)
 According to the Appendix \ref{alg:greedy}, $C^{N_{set}}_{N_b}$ structures can be reconfigured by selecting $N_{set}$ batteries from $N_b$ batteries, which is $\sum^{N_b}_{N_{set}=1}C^{N_{set}}_{N_b}/N_b \approx 2^{N_b}/N_b$ on average.
 Hence, with bisection method, the time complexity of the greedy algorithm is $O(2^{N_b}/N_b(N^3+2N^2N_b+N^2N_s+NN^2_b)\log N_b+2N_b(N_b+2N_s)\log N)$, i.e., $O(2^{N_b}/N_b(N^3+2N^2N_b+N^2N_s+NN^2_b)\log N_b)$.
 Based on currently proposed RBS structures\cite{ciNovelDesignAdaptive2007,alahmadBatterySwitchArray2008,kimDependableEfficientScalable2010b,kimBalancedReconfigurationStorage2011a,taesickimSeriesconnectedSelfreconfigurableMulticell2012a,6843711}, the number of batteries $N_b$, switches $N_s$, and nodes $N$ have the following quantitative relationships: $N_s \approx (3\sim 5)N_b$, $N \approx N_s$. 
-After simplifying, the time complexity of the greedy algorithm is $O(2^{N_b}N_s^2\log N_b)$, while it is $O(2^{N_s}N_s^3)$ for traversing all reconstruction structures.
-Therefore, it is reasonable to believe that as the size of the RBS increases, especially the number of the swithes, the greedy algorithm will have an advantage over the algorithm that traverses all reconfigured structures.
-This can be comfirmed from the number of structures required for MAC determination in the previous subsection. 
-Compared to the algorithm that traverses all reconstruction structures, the efficiency of the method based on the greedy algorithm has been improved by 3000 to 75000 times.
-Among the three RBS structures, the highest is the RBS structure with 19 switches (Figure \ref{fig:study-stru-my}).
-This benefit from two key points:
-(1) The SPs guide the RBS to reconfigure reasonable structures, rather than blindly traversing all possible structures. This reduces the factor in complexity from $2^{N_s}$ to $2^{N_b}$, which is the main reason for the improvement in efficiency;
-(2) The bisection method further accelerates this process.
-However, the greedy algorithm proposed in this paper still contains exponential terms in the time complexity, which means it may not be able to handle extremely large-scale RBS structures.
+After simplifying, the time complexity of the greedy algorithm is $O(2^{N_b}N_s^2\log N_b)$, while the time complexity for traversing all reconstruction structures is $O(2^{N_s}N_s^3)$.
+Therefore, it is reasonable to believe that as the size of the RBS increases, the greedy algorithm will have an advantage over the algorithm that traverses all reconstruction structures.
+However, the greedy algorithm proposed in this paper still contains exponential terms, which means it may not be able to handle extremely large-scale RBS structures.
 }
 
 
@@ -764,234 +521,17 @@ This indicates that the structure proposed in this paper, compared to Lawson's s
 \section{Conclusion}
 
 This paper proposes a pervasive and automatical method for computing the MAC of \replaced{a}{the} given RBS.
-\added{
-The method is implemented by a greedy algorithm combined with a directed graph model which considers the voltage, internal resistance, and maximum allowable current of the batteries, as well as the external load.
-The main advantage of this method is its ability to calculate the MAC of RBSs with arbitrary structures.
-Even in the scenarios with random isolated batteries, the method remains effective.
-Compared with the method that traverses all reconfigured structures, the proposed method has higher computational efficiency under the same calculation results.
-This is achieved by two key points when constructing the greedy algorithm: 
-(1) Calculate the shortest path of each battery by Dijkstra algorithm to obtain the SP of each battery; 
-(2) determine the maximum number of available batteries by bisection method to reduce the computational complexity.
-}
-\deleted{The method is implemented by a greedy algorithm combined with a directed graph model , whose effectiveness is tested on a novel and complex RBS structure.
-The method remains effective for the application scenario of RBS battery isolation and demonstrates that the novel structure has the advantage on flexible output current and convenient battery isolation.
-Future research could focus on developing new indictors to evaluate the performance of the RBS with the currents and voltages obtained by the method, as well as modifying the equivalent model of the battery to allow for more accurate simulations of the RBS, including transient analysis.}
+The method is implemented by a greedy algorithm combined with a directed graph model \deleted{, whose effectiveness is tested on a novel and complex RBS structure}.
+\deleted{The method remains effective for the application scenario of RBS battery isolation and demonstrates that the novel structure has the advantage on flexible output current and convenient battery isolation.}
+\deleted{Future research could focus on developing new indictors to evaluate the performance of the RBS with the currents and voltages obtained by the method, as well as modifying the equivalent model of the battery to allow for more accurate simulations of the RBS, including transient analysis.}
+% #TODO 补充我们方法的优势和先进之处；强调可以计算随机隔离电池情况下的RBS结构的MAC
 
-\section{Appendix} 
 
-\begin{algorithm}
-    \caption{Get the max available currents of a certain RBS}\label{alg:greedy}
-    \KwData{Directed graph model $G(V,E)$ of the RBS}
-    \KwResult{$\max \eta$}
-    \For{$i \in E_b$}{
-        $P_i \leftarrow \{path| \text{starts at $v_1$ and ends at $v_n$} \}$\;
-        $SP_i \leftarrow p_i \text{ which has the minimum}~\omega(p_i)~\text{among all}~p_i \in P_i. $
-    }
-    get $\bm{A}$ by Equation \ref{eq:A}\;
-    \While{not yet determine $\max \eta$ }
-    {
-        $N_{set} \leftarrow \text{number of setected $SP$s calculated by dichotomy}$\;
-        $C_b    \leftarrow \text{set of all combinations of $N_{set} $~batteries from $N_b$}$\;
-        \For{$c_b \in C_b$}{
-            $\bm{x}_s \leftarrow \text{list of all switches' state: $x_s[j]=1$ if $ j \in \bigcup_{i\in c_b}SP_i $ else 0}$\;
-            $\bm{X} \leftarrow diag[1,1,\cdots,1,\bm{x}_s] $\;
-            get $\bm{Y}_n$ by Equation \ref{eq:Yn}\;
-            \eIf{$\bm{Y}_n$ is invertible}{
-              \added{pass}
-            }{construct an effective solution}
-            get $I_o$ by Equation \ref{eq:I_o}\;
-            get $\bm{I}_b$ by Equation \ref{eq:I_b}\;
-            \eIf{$\max(\bm{I}_b)\leq I_m$}{
-                $\eta \leftarrow I_o/\max(\bm{I}_b)$\;
-            }{break}
-        }
-    }
-\end{algorithm}
-
-\section*{Acknowledgments}
-
-\subsection*{Author Contributions} 
-
-B. Xu conceived the main idea, formulated the overarching research goals and aims, designed the algorithm, and reviewed and revised the manuscript.
-G. Hua developed and analyzed the model, implemented the code and supporting algorithms, and wrote the initial draft.
-C. Qian provided critical review, commentary, and revisions.
-Q. Xia contributed to shaping the research, analysis, and manuscript.
-B. Sun conducted the research and investigation process.
-Y. Ren secured the funding and supervised the project.
-Z. Wang verified the results and provided necessary resources.
-
-\subsection*{Funding}
-
-This work was supported by the National Natural Science Foundation of China (NSFC, No.52075028).
-
-\subsection*{Conflicts of Interest}
-
-The authors declare that there is no conflict of interest regarding the publication of this article.
-
-\subsection*{Data Availability}
-
-This work does not require any data to be declared or publicly disclosed.
-
-\begin{thebibliography}{99}
-
-\bibitem{desiqueiraControlStrategySmooth2021}
-Luanna Maria~Silva {de Siqueira} and Wei Peng.
-\newblock Control strategy to smooth wind power output using battery energy
-  storage system: {{A}} review.
-\newblock {\em Journal of Energy Storage}, 35:102252, March 2021.
-
-\bibitem{yangBatteryEnergyStorage2018}
-Yuqing Yang, Stephen Bremner, Chris Menictas, and Merlinde Kay.
-\newblock Battery energy storage system size determination in renewable energy
-  systems: {{A}} review.
-\newblock {\em Renewable and Sustainable Energy Reviews}, 91:109--125, August
-  2018.
-
-\bibitem{choCommercialResearchBattery2015}
-Jaephil Cho, Sookyung Jeong, and Youngsik Kim.
-\newblock Commercial and research battery technologies for electrical energy
-  storage applications.
-\newblock {\em Progress in Energy and Combustion Science}, 48:84--101, June
-  2015.
-
-\bibitem{zhangDevelopmentProspectChinese2021}
-Lihua Zhang.
-\newblock Development and {{Prospect}} of {{Chinese Lunar Relay Communication
-  Satellite}}.
-\newblock {\em Space: Science \& Technology}, 2021, January 2021.
-
-\bibitem{schwanbeckInternationalSpaceStation2019}
-Eugene Schwanbeck and Penni Dalton.
-\newblock International {{Space Station Lithium-ion Batteries}} for {{Primary
-  Electric Power System}}.
-\newblock In {\em 2019 {{European Space Power Conference}} ({{ESPC}})}, pages
-  1--1. {IEEE}, September 2019.
-
-\bibitem{yangUnbalancedDischargingAging2016}
-Naixing Yang, Xiongwen Zhang, BinBin Shang, and Guojun Li.
-\newblock Unbalanced discharging and aging due to temperature differences among
-  the cells in a lithium-ion battery pack with parallel combination.
-\newblock {\em Journal of Power Sources}, 306:733--741, February 2016.
-
-\bibitem{fengPropagationMechanismsDiagnosis2019}
-Fei Feng, Xiaosong Hu, Lin Hu, Fengling Hu, Yang Li, and Lei Zhang.
-\newblock Propagation mechanisms and diagnosis of parameter inconsistency
-  within {{Li-Ion}} battery packs.
-\newblock {\em Renewable and Sustainable Energy Reviews}, 112:102--113,
-  September 2019.
-
-\bibitem{jeevarajanBatterySafetyQualifications2012}
-J.~A. Jeevarajan and C.~Winchester.
-\newblock Battery {{Safety Qualifications}} for {{Human Ratings}}.
-\newblock {\em Interface magazine}, 21(2):51--55, January 2012.
-
-\bibitem{pomboHybridPowerSystem2021}
-Daniel~V{\'a}zquez Pombo.
-\newblock A {{Hybrid Power System}} for a {{Permanent Colony}} on {{Mars}}.
-\newblock {\em Space: Science \& Technology}, 2021, January 2021.
-
-\bibitem{hanNextGenerationBatteryManagement2020a}
-Weiji Han, Torsten Wik, Anton Kersten, Guangzhong Dong, and Changfu Zou.
-\newblock Next-{{Generation Battery Management Systems}}: {{Dynamic
-  Reconfiguration}}.
-\newblock {\em IEEE Industrial Electronics Magazine}, 14(4):20--31, December
-  2020.
-
-\bibitem{visairoReconfigurableBatteryPack2008}
-H.~Visairo and P.~Kumar.
-\newblock A reconfigurable battery pack for improving power conversion
-  efficiency in portable devices.
-\newblock In {\em 2008 7th {{International Caribbean Conference}} on
-  {{Devices}}, {{Circuits}} and {{Systems}}}, pages 1--6. {IEEE}, April 2008.
-
-\bibitem{heExploringAdaptiveReconfiguration2013}
-Liang He, Lipeng Gu, Linghe Kong, Yu~Gu, Cong Liu, and Tian He.
-\newblock Exploring {{Adaptive Reconfiguration}} to {{Optimize Energy
-  Efficiency}} in {{Large-Scale Battery Systems}}.
-\newblock In {\em 2013 {{IEEE}} 34th {{Real-Time Systems Symposium}}}, pages
-  118--127, December 2013.
-
-\bibitem{hongwenheStateofChargeEstimationLithiumIon2011}
-Hongwen He, Rui Xiong, Xiaowei Zhang, Fengchun Sun, and JinXin Fan.
-\newblock State-of-{{Charge Estimation}} of the {{Lithium-Ion Battery Using}}
-  an {{Adaptive Extended Kalman Filter Based}} on an {{Improved Thevenin
-  Model}}.
-\newblock {\em IEEE Transactions on Vehicular Technology}, 60(4):1461--1469,
-  May 2011.
-
-\bibitem{mousavig.VariousBatteryModels2014}
-S.M. Mousavi~G. and M.~Nikdel.
-\newblock Various battery models for various simulation studies and
-  applications.
-\newblock {\em Renewable and Sustainable Energy Reviews}, 32:477--485, April
-  2014.
-
-\bibitem{lawsonSoftwareConfigurableBattery2012}
-Barrie Lawson.
-\newblock A {{Software Configurable Battery}}.
-\newblock {\em EVS26 International Battery, Hybrid and Fuel Cell Electric
-  Vehicle Symposium}, 2012.
-
-\bibitem{ciNovelDesignAdaptive2007}
-Song Ci, Jiucai Zhang, Hamid Sharif, and Mahmoud Alahmad.
-\newblock A {{Novel Design}} of {{Adaptive Reconfigurable Multicell Battery}}
-  for {{Power-Aware Embedded Networked Sensing Systems}}.
-\newblock In {\em {{IEEE GLOBECOM}} 2007-2007 {{IEEE Global Telecommunications
-  Conference}}}, pages 1043--1047, November 2007.
-
-\bibitem{alahmadBatterySwitchArray2008}
-Mahmoud Alahmad, Herb Hess, Mohammad Mojarradi, William West, and Jay Whitacre.
-\newblock Battery switch array system with application for {{JPL}}'s
-  rechargeable micro-scale batteries.
-\newblock {\em Journal of Power Sources}, 177(2):566--578, March 2008.
-
-\bibitem{kimDependableEfficientScalable2010b}
-Hahnsang Kim and Kang~G. Shin.
-\newblock Dependable, efficient, scalable architecture for management of
-  large-scale batteries.
-\newblock In {\em Proceedings of the 1st {{ACM}}/{{IEEE International
-  Conference}} on {{Cyber-Physical Systems}}}, {{ICCPS}} '10, pages 178--187,
-  {New York, NY, USA}, April 2010. {Association for Computing Machinery}.
-
-\bibitem{kimBalancedReconfigurationStorage2011a}
-Younghyun Kim, Sangyoung Park, Yanzhi Wang, Qing Xie, Naehyuck Chang, Massimo
-  Poncino, and Massoud Pedram.
-\newblock Balanced reconfiguration of storage banks in a hybrid electrical
-  energy storage system.
-\newblock In {\em 2011 {{IEEE}}/{{ACM International Conference}} on
-  {{Computer-Aided Design}} ({{ICCAD}})}, pages 624--631, November 2011.
-
-\bibitem{taesickimSeriesconnectedSelfreconfigurableMulticell2012a}
-Taesic Kim, Wei Qiao, and Liyan Qu.
-\newblock A series-connected self-reconfigurable multicell battery capable of
-  safe and effective charging/discharging and balancing operations.
-\newblock In {\em 2012 {{Twenty-Seventh Annual IEEE Applied Power Electronics
-  Conference}} and {{Exposition}} ({{APEC}})}, pages 2259--2264, February 2012.
-
-\bibitem{6843711}
-Liang He, Linghe Kong, Siyu Lin, Shaodong Ying, Yu~Gu, Tian He, and Cong Liu.
-\newblock Reconfiguration-assisted charging in large-scale {{Lithium-ion}}
-  battery systems.
-\newblock In {\em 2014 {{ACM}}/{{IEEE International Conference}} on
-  {{Cyber-Physical Systems}} ({{ICCPS}})}, pages 60--71, April 2014.
-
-\bibitem{chenSneakCircuitTheory2021}
-Si-Zhe Chen, Yule Wang, Guidong Zhang, Le~Chang, and Yun Zhang.
-\newblock Sneak {{Circuit Theory Based Approach}} to {{Avoiding Short-Circuit
-  Paths}} in {{Reconfigurable Battery Systems}}.
-\newblock 68(12):12353--12363.
-
-\bibitem{10.1145/321694.321699}
-Jack Edmonds and Richard~M. Karp.
-\newblock Theoretical improvements in algorithmic efficiency for network flow
-  problems.
-\newblock {\em J. ACM}, 19(2):248–264, apr 1972.
-
-\bibitem{doi:10.1137/0204043}
-Shimon Even and R.~Endre Tarjan.
-\newblock Network flow and testing graph connectivity.
-\newblock {\em SIAM Journal on Computing}, 4(4):507--518, 1975.
-
-\end{thebibliography}
 
 \end{document}
+
+Abstract:
+Reconfigurable Battery Systems (RBSs) present a promising alternative to traditional battery systems due to their flexible and dynamically changeable topological structure. In this paper, we propose a novel method for calculating the Maximum Allowable Current (MAC) of RBSs. Our method utilizes a directed graph model and a greedy algorithm to determine the MAC and the corresponding control strategy. We validate the effectiveness of our method using a complex RBS structure and demonstrate its potential in facilitating next-generation RBS designs and applications, including battery isolation.
+
+Conclusion:
+In this paper, we have presented a pervasive and automatical method for calculating the MAC of Reconfigurable Battery Systems (RBSs). Our method utilizes a directed graph model and a greedy algorithm to determine the MAC and the corresponding control strategy. The main advantage of our method is its ability to calculate the MAC of RBSs with arbitrary structures, including scenarios with isolated batteries. This is achieved by considering the voltage, internal resistance, and maximum allowable current of the batteries, as well as the external load. Our method has been validated using a novel and complex RBS structure, and the results demonstrate its effectiveness and potential in facilitating next-generation RBS designs and applications, including battery isolation. By providing a comprehensive analysis of the RBS structure and considering various factors, our method enables accurate and efficient calculation of the MAC, ensuring the safety and reliability of the RBS.
