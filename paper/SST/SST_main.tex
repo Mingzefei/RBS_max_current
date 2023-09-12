@@ -22,11 +22,13 @@
 %   3.2 凝练一点，就是说这个方法把遍历法中的枚举开关状态组合，转换为了对最短路径的组合；
 %   3.3 算法复杂度、效率提升倍数=2^开关数/2^电池数
 %   3.4 调整 discussion 的相关内容
+% 4. 删去 最大流
+% 5. 按 Q 的意见修改
 
 % 【doing】
 
 % 【todo】
-% ==【14号前交给润色机构】
+% ==18号润色完再次核对，21或22号提交。
 
 \documentclass{article}
 \usepackage[utf8]{inputenc}
@@ -53,11 +55,11 @@
 \usetikzlibrary{arrows.meta, calc, fit, positioning, quotes, graphs, shapes.geometric}
 \def\T{\mathrm{T}}
 
-% \usepackage[defaultcolor=red]{changes}
+\usepackage[defaultcolor=red]{changes}
 % \added{xxx}
 % \deleted{xxxx}
 % \replaced{a}{b} 原文的b替换成a
-\usepackage[final]{changes}
+% \usepackage[final]{changes}
 % \usepackage{easyReview} % texstudio 部分
 
 %%%%%% Bibliography %%%%%%
@@ -172,52 +174,29 @@ Furthermore, when an unhealthy battery, for instance the orange one $B_3$ in Fig
 \end{figure}
 
 \added{
-% 目前，许多研究人员利用 RBS的灵活地可重构特点，设计多种结构，以实现并改善系统的 performance
-% Ci【139】等人提出的结构能够动态调整电池放电倍率以充分挖掘各电池的可用容量；
-% Jan【149，150】等人针对电动汽车充电时不断变化的电压需求，提出了一种能够动态调整电池串联数的结构。
-% Visairo 【140】等人的结构可以根据负载条件改变系统的输出电压，从而减少供电过程中电压调节器的功率损耗以提升能量利用率；
-% 同样处于提升系统能量效率的目的，Lawson等人\cite{lawsonSoftwareConfigurableBattery2012}和He等人【148】也提出过更为简化的结构。Kim等人【143】则通过向结构引入多端口，提升了系统对电池故障的恢复能力。
-Currently, many researchers utilize the flexibility and reconfigurability of RBS to design various structures in order to meet application requirements and improve system performances. 
+Recently, the flexibility and reconfigurability of RBS have been utilized to design various structures in order to meet application requirements and improve system performances. 
 Ci et al. \cite{ci2007novel} proposed a RBS structure that can dynamically adjust the batteries discharge rate to fully exploit the available capacity of each battery. 
 Jan's \cite{9209774,engelhardt2021double} structures had the ability to reconfigure structures with variant batteries in series to reach the voltage requirements during electric vehicle charging, which constantly change.
 The structure proposed by Visairo et al.\cite{visairoReconfigurableBatteryPack2008}, as shown in Figure \ref{fig:stru-Visairo}, can change the system's output voltage based on load conditions, thereby reducing the power loss of the voltage regulator during the power supply process and improving energy utilization efficiency. 
 For the same purpose to enhance the energy efficiency of the system, Lawson et al. \cite{lawsonSoftwareConfigurableBattery2012} and He et al. \cite{he2014reconfiguration} also proposed simplified structures which has less switches than Visairo's design.
 Kim et al. \cite{kim2009dynamic} improved the system's ability to recover from battery failures by introducing multiple ports to the structure. 
-% 这些结构的提出很大程度上依赖研究人员的经验，并且缺少严谨的结构分析方法和客观全面的评价指标。
-% 这可能会导致结构设计不够优化，无法充分发挥RBS的性能优势；甚至存在潜在的安全隐患，无法让RBS投入实际应用。
-% To tackle these issues, some analyses on the RBS structure and performance have been conducted. 
-% For instance, Chen et al. \cite{chenSneakCircuitTheory2021} proposed a systematic approach based on the sneak circuit theory is proposed to fundamentally avoid the short-circuit problem of reconfigurable battery systems.
-% This research goes through and analyzes all paths between the positive and negative terminals of each battery in the RBS, and identifies paths that only contain switches as short-circuit paths to form a short-circuit path table for pre-check and before system reconfiguration.
-% Ham【162】等人则针对一种特定的RBS结构，推导出 maximum switch current during battery system reeconfiguration 的解析表达式。
-% 该工作可用于指导RBS的开关选型，为RBS的硬件设计提供支撑。
 The design of these structures mainly relies on the experience of researchers and lacks rigorous structural analysis methods and quantitative evaluation criteria. 
 This may result in suboptimal structures, inability to fully leverage the performance advantages of RBS, and even potential safety hazards that prevent practical applications of RBS. 
-To tackle these issues, some analyses on the RBS structure and performance have been conducted. 
+To tackle these issues, several approaches to analyze the RBS structure and performance have been proposed in the literature.
 For instance, Chen et al.\cite{chenSneakCircuitTheory2021} proposed a systematic approach based on the sneak circuit theory to fundamentally avoid the short-circuit problem of reconfigurable battery systems. 
-This research thoroughly analyzes all paths between the positive and negative terminals of each battery in the RBS and identifies paths that only contain switches as short-circuit paths, forming a short-circuit path table for pre-checking before system reconfiguration. 
+They thoroughly analyzes all paths between the cathode and anode of each battery in the RBS and identifies paths that only contain switches as short-circuit paths for pre-checking before system reconfiguration. 
 Han et al.\cite{han2021analysis} derived an analytical expression for the maximum switch current during battery system reconfiguration for a specific RBS structure. 
 This helps guide the selection of switches and provide support for the hardware design of RBS.
 }
 
 
 \added{
-% 当前，对于RBS许用电流的分析仍是空白。
-% 电池具有合适的工作电流范围，过大的电流会导致电池的性能下降和衰退，甚至损坏电池。【文献】
-% 通过有限数量的电池组成的RBS也同样存在系统输出电流的上限，即 maximum allowable current (MAC)。
-% 超过该阈值会导系统内部部分电池的电流过载。
-% 因此，需要一种能够确定系统 MAC 的 RBS结构的电流分析方法和求解算法
-There is still a blank of analysis the allowable current of RBS.
 The battery has an appropriate range of operating currents, and excessive current can lead to a decrease and degradation in battery performance, or even damage\cite{lotfi2017li}.
-For RBS composed of finite batteries, there is also an upper limit on the system's output current, known as the maximum allowable current (MAC). 
+likewise, for RBS composed of finite batteries, there is also an upper limit on the system's output current, known as the maximum allowable current (MAC). 
 Exceeding this threshold can result in current overload on certain batteries of the system. 
-Therefore, there is a requirement for analysis method on RBS current and solving algorithm that can determine the system's MAC.
-The maximum flow problem (MFP) in graph theory has a similar formulation to the RBS MAC determination.
-MFP is defined as finding the path with the maximum flow in a network flow with a single source node and a single sink node.
-In the RBS, the system positive and negative terminals can be taken as the source and sink nodes respectively, and the current can be regarded as the flow of the graph. 
-Meanwhile, the Kirchhoff's laws that describe the current in circuit, and the function of switches to control the circuit on-off should be appropriately translated into constraints in the MFP.
-This strongly increases the complexity and makes it a special maximum flow problem that never been studied before.
-Despite mature algorithms for the MFP, such as the Edmonds-Karp algorithm \cite{10.1145/321694.321699} and Dinic's blocking flow algorithm \cite{doi:10.1137/0204043}, these algorithms cannot be directly applied to solve the MAC due to the speciality of the problem. 
-Moreover, these MFP algorithms need to comprehensively compute all possible reconfigured structures to obtain the MAC, which means highly inefficience and not suitable for large-scale RBS.
+Unfortunately, few studies on the RBS structure analysis have been conducted to determine the MAC of RBSs.
+A intuitive and straightforward method is to enumerate all possible switch states and calculate the output current of the system under each reconfigurated structure.
+But this method is inefficient and time-consuming, especially for RBSs with a large number of switches.
 }
 
 
@@ -243,9 +222,9 @@ The correctness and effectiveness of the method in this paper are verified by tw
 \deleted{In this study, a directed graph model and greedy algorithm are employed to determine the MAC of RBS and the corresponding control strategy, effectively calculating the MAC for RBSs with arbitrary structures, including scenarios with isolated batteries.}
 \added{The main contributions of the paper can be summarized as follows:}
 \begin{itemize}
-  \item \added{Application of the greedy algorithm to solving the MAC of a given RBS for the first time.}
-  \item \added{Presenting a improved directed graph model to analyse the current of RBS, which considers the voltage, internal resistance, and maximum allowable current of the battery, and the external load.}
-  \item \added{Proposing a new RBS structure and comparing it with two proposed RBS structures in the scenario with randomly isolated batteries.}
+  \item \added{Proposing a effective method to determine the MAC of RBSs with arbitrary structures, including scenarios with isolated batteries, for the first time.}
+  \item \added{Application of the greedy algorithm to solve the MAC problem, whose computational complexity is greatly reduced compared with the brute force algorithm.}
+  \item \added{introducing an improved directed graph model, considering the voltage, internal resistance, and maximum allowable current of the battery, and the external load, to achieve the current analysis of the RBS.}
 \end{itemize}
 
 
@@ -582,7 +561,7 @@ This RBS structure will be used to validate the effectiveness of the proposed me
 \subsection{Result}
 
 As shown in Figure \ref{fig:study-stru-my}, the new RBS structure consists of 4 batteries and 19 switches. 
-The corresponding directed graph is depicted in Figure \ref{fig:study-dirgraph-my}, which is composed of of a total of 18 nodes and 43 edges. 
+The corresponding directed graph is depicted in Figure \ref{fig:study-dirgraph-my}, which is composed of a total of 18 nodes and 43 edges. 
 Batteries $B_1$, $B_2$, $B_3$, and $B_4$ are denoted by green directed edges in the graph, while the 19 switches are represented by gray directed edges with bi-directional arrows. 
 The external electrical load is treated as a directed edge from the cathode of the RBS (i.e., node 18) to the anode (i.e., node 1), as indicated by the blue directed edge in the graph.
 Utilizing Equation \ref{eq:weight} and the Dijkstra algorithm, the $SP$s of the four batteries in the RBS structure of Figure \ref{fig:study-stru-my} are highlighted by red in Figures \ref{fig:sp1}-\ref{fig:sp4}.
@@ -757,13 +736,12 @@ Figures \ref{fig:my-isolated-1}-\ref{fig:my-isolated-3} illustrate the correspon
 When $B_1$ and $B_2$ or $B_3$ and $B_4$ are connected in parallel, the RBS can output the maximum current, which is $\eta=2$, i.e., twice the current output of a single battery in RBS. 
 Adding more batteries to the main circuit can only form a series structure and will not improve the MAC. 
 Therefore, the switches state given in Table \ref{tab:study-results-my} can make the RBS output current reach the maximum.
-\added{The results of MAC obtained by going through all reconfigured structures is identical to the one by the greedy algorithm. 
-This further validates the algorithm we proposed.}
+\added{The results of MAC obtained by brute force algorithm method is identical to the one by the greedy algorithm.}
 
 
 \added{
-From the literature search we have conducted, no formal report on the algorithm for MAC in RBS has been found yet.
-Therefore, the time complexity of the proposed algorithm is analyzed and compared with the algorithm that goes through all reconfigured structures to demonstrate the advantage of this algorithm.
+From the literature research we have conducted, no formal report on the algorithm for MAC in RBS has been found yet.
+The brute force algorithm, which goes through all possible switch states, is the most straightforward way to solve the MAC problem and is used as a benchmark for the proposed greedy algorithm.
 Assuming that a RBS has $N_b$ batteries and $N_s$ switches, and the corresponding directed graph has $N$ nodes, it requires $2^{N_s}$ iterations to traverse all reconfigured structures.
 The calculation for each reconfigured structure by Equations \ref{eq:I_o}-\ref{eq:eta} requires matrix inversion and matrix multiplication, with a time complexity of $O(N^3+2N^2N_b+N^2N_s+NN^2_b)$.
 Therefore, the time complexity of the brute force algorithm is $O(2^{N_s}(N^3+2N^2N_b+N^2N_s+NN^2_b))$.
