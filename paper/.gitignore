@@ -89,6 +89,8 @@ target/
 *.xwm
 *.soc
 *.loc
+*.bcf
+*.run.xml
 
 # docs
 ~$*.docx
