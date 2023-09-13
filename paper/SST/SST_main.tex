@@ -4,12 +4,12 @@
 \usepackage{setspace}
 \usepackage[margin=1.25in]{geometry}
 \usepackage{graphicx}
-\graphicspath{ {./figures/} }
-% \graphicspath{ {../figures/} }
+% \graphicspath{ {./figures/} }
+\graphicspath{ {../figures/} }
 \usepackage{subcaption}
 \usepackage{amsmath}
 \usepackage{lineno}
-\linenumbers
+% \linenumbers
 
 \usepackage{enumerate}
 \DeclareMathOperator{\diag}{diag}
@@ -23,8 +23,8 @@
 \usetikzlibrary{arrows.meta, calc, fit, positioning, quotes, graphs, shapes.geometric}
 \def\T{\mathrm{T}}
 
-% \usepackage[final]{changes}
-\usepackage[defaultcolor=red]{changes}
+\usepackage[final]{changes}
+% \usepackage[defaultcolor=red]{changes}
 % \added{xxx}
 % \deleted{xxxx}
 % \replaced{a}{b}
@@ -44,19 +44,20 @@
 % Authors should be listed in the order in which they will appear in the published version if the manuscript is accepted. 
 % Use an asterisk (*) to identify the corresponding author, and be sure to include that person’s e-mail address. Use symbols (in this order: †, ‡, §, ||, ¶, #, ††, ‡‡, etc.) for author notes, such as present addresses, “These authors contributed equally to this work” notations, and similar information.
 % You can include group authors, but please include a list of the actual authors (the group members) in the Supplementary Materials.
-\author[1$\dag$]{Binghui Xu}
-\author[1$\dag$]{Guangbin Hua}
-\author[1*]{Cheng Qian}
-\author[1,2]{Quan Xia}
-\author[1]{Bo Sun}
-\author[1]{Yi Ren}
-\author[1]{Zili Wang}
+\author[1]{30577}
+% \author[1$\dag$]{Binghui Xu}
+% \author[1$\dag$]{Guangbin Hua}
+% \author[1*]{Cheng Qian}
+% \author[1,2]{Quan Xia}
+% \author[1]{Bo Sun}
+% \author[1]{Yi Ren}
+% \author[1]{Zili Wang}
 
 %%%%%% Affiliations %%%%%%
-\affil[1]{School of Reliability and Systems Engineering, Beihang University, Beijing, 100191, China}
-\affil[2]{School of Aeronautic Science and Engineering at Beihang University, Beijing, China}
-\affil[*]{Address correspondence to: cqian@buaa.edu.cn}
-\affil[$\dag$]{These authors contributed equally to this work.}
+% \affil[1]{School of Reliability and Systems Engineering, Beihang University, Beijing, 100191, China}
+% \affil[2]{School of Aeronautic Science and Engineering at Beihang University, Beijing, China}
+% \affil[*]{Address correspondence to: cqian@buaa.edu.cn}
+% \affil[$\dag$]{These authors contributed equally to this work.}
 
 %%%%%% Date %%%%%%
 % Date is optional
@@ -438,7 +439,7 @@ However, conflicts may arise between the $SP$s of different batteries.
 For instance, the $SP$s of two batteries might form a short-circuited RBS structure, which is not allowed. 
 To address this issue, a greedy algorithm is employed to incorporate as many $SP$s as possible while satisfying the reconstruction requirements.
 
-The algorithm, as illustrated in Figure \ref{fig:flowchart}, can be summarized as follows, with the corresponding pseudo-code presented in Algorithm \ref{alg:greedy}.
+The algorithm, as illustrated in Figure \ref{fig:flowchart}, can be summarized as follows, with the corresponding pseudo-code presented in Algorithm 1. % \ref{alg:greedy}.
 First, the shortest paths ($SP$s) are obtained using Equations \ref{eq:weight} and \ref{eq:def_sp} in conjunction with Dijkstra Search. 
 Next, the matrix $\bm{A}$ is calculated using Equation \ref{eq:A}, and the initial $N_{set}$ is set to $N_b$. 
 The algorithm iteratively checks different combinations of $c_b$ batteries from $N_b$ and updates $N_{set}$ using a dichotomy method until convergence is reached. 
@@ -446,47 +447,53 @@ For each combination, the algorithm constructs an effective solution if possible
 If the maximum current $\bm{I}_b$ is less than or equal to $I_m$, the $\eta$ is calculated using Equation \ref{eq:eta}, and the maximum $\eta$ is updated accordingly. 
 Finally, the algorithm outputs the maximum $\eta$ once $N_{set}$ converges.
 
-\tikzset{
-  meta box/.style={draw, black, very thick, text centered, },
-  punkt/.style={meta box, rectangle, rounded corners, inner sep=.25em, minimum height=2em, minimum width=4em, align=center, text width=10em },
-  round/.style={meta box, circle, minimum size=0, inner sep=0pt, outer sep=0pt },
-  every fit/.style={draw, thick, dashed, gray, inner xsep=.5em, inner ysep=.75em }
-}
-\begin{figure}
-\begin{tikzpicture}[font=\small, node font=\small, node distance=1.5em]
-    \node[punkt]     (input) {Input: RBS structure};
-    \node[punkt, below=0.3of input] (get_SP) {get $SP$s by Equations \ref{eq:weight} and \ref{eq:def_sp} and Dijkstra Search};
-    \node[punkt, below=0.3of get_SP] (get_A) {get $\bm{A}$ from Equation \ref{eq:A}};
-    \node[punkt, below=0.3of get_A] (get_Nset) {init $N_{set}=N_b$ };
-    \node[punkt, below=0.3of get_Nset] (get_cb) {get $c_b$s by combinating $N_{set}$ batteries from $N_b$};
-    \node[draw, diamond, aspect=2, below=0.3of get_cb] (is_check_all_cb) {are all $c_b$s checked?};
-    \node[draw, diamond, aspect=2, right=1of is_check_all_cb] (is_Nset_converged) {is $N_{set}$ converged?};
-    \node[punkt, above=of is_Nset_converged] (reset_Nset) {reset $N_{set}$ by dichotomy};
-    \node[punkt, text width=15em, below=0.3of is_check_all_cb] (get_Xs) {
-        select an unchecked $c_b$, and get its $\bm{X}_m$ by \\ 
-        if switch $j$ $\in \bigcup_{i\in c_b}SP_i$:\\
-        $\bm{X}[j]=1$ else $0$};
-    \node[punkt, below=0.3of get_Xs] (get_Yn) {get $\bm{Y}_n$ by Equation \ref{eq:Yn}};
-    \node[draw, diamond, aspect=2, below=0.3of get_Yn] (is_Yn_invertible) {is $\bm{Y}_n$ invertible?};
-    \node[punkt, right=1.3of is_Yn_invertible] (construct) {construct an effective solution};
-    \node[punkt, below=0.3of is_Yn_invertible] (get_I) {get $I_o$ and $\bm{I}_b$ by Equations \ref{eq:I_o} and \ref{eq:I_b}};
-    \node[draw, diamond, aspect=2, below=0.3of get_I] (is_leq_Im) {is $\max \bm{I}_b \leq I_m$?};
-    \node[punkt, right=1.3of is_leq_Im] (drop_eta) {drop this $\eta$};
-    \node[punkt, below=0.3of is_leq_Im] (get_eta) {get $\eta$ by Equation \ref{eq:eta}};
-    \node[punkt, below=0.3of get_eta] (update_max_eta) {update $\max \eta$};
-    \node[punkt, right=1of is_Nset_converged] (output) {Output: $\max \eta$};
-    \node[round,left=1.5of update_max_eta](point1){};
+% \tikzset{
+%   meta box/.style={draw, black, very thick, text centered, },
+%   punkt/.style={meta box, rectangle, rounded corners, inner sep=.25em, minimum height=2em, minimum width=4em, align=center, text width=10em },
+%   round/.style={meta box, circle, minimum size=0, inner sep=0pt, outer sep=0pt },
+%   every fit/.style={draw, thick, dashed, gray, inner xsep=.5em, inner ysep=.75em }
+% }
+% \begin{figure}
+% \begin{tikzpicture}[font=\small, node font=\small, node distance=1.5em]
+%     \node[punkt]     (input) {Input: RBS structure};
+%     \node[punkt, below=0.3of input] (get_SP) {get $SP$s by Equations \ref{eq:weight} and \ref{eq:def_sp} and Dijkstra Search};
+%     \node[punkt, below=0.3of get_SP] (get_A) {get $\bm{A}$ from Equation \ref{eq:A}};
+%     \node[punkt, below=0.3of get_A] (get_Nset) {init $N_{set}=N_b$ };
+%     \node[punkt, below=0.3of get_Nset] (get_cb) {get $c_b$s by combinating $N_{set}$ batteries from $N_b$};
+%     \node[draw, diamond, aspect=2, below=0.3of get_cb] (is_check_all_cb) {are all $c_b$s checked?};
+%     \node[draw, diamond, aspect=2, right=1of is_check_all_cb] (is_Nset_converged) {is $N_{set}$ converged?};
+%     \node[punkt, above=of is_Nset_converged] (reset_Nset) {reset $N_{set}$ by dichotomy};
+%     \node[punkt, text width=15em, below=0.3of is_check_all_cb] (get_Xs) {
+%         select an unchecked $c_b$, and get its $\bm{X}_m$ by \\ 
+%         if switch $j$ $\in \bigcup_{i\in c_b}SP_i$:\\
+%         $\bm{X}[j]=1$ else $0$};
+%     \node[punkt, below=0.3of get_Xs] (get_Yn) {get $\bm{Y}_n$ by Equation \ref{eq:Yn}};
+%     \node[draw, diamond, aspect=2, below=0.3of get_Yn] (is_Yn_invertible) {is $\bm{Y}_n$ invertible?};
+%     \node[punkt, right=1.3of is_Yn_invertible] (construct) {construct an effective solution};
+%     \node[punkt, below=0.3of is_Yn_invertible] (get_I) {get $I_o$ and $\bm{I}_b$ by Equations \ref{eq:I_o} and \ref{eq:I_b}};
+%     \node[draw, diamond, aspect=2, below=0.3of get_I] (is_leq_Im) {is $\max \bm{I}_b \leq I_m$?};
+%     \node[punkt, right=1.3of is_leq_Im] (drop_eta) {drop this $\eta$};
+%     \node[punkt, below=0.3of is_leq_Im] (get_eta) {get $\eta$ by Equation \ref{eq:eta}};
+%     \node[punkt, below=0.3of get_eta] (update_max_eta) {update $\max \eta$};
+%     \node[punkt, right=1of is_Nset_converged] (output) {Output: $\max \eta$};
+%     \node[round,left=1.5of update_max_eta](point1){};
+% 
+%     \graph{
+%       (input) -> (get_SP) -> (get_A) -> (get_Nset) -> (get_cb) -> (is_check_all_cb) ->["No"] (get_Xs) -> (get_Yn) -> (is_Yn_invertible) ->["Yes"] (get_I) -> (is_leq_Im) ->["Yes"] (get_eta) -> (update_max_eta);
+%       (is_check_all_cb) ->["Yes"] (is_Nset_converged) ->["No"] (reset_Nset) -> (get_cb);
+%       (is_Yn_invertible) ->["No"] (construct) ->[to path={|- (\tikztotarget)}] (get_I);
+%       (is_leq_Im) ->["No"] (drop_eta) ->[to path={|- (\tikztotarget)}] (update_max_eta);
+%       (is_Nset_converged) ->["Yes"] (output);
+%       (update_max_eta) -- (point1) ->[to path={|- (\tikztotarget)}] (is_check_all_cb);
+%     };
+% \end{tikzpicture}
+% \caption{The computational flowchart of the MAC for a given RBS.}\label{fig:flowchart}
+% \end{figure}
 
-    \graph{
-      (input) -> (get_SP) -> (get_A) -> (get_Nset) -> (get_cb) -> (is_check_all_cb) ->["No"] (get_Xs) -> (get_Yn) -> (is_Yn_invertible) ->["Yes"] (get_I) -> (is_leq_Im) ->["Yes"] (get_eta) -> (update_max_eta);
-      (is_check_all_cb) ->["Yes"] (is_Nset_converged) ->["No"] (reset_Nset) -> (get_cb);
-      (is_Yn_invertible) ->["No"] (construct) ->[to path={|- (\tikztotarget)}] (get_I);
-      (is_leq_Im) ->["No"] (drop_eta) ->[to path={|- (\tikztotarget)}] (update_max_eta);
-      (is_Nset_converged) ->["Yes"] (output);
-      (update_max_eta) -- (point1) ->[to path={|- (\tikztotarget)}] (is_check_all_cb);
-    };
-\end{tikzpicture}
-\caption{The computational flowchart of the MAC for a given RBS.}\label{fig:flowchart}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{flowchart.jpg}
+    \caption{The computational flowchart of the MAC for a given RBS.}\label{fig:flowchart}
 \end{figure}
 
 \section{Case Study}
@@ -532,7 +539,7 @@ The corresponding directed graph is depicted in Figure \ref{fig:study-dirgraph-m
 Batteries $B_1$, $B_2$, $B_3$, and $B_4$ are denoted by green directed edges in the graph, while the 19 switches are represented by gray directed edges with bi-directional arrows. 
 The external electrical load is treated as a directed edge from the cathode of the RBS (i.e., node 18) to the anode (i.e., node 1), as indicated by the blue directed edge in the graph.
 Utilizing Equation \ref{eq:weight} and the Dijkstra algorithm, the $SP$s of the four batteries in the RBS structure of Figure \ref{fig:study-stru-my} are highlighted by red in Figures \ref{fig:sp1}-\ref{fig:sp4}.
-Finally, the MAC calculation results of the structure in Figure \ref{fig:study-stru-my} are shown as Table \ref{tab:study-results-my} and Figure \ref{fig:study-results-my}, obtained by the greedy algorithm \ref{alg:greedy}.
+Finally, the MAC calculation results of the structure in Figure \ref{fig:study-stru-my} are shown as Table \ref{tab:study-results-my} and Figure \ref{fig:study-results-my}, obtained by the greedy algorithm 1. % \ref{alg:greedy}.
 Table \ref{tab:study-results-my} contains the switches states, the output current $I_o$, battery current $\bm{I}_b$ and ratio $\eta$ of the RBS structure with all batteries in good health when the RBS output reaches the MAC.
 Figure \ref{fig:study-results-my} presents the corresponding circuit, with the red highlight indicating that current is flowing through the respective branches.
 
@@ -715,7 +722,8 @@ Therefore, the time complexity of the brute force algorithm is $O(2^{N_s}(N^3+2N
 The greedy algorithm proposed in this paper requires find the $SP$ for each battery, which requires $N_b$ iterations.
 Each $SP$ can be obtained by couple Dijkstra algorithms.
 Therefore, the total time complexity of calculating all $SP$s is $O(2N_b(N_b+2N_s)\log N)$.
-According to the Appendix \ref{alg:greedy}, the RBS can reconfigure $C^{N_{set}}_{N_b}$ structures by selecting $N_{set}$ batteries from $N_b$ batteries, which is $\sum^{N_b}_{N_{set}=1}C^{N_{set}}_{N_b}/N_b \approx 2^{N_b}/N_b$ on average.
+According to the Appendix 1, % \ref{alg:greedy},
+the RBS can reconfigure $C^{N_{set}}_{N_b}$ structures by selecting $N_{set}$ batteries from $N_b$ batteries, which is $\sum^{N_b}_{N_{set}=1}C^{N_{set}}_{N_b}/N_b \approx 2^{N_b}/N_b$ on average.
 Hence, with bisection method, the time complexity of the greedy algorithm is $O(2^{N_b}/N_b(N^3+2N^2N_b+N^2N_s+NN^2_b)\log N_b+2N_b(N_b+2N_s)\log N)$, i.e., $O(2^{N_b}/N_b(N^3+2N^2N_b+N^2N_s+NN^2_b)\log N_b)$.
 Based on currently proposed RBS structures\cite{ciNovelDesignAdaptive2007,alahmadBatterySwitchArray2008,kimDependableEfficientScalable2010b,kimBalancedReconfigurationStorage2011a,taesickimSeriesconnectedSelfreconfigurableMulticell2012a,6843711}, the number of batteries $N_b$, switches $N_s$, and nodes $N$ have the following quantitative relationships: $N_s \approx (3\sim 5)N_b$, $N \approx N_s$. 
 After simplifying, the time complexity of the greedy algorithm is $O(2^{N_b}N_s^2\log N_b)$, while it is $O(2^{N_s}N_s^3)$ for brute force algorithm.
@@ -782,62 +790,67 @@ Future research could focus on developing new indictors to evaluate the performa
 
 \section{Appendix} 
 
-\begin{algorithm}
-    \caption{Get the max available currents of a certain RBS}\label{alg:greedy}
-    \KwData{Directed graph model $G(V,E)$ of the RBS}
-    \KwResult{$\max \eta$}
-    \For{$i \in E_b$}{
-        $P_i \leftarrow \{path| \text{starts at $v_1$ and ends at $v_n$} \}$\;
-        $SP_i \leftarrow p_i \text{ which has the minimum}~\omega(p_i)~\text{among all}~p_i \in P_i. $
-    }
-    get $\bm{A}$ by Equation \ref{eq:A}\;
-    \While{not yet determine $\max \eta$ }
-    {
-        $N_{set} \leftarrow \text{number of setected $SP$s calculated by dichotomy}$\;
-        $C_b    \leftarrow \text{set of all combinations of $N_{set} $~batteries from $N_b$}$\;
-        \For{$c_b \in C_b$}{
-            $\bm{x}_s \leftarrow \text{list of all switches' state: $x_s[j]=1$ if $ j \in \bigcup_{i\in c_b}SP_i $ else 0}$\;
-            $\bm{X} \leftarrow diag[1,1,\cdots,1,\bm{x}_s] $\;
-            get $\bm{Y}_n$ by Equation \ref{eq:Yn}\;
-            \eIf{$\bm{Y}_n$ is invertible}{
-              \added{pass}
-            }{construct an effective solution}
-            get $I_o$ by Equation \ref{eq:I_o}\;
-            get $\bm{I}_b$ by Equation \ref{eq:I_b}\;
-            \eIf{$\max(\bm{I}_b)\leq I_m$}{
-                $\eta \leftarrow I_o/\max(\bm{I}_b)$\;
-            }{break}
-        }
-    }
-\end{algorithm}
+% \begin{algorithm}
+%     \caption{Get the max available currents of a certain RBS}\label{alg:greedy}
+%     \KwData{Directed graph model $G(V,E)$ of the RBS}
+%     \KwResult{$\max \eta$}
+%     \For{$i \in E_b$}{
+%         $P_i \leftarrow \{path| \text{starts at $v_1$ and ends at $v_n$} \}$\;
+%         $SP_i \leftarrow p_i \text{ which has the minimum}~\omega(p_i)~\text{among all}~p_i \in P_i. $
+%     }
+%     get $\bm{A}$ by Equation \ref{eq:A}\;
+%     \While{not yet determine $\max \eta$ }
+%     {
+%         $N_{set} \leftarrow \text{number of setected $SP$s calculated by dichotomy}$\;
+%         $C_b    \leftarrow \text{set of all combinations of $N_{set} $~batteries from $N_b$}$\;
+%         \For{$c_b \in C_b$}{
+%             $\bm{x}_s \leftarrow \text{list of all switches' state: $x_s[j]=1$ if $ j \in \bigcup_{i\in c_b}SP_i $ else 0}$\;
+%             $\bm{X} \leftarrow diag[1,1,\cdots,1,\bm{x}_s] $\;
+%             get $\bm{Y}_n$ by Equation \ref{eq:Yn}\;
+%             \eIf{$\bm{Y}_n$ is invertible}{
+%               \added{pass}
+%             }{construct an effective solution}
+%             get $I_o$ by Equation \ref{eq:I_o}\;
+%             get $\bm{I}_b$ by Equation \ref{eq:I_b}\;
+%             \eIf{$\max(\bm{I}_b)\leq I_m$}{
+%                 $\eta \leftarrow I_o/\max(\bm{I}_b)$\;
+%             }{break}
+%         }
+%     }
+% \end{algorithm}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{algorithm.jpg}
+\end{figure}
 
-\section*{Acknowledgments}
-
-\subsection*{Author Contributions} 
-
-B. Xu conceived the main idea, formulated the overarching research goals and aims, designed the algorithm, and reviewed and revised the manuscript.
-G. Hua developed and analyzed the model, implemented the code and supporting algorithms, and wrote the initial draft.
-C. Qian provided critical review, commentary, and revisions.
-Q. Xia contributed to shaping the research, analysis, and manuscript.
-B. Sun conducted the research and investigation process.
-Y. Ren secured the funding and supervised the project.
-Z. Wang verified the results and provided necessary resources.
-
-\subsection*{Funding}
-
-This work was supported by the National Natural Science Foundation of China (NSFC, No.52075028).
-
-\subsection*{Conflicts of Interest}
-
-The authors declare that there is no conflict of interest regarding the publication of this article.
-
-\subsection*{Data Availability}
-
-This work does not require any data to be declared or publicly disclosed.
+% 
+% \section*{Acknowledgments}
+% 
+% \subsection*{Author Contributions} 
+% 
+% B. Xu conceived the main idea, formulated the overarching research goals and aims, designed the algorithm, and reviewed and revised the manuscript.
+% G. Hua developed and analyzed the model, implemented the code and supporting algorithms, and wrote the initial draft.
+% C. Qian provided critical review, commentary, and revisions.
+% Q. Xia contributed to shaping the research, analysis, and manuscript.
+% B. Sun conducted the research and investigation process.
+% Y. Ren secured the funding and supervised the project.
+% Z. Wang verified the results and provided necessary resources.
+% 
+% \subsection*{Funding}
+% 
+% This work was supported by the National Natural Science Foundation of China (NSFC, No.52075028).
+% 
+% \subsection*{Conflicts of Interest}
+% 
+% The authors declare that there is no conflict of interest regarding the publication of this article.
+% 
+% \subsection*{Data Availability}
+% 
+% This work does not require any data to be declared or publicly disclosed.
 
 % \bibliographystyle{nejm}
 % \bibliography{sst_main}
 
-\printbibliography
+% \printbibliography
 
 \end{document}
