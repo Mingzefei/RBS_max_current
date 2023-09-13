@@ -1,3 +1,5 @@
+% 【version: SST-1.4】
+
 % 【done】 
 % =====0909
 % 按 Q 修改意见修改 0901 【优先】
@@ -24,6 +26,9 @@
 %   3.4 调整 discussion 的相关内容
 % 4. 删去 最大流
 % 5. 按 Q 的意见修改
+% =====0913
+% 1. 按师兄的修改意见修改（0912晚）
+% 2. 调整文献顺序，改用 biber
 
 % 【doing】
 
@@ -55,17 +60,17 @@
 \usetikzlibrary{arrows.meta, calc, fit, positioning, quotes, graphs, shapes.geometric}
 \def\T{\mathrm{T}}
 
+% \usepackage[final]{changes}
 \usepackage[defaultcolor=red]{changes}
 % \added{xxx}
 % \deleted{xxxx}
 % \replaced{a}{b} 原文的b替换成a
-% \usepackage[final]{changes}
 % \usepackage{easyReview} % texstudio 部分
 
 %%%%%% Bibliography %%%%%%
 % Replace "sample" in the \addbibresource line below with the name of your .bib file.
-% \usepackage[style=nejm, citestyle=numeric-comp, sorting=none]{biblatex}
-% \addbibresource{SST_main.bib}
+\usepackage[style=nejm, citestyle=numeric-comp, sorting=none]{biblatex}
+\addbibresource{SST_main.bib}
 
 %%%%%% Title %%%%%%
 % Full titles can be a maximum of 100 characters, including spaces. 
@@ -174,26 +179,25 @@ Furthermore, when an unhealthy battery, for instance the orange one $B_3$ in Fig
 \end{figure}
 
 \added{
-Recently, the flexibility and reconfigurability of RBS have been utilized to design various structures in order to meet application requirements and improve system performances. 
-Ci et al. \cite{ci2007novel} proposed a RBS structure that can dynamically adjust the batteries discharge rate to fully exploit the available capacity of each battery. 
+Recently, various types of RBS with different flexibility and reconfigurability have been designed to meet application requirements. 
+For example, Ci et al. \cite{ci2007novel} proposed a RBS structure that can dynamically adjust the batteries discharge rate to fully exploit the available capacity of each battery. 
 Jan's \cite{9209774,engelhardt2021double} structures had the ability to reconfigure structures with variant batteries in series to reach the voltage requirements during electric vehicle charging, which constantly change.
 The structure proposed by Visairo et al.\cite{visairoReconfigurableBatteryPack2008}, as shown in Figure \ref{fig:stru-Visairo}, can change the system's output voltage based on load conditions, thereby reducing the power loss of the voltage regulator during the power supply process and improving energy utilization efficiency. 
 For the same purpose to enhance the energy efficiency of the system, Lawson et al. \cite{lawsonSoftwareConfigurableBattery2012} and He et al. \cite{he2014reconfiguration} also proposed simplified structures which has less switches than Visairo's design.
 Kim et al. \cite{kim2009dynamic} improved the system's ability to recover from battery failures by introducing multiple ports to the structure. 
-The design of these structures mainly relies on the experience of researchers and lacks rigorous structural analysis methods and quantitative evaluation criteria. 
-This may result in suboptimal structures, inability to fully leverage the performance advantages of RBS, and even potential safety hazards that prevent practical applications of RBS. 
-To tackle these issues, several approaches to analyze the RBS structure and performance have been proposed in the literature.
-For instance, Chen et al.\cite{chenSneakCircuitTheory2021} proposed a systematic approach based on the sneak circuit theory to fundamentally avoid the short-circuit problem of reconfigurable battery systems. 
-They thoroughly analyzes all paths between the cathode and anode of each battery in the RBS and identifies paths that only contain switches as short-circuit paths for pre-checking before system reconfiguration. 
+The complex structure between batteries and switches enables the flexibility of RBS, but also brings the challenges in design and control of system. 
+Thus, several approaches to analyze the RBS structure and performance have been proposed in the literature to tackle these challenges.
+For instance, 
 Han et al.\cite{han2021analysis} derived an analytical expression for the maximum switch current during battery system reconfiguration for a specific RBS structure. 
 This helps guide the selection of switches and provide support for the hardware design of RBS.
+Chen et al.\cite{chenSneakCircuitTheory2021} proposed a systematic approach based on the sneak circuit theory to fundamentally avoid the short-circuit problem of reconfigurable battery systems. 
+They thoroughly analyzes all paths between the cathode and anode of each battery in the RBS and identifies paths that only contain switches as short-circuit paths for pre-checking before system reconfiguration. 
 }
 
 
 \added{
-The battery has an appropriate range of operating currents, and excessive current can lead to a decrease and degradation in battery performance, or even damage\cite{lotfi2017li}.
-likewise, for RBS composed of finite batteries, there is also an upper limit on the system's output current, known as the maximum allowable current (MAC). 
-Exceeding this threshold can result in current overload on certain batteries of the system. 
+In spite of maximum switch current mentioned above, the maximum allowable current (MAC), defined as the maximum current allowed by system under the constraints of the battery cell, is another critical indictor of RBS that need to be evaluated during the design or control process of system. 
+It helps the designers to assess whether the RBS meets the output current requirements, and contribute to the formulation of appropriate and safe management strategies for the battery management system (BMS).
 Unfortunately, few studies on the RBS structure analysis have been conducted to determine the MAC of RBSs.
 A intuitive and straightforward method is to enumerate all possible switch states and calculate the output current of the system under each reconfigurated structure.
 But this method is inefficient and time-consuming, especially for RBSs with a large number of switches.
@@ -215,14 +219,15 @@ A universal and automatical method for calculating RBS MAC is urgently needed fo
 
 
 \added{
-To effectively solve the switches states of MAC while strongly decreasing the unnecessary reconfigured structures to compute, and still robust in the scenarios with battery isolation, the greedy algorithm is adopted and adapted to solve the MAC problem in this paper.
-Meanwhile, an improved direct graph model, considering the voltage, internal resistance, and maximum allowable current of the battery, and the external load, is porposed and emploied to obtain the accuracy value of MAC.
-The correctness and effectiveness of the method in this paper are verified by two published 4-battery-RBSs and one with more complex structure.
+To solve this issue, a new method to effectively evaluate the MAC of RBS is proposed in this paper. 
+First, a greedy algorithm is designed to search the possible circuit topology of RBS with MAC effciently.
+Meanwhile, an improved direct graph model, considering the voltage, internal resistance, and maximum allowable current of the battery, and the external load, is porposed to obtain the accurate current value of RBS under specific circuit topology. 
+To the best of our knowledge, the present work is the first to develop an efficient calculation method of RBS MAC.
 }
 \deleted{In this study, a directed graph model and greedy algorithm are employed to determine the MAC of RBS and the corresponding control strategy, effectively calculating the MAC for RBSs with arbitrary structures, including scenarios with isolated batteries.}
 \added{The main contributions of the paper can be summarized as follows:}
 \begin{itemize}
-  \item \added{Proposing a effective method to determine the MAC of RBSs with arbitrary structures, including scenarios with isolated batteries, for the first time.}
+  \item \added{Proposing a effective method to determine the MAC of RBSs with arbitrary structures, including scenarios with isolated batteries.}
   \item \added{Application of the greedy algorithm to solve the MAC problem, whose computational complexity is greatly reduced compared with the brute force algorithm.}
   \item \added{introducing an improved directed graph model, considering the voltage, internal resistance, and maximum allowable current of the battery, and the external load, to achieve the current analysis of the RBS.}
 \end{itemize}
@@ -752,8 +757,8 @@ According to the Appendix \ref{alg:greedy}, the RBS can reconfigure $C^{N_{set}}
 Hence, with bisection method, the time complexity of the greedy algorithm is $O(2^{N_b}/N_b(N^3+2N^2N_b+N^2N_s+NN^2_b)\log N_b+2N_b(N_b+2N_s)\log N)$, i.e., $O(2^{N_b}/N_b(N^3+2N^2N_b+N^2N_s+NN^2_b)\log N_b)$.
 Based on currently proposed RBS structures\cite{ciNovelDesignAdaptive2007,alahmadBatterySwitchArray2008,kimDependableEfficientScalable2010b,kimBalancedReconfigurationStorage2011a,taesickimSeriesconnectedSelfreconfigurableMulticell2012a,6843711}, the number of batteries $N_b$, switches $N_s$, and nodes $N$ have the following quantitative relationships: $N_s \approx (3\sim 5)N_b$, $N \approx N_s$. 
 After simplifying, the time complexity of the greedy algorithm is $O(2^{N_b}N_s^2\log N_b)$, while it is $O(2^{N_s}N_s^3)$ for brute force algorithm.
-Therefore, it is reasonable to believe that as the size of the RBS increases, especially the number of the swithes, the greedy algorithm will have an advantage over the algorithm that goes through all reconfigured structures.
-This can be comfirmed from the number of structures required for MAC determination in the previous subsection. 
+Therefore, it is reasonable to believe that as the size of the RBS increases, especially the number of the switches, the greedy algorithm will have an advantage over the algorithm that goes through all reconfigured structures.
+This can be confirmed from the number of structures required for MAC determination in the previous subsection. 
 Compared to the brute force algorithm, the efficiency of the method based on the greedy algorithm has been improved by 3000 to 75000 times, which is theoretically $N_s 2^{N_s - N_b} \log N_b$ times according to the above time complexity analysis.
 Among the three RBS structures, the highest is the RBS structure with 19 switches (Figure \ref{fig:study-stru-my}).
 This benefit from two key points:
@@ -798,7 +803,7 @@ This indicates that the structure proposed in this paper, compared to Lawson's s
 
 \section{Conclusion}
 
-This paper proposes a pervasive and automatical method for computing the MAC of \replaced{a}{the} given RBS.
+This paper proposes a pervasive and automatical method for computing the MAC of \replaced{a}{the} given RBS \added{efficiently}.
 \added{
 The method is implemented by a greedy algorithm combined with a directed graph model which considers the voltage, internal resistance, and maximum allowable current of the batteries, as well as the external load.
 The main advantage of this method is its ability to calculate the MAC of RBSs with arbitrary structures.
@@ -867,218 +872,10 @@ The authors declare that there is no conflict of interest regarding the publicat
 \subsection*{Data Availability}
 
 This work does not require any data to be declared or publicly disclosed.
-\begin{thebibliography}{10}
 
-\bibitem{alahmadBatterySwitchArray2008}
-Mahmoud Alahmad, Herb Hess, Mohammad Mojarradi, William West, and Jay Whitacre.
-\newblock Battery switch array system with application for {{JPL}}'s
-  rechargeable micro-scale batteries.
-\newblock {\em Journal of Power Sources}, 177(2):566--578, March 2008.
-
-\bibitem{chenSneakCircuitTheory2021}
-Si-Zhe Chen, Yule Wang, Guidong Zhang, Le~Chang, and Yun Zhang.
-\newblock Sneak {{Circuit Theory Based Approach}} to {{Avoiding Short-Circuit
-  Paths}} in {{Reconfigurable Battery Systems}}.
-\newblock 68(12):12353--12363, 2021.
-
-\bibitem{choCommercialResearchBattery2015}
-Jaephil Cho, Sookyung Jeong, and Youngsik Kim.
-\newblock Commercial and research battery technologies for electrical energy
-  storage applications.
-\newblock {\em Progress in Energy and Combustion Science}, 48:84--101, June
-  2015.
-
-\bibitem{ci2007novel}
-Song Ci, Jiucai Zhang, Hamid Sharif, and Mahmoud Alahmad.
-\newblock A novel design of adaptive reconfigurable multicell battery for
-  power-aware embedded networked sensing systems.
-\newblock In {\em IEEE GLOBECOM 2007-IEEE Global Telecommunications
-  Conference}, pages 1043--1047. IEEE, 2007.
-
-\bibitem{ciNovelDesignAdaptive2007}
-Song Ci, Jiucai Zhang, Hamid Sharif, and Mahmoud Alahmad.
-\newblock A {{Novel Design}} of {{Adaptive Reconfigurable Multicell Battery}}
-  for {{Power-Aware Embedded Networked Sensing Systems}}.
-\newblock In {\em {{IEEE GLOBECOM}} 2007-2007 {{IEEE Global Telecommunications
-  Conference}}}, pages 1043--1047, November 2007.
-
-\bibitem{desiqueiraControlStrategySmooth2021}
-Luanna Maria~Silva {de Siqueira} and Wei Peng.
-\newblock Control strategy to smooth wind power output using battery energy
-  storage system: {{A}} review.
-\newblock {\em Journal of Energy Storage}, 35:102252, March 2021.
-
-\bibitem{10.1145/321694.321699}
-Jack Edmonds and Richard~M. Karp.
-\newblock Theoretical improvements in algorithmic efficiency for network flow
-  problems.
-\newblock {\em J. ACM}, 19(2):248–264, apr 1972.
-
-\bibitem{9209774}
-Jan Engelhardt, Tatiana Gabderakhmanova, Gunnar Rohde, and Mattia Marinelli.
-\newblock Reconfigurable stationary battery with adaptive cell switching for
-  electric vehicle fast-charging.
-\newblock In {\em 2020 55th International Universities Power Engineering
-  Conference (UPEC)}, pages 1--6, 2020.
-
-\bibitem{engelhardt2021double}
-Jan Engelhardt, Jan~Martin Zepter, Tatiana Gabderakhmanova, Gunnar Rohde, and
-  Mattia Marinelli.
-\newblock Double-string battery system with reconfigurable cell topology
-  operated as a fast charging station for electric vehicles.
-\newblock {\em Energies}, 14(9):2414, 2021.
-
-\bibitem{doi:10.1137/0204043}
-Shimon Even and R.~Endre Tarjan.
-\newblock Network flow and testing graph connectivity.
-\newblock {\em SIAM Journal on Computing}, 4(4):507--518, 1975.
-
-\bibitem{fengPropagationMechanismsDiagnosis2019}
-Fei Feng, Xiaosong Hu, Lin Hu, Fengling Hu, Yang Li, and Lei Zhang.
-\newblock Propagation mechanisms and diagnosis of parameter inconsistency
-  within {{Li-Ion}} battery packs.
-\newblock {\em Renewable and Sustainable Energy Reviews}, 112:102--113,
-  September 2019.
-
-\bibitem{han2021analysis}
-Weiji Han, Anton Kersten, Changfu Zou, Torsten Wik, Xiaoliang Huang, and
-  Guangzhong Dong.
-\newblock Analysis and estimation of the maximum switch current during battery
-  system reconfiguration.
-\newblock {\em IEEE Transactions on Industrial Electronics}, 69(6):5931--5941,
-  2021.
-
-\bibitem{hanNextGenerationBatteryManagement2020a}
-Weiji Han, Torsten Wik, Anton Kersten, Guangzhong Dong, and Changfu Zou.
-\newblock Next-{{Generation Battery Management Systems}}: {{Dynamic
-  Reconfiguration}}.
-\newblock {\em IEEE Industrial Electronics Magazine}, 14(4):20--31, December
-  2020.
-
-\bibitem{hongwenheStateofChargeEstimationLithiumIon2011}
-Hongwen He, Rui Xiong, Xiaowei Zhang, Fengchun Sun, and JinXin Fan.
-\newblock State-of-{{Charge Estimation}} of the {{Lithium-Ion Battery Using}}
-  an {{Adaptive Extended Kalman Filter Based}} on an {{Improved Thevenin
-  Model}}.
-\newblock {\em IEEE Transactions on Vehicular Technology}, 60(4):1461--1469,
-  May 2011.
-
-\bibitem{heExploringAdaptiveReconfiguration2013}
-Liang He, Lipeng Gu, Linghe Kong, Yu~Gu, Cong Liu, and Tian He.
-\newblock Exploring {{Adaptive Reconfiguration}} to {{Optimize Energy
-  Efficiency}} in {{Large-Scale Battery Systems}}.
-\newblock In {\em 2013 {{IEEE}} 34th {{Real-Time Systems Symposium}}}, pages
-  118--127, December 2013.
-
-\bibitem{he2014reconfiguration}
-Liang He, Linghe Kong, Siyu Lin, Shaodong Ying, Yu~Gu, Tian He, and Cong Liu.
-\newblock Reconfiguration-assisted charging in large-scale lithium-ion battery
-  systems.
-\newblock In {\em 2014 ACM/IEEE International Conference on Cyber-Physical
-  Systems (ICCPS)}, pages 60--71. IEEE, 2014.
-
-\bibitem{6843711}
-Liang He, Linghe Kong, Siyu Lin, Shaodong Ying, Yu~Gu, Tian He, and Cong Liu.
-\newblock Reconfiguration-assisted charging in large-scale {{Lithium-ion}}
-  battery systems.
-\newblock In {\em 2014 {{ACM}}/{{IEEE International Conference}} on
-  {{Cyber-Physical Systems}} ({{ICCPS}})}, pages 60--71, April 2014.
-
-\bibitem{jeevarajanBatterySafetyQualifications2012}
-J.~A. Jeevarajan and C.~Winchester.
-\newblock Battery {{Safety Qualifications}} for {{Human Ratings}}.
-\newblock {\em Interface magazine}, 21(2):51--55, January 2012.
-
-\bibitem{kim2009dynamic}
-Hahnsang Kim and Kang~G Shin.
-\newblock On dynamic reconfiguration of a large-scale battery system.
-\newblock In {\em 2009 15th IEEE Real-Time and Embedded Technology and
-  Applications Symposium}, pages 87--96. IEEE, 2009.
-
-\bibitem{kimDependableEfficientScalable2010b}
-Hahnsang Kim and Kang~G. Shin.
-\newblock Dependable, efficient, scalable architecture for management of
-  large-scale batteries.
-\newblock In {\em Proceedings of the 1st {{ACM}}/{{IEEE International
-  Conference}} on {{Cyber-Physical Systems}}}, {{ICCPS}} '10, pages 178--187,
-  {New York, NY, USA}, April 2010. {Association for Computing Machinery}.
-
-\bibitem{taesickimSeriesconnectedSelfreconfigurableMulticell2012a}
-Taesic Kim, Wei Qiao, and Liyan Qu.
-\newblock A series-connected self-reconfigurable multicell battery capable of
-  safe and effective charging/discharging and balancing operations.
-\newblock In {\em 2012 {{Twenty-Seventh Annual IEEE Applied Power Electronics
-  Conference}} and {{Exposition}} ({{APEC}})}, pages 2259--2264, February 2012.
-
-\bibitem{kimBalancedReconfigurationStorage2011a}
-Younghyun Kim, Sangyoung Park, Yanzhi Wang, Qing Xie, Naehyuck Chang, Massimo
-  Poncino, and Massoud Pedram.
-\newblock Balanced reconfiguration of storage banks in a hybrid electrical
-  energy storage system.
-\newblock In {\em 2011 {{IEEE}}/{{ACM International Conference}} on
-  {{Computer-Aided Design}} ({{ICCAD}})}, pages 624--631, November 2011.
-
-\bibitem{lawsonSoftwareConfigurableBattery2012}
-Barrie Lawson.
-\newblock A {{Software Configurable Battery}}.
-\newblock {\em EVS26 International Battery, Hybrid and Fuel Cell Electric
-  Vehicle Symposium}, 2012.
-
-\bibitem{lotfi2017li}
-Nima Lotfi, Jie Li, Robert~G Landers, and Jonghyun Park.
-\newblock Li-ion battery state of health estimation based on an improved single
-  particle model.
-\newblock In {\em 2017 American Control Conference (ACC)}, pages 86--91. IEEE,
-  2017.
-
-\bibitem{mousavig.VariousBatteryModels2014}
-S.M. Mousavi~G. and M.~Nikdel.
-\newblock Various battery models for various simulation studies and
-  applications.
-\newblock {\em Renewable and Sustainable Energy Reviews}, 32:477--485, April
-  2014.
-
-\bibitem{pomboHybridPowerSystem2021}
-Daniel~V{\'a}zquez Pombo.
-\newblock A {{Hybrid Power System}} for a {{Permanent Colony}} on {{Mars}}.
-\newblock {\em Space: Science \& Technology}, 2021, January 2021.
-
-\bibitem{schwanbeckInternationalSpaceStation2019}
-Eugene Schwanbeck and Penni Dalton.
-\newblock International {{Space Station Lithium-ion Batteries}} for {{Primary
-  Electric Power System}}.
-\newblock In {\em 2019 {{European Space Power Conference}} ({{ESPC}})}, pages
-  1--1. {IEEE}, September 2019.
-
-\bibitem{visairoReconfigurableBatteryPack2008}
-H.~Visairo and P.~Kumar.
-\newblock A reconfigurable battery pack for improving power conversion
-  efficiency in portable devices.
-\newblock In {\em 2008 7th {{International Caribbean Conference}} on
-  {{Devices}}, {{Circuits}} and {{Systems}}}, pages 1--6. {IEEE}, April 2008.
-
-\bibitem{yangUnbalancedDischargingAging2016}
-Naixing Yang, Xiongwen Zhang, BinBin Shang, and Guojun Li.
-\newblock Unbalanced discharging and aging due to temperature differences among
-  the cells in a lithium-ion battery pack with parallel combination.
-\newblock {\em Journal of Power Sources}, 306:733--741, February 2016.
-
-\bibitem{yangBatteryEnergyStorage2018}
-Yuqing Yang, Stephen Bremner, Chris Menictas, and Merlinde Kay.
-\newblock Battery energy storage system size determination in renewable energy
-  systems: {{A}} review.
-\newblock {\em Renewable and Sustainable Energy Reviews}, 91:109--125, August
-  2018.
-
-\bibitem{zhangDevelopmentProspectChinese2021}
-Lihua Zhang.
-\newblock Development and {{Prospect}} of {{Chinese Lunar Relay Communication
-  Satellite}}.
-\newblock {\em Space: Science \& Technology}, 2021, January 2021.
-
-\end{thebibliography}
-
-% \bibliographystyle{plain}
+% \bibliographystyle{nejm}
 % \bibliography{sst_main}
+
+\printbibliography
 
 \end{document}

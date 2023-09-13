@@ -1,4 +1,4 @@
 {
     "python.pythonPath": "/home/phia/anaconda3/envs/TorchV1.9/bin/python",
-    "jupyter.jupyterServerType": "local"
+    "jupyter.jupyterServerType": "local",
 }
