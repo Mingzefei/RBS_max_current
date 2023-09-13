@@ -4,8 +4,8 @@
 \usepackage[babel]{csquotes}
 
 \usepackage[journal={Space: Science \& Technology},
-			manuscript={SPACE-D-23-00082},
-			editor={Dr. Tian}]{reviewresponse}
+      manuscript={SPACE-D-23-00082},
+      editor={Dr. Tian}]{reviewresponse}
 
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -32,93 +32,153 @@
 \reviewer
 % Comment 1
 \begin{revcomment}
-	The authors should explain the most important achievements of the proposed method quantitatively, in the abstract.
+  The authors should explain the most important achievements of the proposed method quantitatively, in the abstract.
 \end{revcomment}
 \begin{revresponse}
-	We appreciate the reviewer's valuable feedback and have carefully considered their suggestion. In response, we have re-written the relevant content in the abstract to provide a quantitative analysis of the most important achievements of our proposed method.
 
-	The revised abstract now highlights that our method not only achieves the same results as the traversal method but also demonstrates significantly improved computational efficiency. Specifically, our method achieves computational efficiency improvements ranging from 3000 to 75000 times, primarily depending on the number of switches involved. This enhancement in computational efficiency is a key advantage of our method.
+Thank you for your valuable feedback. We have carefully considered your suggestion and made the following modifications to address your concern:
 
-	Furthermore, our method stands out for its ability to accurately calculate the MAC of RBSs with arbitrary configurations, even in scenarios with random isolated batteries. This capability expands the applicability of our method to a wider range of scenarios and enhances its practical utility.
 
-	We believe that these quantitative achievements, as described in the revised abstract, effectively demonstrate the effectiveness and superiority of our proposed method.
+By introducing the shortest path($SP$) of the battery, the greedy algorithm transforms the enumeration of switch states in the brute force algorithm into the combination of the $SP$s, which greatly increases the efficiency of determining the maximum allowable current (MAC) of reconfigurable battery systems (RBSs). We have also provided a theoretical estimation of the improved efficiency, which is proportional to $N_s 2^{N_s - N_b} \log N_b$, where $N_s$ is the number of switches and $N_b$ is the number of batteries.
+
+
+Here is the specific modification we made in the abstract:
+\begin{changes}
+  changes in abstract
+\end{changes}
+
+
+We believe that these modifications provide a more quantitative explanation of the achievements of our proposed method in the abstract. 
+Thank you once again for your valuable input, which has greatly improved the clarity and effectiveness of our paper.
+
 \end{revresponse}
 
 % Comment 2
 \begin{revcomment}
-	The literature review in the introduction section is very short, and the related works, especially the works published in recent years, have not been well reviewed and compared, and the conclusions about the existing research gaps have not been presented.
+  The literature review in the introduction section is very short, and the related works, especially the works published in recent years, have not been well reviewed and compared, and the conclusions about the existing research gaps have not been presented.
 \end{revcomment}
 \begin{revresponse}
-	
+
+Dear Reviewer,
+
+Thank you for your valuable feedback on our manuscript. We have carefully considered your comments and made the necessary revisions to address the concerns raised. Below, we provide a detailed response to your specific points.
+
+
+We have expanded the literature review in the introduction section to provide a comprehensive overview of the existing RBS structures and related works on structure analysis. 
+Although many RBS structures have been proposed for different purposes, such as dynamically adjusting the output voltage, increasing energy utilization efficiency, and improving the system's ability to recover from battery failures, they also bring challenges in design and control of the systems.
+Therefore, several works on structure analysis, like the maximum switch current and the short-circuit problem, have been proposed to tackle these challenges recently.
+However, determining the MAC of RBSs remains blank accroding to our literature review.
+A straightforward method is to enumerate all possible switch states, but the complexity of this method increases exponentially with the number of switches, and has too ineffection to apply.
+
+
+Here is the specific modification we made in the introduction:
+\begin{changes}
+  changes in introduction
+\end{changes}
+
+  
+Thank you once again for your comments, which have greatly improved the quality and comprehensiveness of our manuscript. We believe that the revised introduction section now provides a thorough review of the literature and addresses the existing research gaps in the field of RBS structures.
+  
 \end{revresponse}
 
 % Comment 3
 \begin{revcomment}
-	It is necessary for the authors to clearly state research contribution and achievements as bullet points at the end of the Introduction section.
+  It is necessary for the authors to clearly state research contribution and achievements as bullet points at the end of the Introduction section.
 \end{revcomment}
 \begin{revresponse}
-	
+
+We appreciate and accept your suggestion and have added a clear statement of the contributions in the second-to-last paragraph of the Introduction, as shown below:
+\begin{changes}
+  changes in introduction
+\end{changes}
+
+
+We believe that these additions enhance the clarity of our manuscript. 
+
 \end{revresponse}
 
 % Comment 4
 \begin{revcomment}
-	The authors need to present the complexity of their proposed method and compare it with some other state-of-the-art or successful classic methods.
+  The authors need to present the complexity of their proposed method and compare it with some other state-of-the-art or successful classic methods.
 \end{revcomment}
 \begin{revresponse}
-	
+
+Thank you for your valuable feedback. We have carefully considered your suggestion regarding the complexity of our proposed method and have made the following explanation to address this concern:
+
+
+We have derived the average time complexity of our proposed greedy algorithm-based MAC determination method to be approximately $O(2^{N_b}N_s^2\log N_b)$, where $N_b$ and $N_s$ are the number of batteries and switches, respectively.
+
+
+As mentioned in our response to Comment 2, there was a blank in the literature regarding MAC determination methods.
+Therefore, a brute force method have been used as a benchmark for comparison, whose time complexity is $O(2^{N_s}N_s^3)$.
+
+
+Since the number of switches in RBS is typically 3 to 5 times the batteries\cite{ciNovelDesignAdaptive2007,alahmadBatterySwitchArray2008,kimDependableEfficientScalable2010b,kimBalancedReconfigurationStorage2011a,taesickimSeriesconnectedSelfreconfigurableMulticell2012a,6843711}, the method we proposed is theoretically more efficient than the brute force method.
+It has been validated by the case study in the manuscript.
+
+
+The detailed derivation and discussion of the above points have been added to the revised manuscript under the "Discussion".
+Here is the specific modification:
+\begin{changes}
+  changes in discussion
+\end{changes}
+
 \end{revresponse}
 
 % Comment 5
 \begin{revcomment}
-	The authors don't discuss the limitations of the study correctly.
+  The authors don't discuss the limitations of the study correctly.
 \end{revcomment}
 \begin{revresponse}
-	
+
+The time complexity of the proposed method is $O(2^{N_b}N_s^2\log N_b)$, which still has a exponential relationship with the number of batteries.
+That means unsufferable time cost will be caused when the number of batteries is large.
+  
 \end{revresponse}
 
 
 % Comment 6
 \begin{revcomment}
-	Some typos should be double check.
+  Some typos should be double check.
 \end{revcomment}
 \begin{revresponse}
-	
+  
 \end{revresponse}
 
 % Comment 7
 \begin{revcomment}
-	The author should explain more why solution quality of their proposed approach is much better than the others?
+  The author should explain more why solution quality of their proposed approach is much better than the others?
 \end{revcomment}
 \begin{revresponse}
-	
+  
 \end{revresponse}
 
 % Comment 8
 \begin{revcomment}
-	Authors should mention some novel works in the field in the introduction, specially refer to this 2023 reference: An efficient lightweight algorithm for scheduling tasks onto dynamically reconfigurable hardware using graph-oriented simulated annealing, which uses graph-based method. Mention and refer to it in the introduction section.
+  Authors should mention some novel works in the field in the introduction, specially refer to this 2023 reference: An efficient lightweight algorithm for scheduling tasks onto dynamically reconfigurable hardware using graph-oriented simulated annealing, which uses graph-based method. Mention and refer to it in the introduction section.
 \end{revcomment}
 \begin{revresponse}
-	
+  
 \end{revresponse}
 
 % Comment 9
 \begin{revcomment}
-	Authors need to explain about the accuracy, sufficiency and reliability of their results? How do they verify and validate the results?
+  Authors need to explain about the accuracy, sufficiency and reliability of their results? How do they verify and validate the results?
 \end{revcomment}
 \begin{revresponse}
-	
+  
 \end{revresponse}
 
 
 
 % \begin{revcomment}
-% 	Everything else is really good.
+%   Everything else is really good.
 % \end{revcomment}
 % \begin{revresponse}
-% 	We totally agree. We also added the following to the new version of the manuscript
-% 	\begin{changes}
-% 		This really important sentence was added to the paper.
-% 	\end{changes}
+%   We totally agree. We also added the following to the new version of the manuscript
+%   \begin{changes}
+%     This really important sentence was added to the paper.
+%   \end{changes}
 % \end{revresponse}
 
 \end{document}
