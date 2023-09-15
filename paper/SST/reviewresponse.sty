@@ -2,6 +2,10 @@
 % Author: Karl-Ludwig Besser
 % Email: k.besser@tu-bs.de
 
+%%% Indent $$$
+\usepackage{indentfirst} 
+\setlength{\parindent}{2em}
+
 
 \RequirePackage{kvoptions}
 
@@ -101,9 +105,12 @@
 	\begin{tcolorbox}[attach title to upper, title={Comment \arabic{reviewcomment@counter}}, after title={:\\}, fonttitle={\bfseries}, colback={colorcommentbg}, colframe={colorcommentframe},coltitle={colorcommentfg},#1]
 }{\end{tcolorbox}}
 
-\newenvironment{revresponse}[1][{Thank you for the comment.}]{%
-	\textbf{Response:} #1\par
+\newenvironment{revresponse}[1][{}]{%
+	\noindent\textbf{Response:} #1\par
 }{\vspace{4em plus 0em minus 1em}}
+% \newenvironment{revresponse}[1][{Thank you for the comment.}]{%
+% 	\textbf{Response:} #1\par
+% }{\vspace{4em plus 0em minus 1em}}
 
 \newenvironment{changes}{\begin{tcolorbox}[breakable,colback={colorchangebg}, colframe={colorchangeframe},enhanced jigsaw,sharp corners]
 }{\end{tcolorbox}}

@@ -11,11 +11,19 @@
 \usepackage{lmodern}
 %\usepackage{newcent}
 %\usepackage[scaled]{beramono}
+\usepackage{graphicx}
+\graphicspath{ {../figures/} }
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{footnote}
+\usepackage{bm}
+\usepackage[style=nejm, citestyle=numeric-comp, sorting=none]{biblatex}
+\addbibresource{SST_main.bib}
+\usepackage{indentfirst} 
+\setlength{\parindent}{2em}
 
-\usepackage[]{biblatex}
-\bibliography{2-SST_review.bib}
-
-\usepackage{hyperref}
 
 \title{Maximum Allowable Current Determination of RBS By Using a Directed Graph Model and Greedy Algorithm}
 \author{Dr. Cheng Qian, on behalf of all authors}
@@ -58,13 +66,8 @@ We believe that these modifications provide a more quantitative explanation of t
 \end{revcomment}
 \begin{revresponse}
 
-Dear Reviewer,
-
-
-
-
-We have expanded the literature review in the introduction section to provide a comprehensive overview of the existing RBS structures and related works on structure analysis. 
-Although many RBS structures have been proposed for different purposes, such as dynamically adjusting the output voltage, increasing energy utilization efficiency, and improving the system's ability to recover from battery failures, they also bring challenges in design and control of the systems.
+Considering the Reviewer’s suggestion, we have expanded the literature review in the introduction section to provide a comprehensive overview of the existing RBS structures \cite{ci2007novel,9209774,engelhardt2021double,visairoReconfigurableBatteryPack2008,lawsonSoftwareConfigurableBattery2012,he2014reconfiguration,kim2009dynamic} and related works on structure analysis \cite{han2021analysis,chenSneakCircuitTheory2021}. 
+Although many RBS structures have been proposed for different purposes, such as dynamically adjusting the output voltage , increasing energy utilization efficiency, and improving the system's ability to recover from battery failures, they also bring challenges in design and control of the systems.
 Therefore, several works on structure analysis, like the maximum switch current and the short-circuit problem, have been proposed to tackle these challenges recently.
 However, determining the MAC of RBSs remains blank accroding to our literature review.
 A straightforward method is to enumerate all possible switch states, but the complexity of this method increases exponentially with the number of switches, and has too ineffection to apply.
@@ -102,21 +105,17 @@ We believe that these additions enhance the clarity of our manuscript.
 \end{revcomment}
 \begin{revresponse}
 
-Thanks for the reviewer's valuable feedback. We have carefully considered the reviewer's suggestion regarding the complexity of our proposed method and have made the following explanation to address this concern:
+It is really true as Reviewer suggested about the complexity of our proposed method and the comparison with other state-of-art methods.
 
 
 We have derived the average time complexity of our proposed greedy algorithm-based MAC determination method to be approximately $O(2^{N_b}N_s^2\log N_b)$, where $N_b$ and $N_s$ are the number of batteries and switches, respectively.
-
-
-As mentioned in our response to Comment 2, there was a blank in the literature regarding MAC determination methods.
-Therefore, a brute force method have been used as a benchmark for comparison, whose time complexity is $O(2^{N_s}N_s^3)$.
-
-
+However, as mentioned in our response to Comment 2, there was a blank in the literature regarding MAC determination methods.
+The brute force method, the most straightforward and intuitive method, was used as a benchmark for comparison, whose time complexity is $O(2^{N_s}N_s^3)$.
 Since the number of switches in RBS is typically 3 to 5 times the batteries\cite{ciNovelDesignAdaptive2007,alahmadBatterySwitchArray2008,kimDependableEfficientScalable2010b,kimBalancedReconfigurationStorage2011a,taesickimSeriesconnectedSelfreconfigurableMulticell2012a,6843711}, the method we proposed is theoretically more efficient than the brute force method.
 It has been validated by the case study in the manuscript.
 
 
-The detailed derivation and discussion of the above points have been added to the revised manuscript under the "Discussion".
+The detailed derivation and discussion of the above points have been added to the revised manuscript under the Discussion subsection.
 Here is the specific modification:
 \begin{changes}
   changes in discussion
@@ -147,7 +146,7 @@ Here is the specific content we added in the discussion:
 \end{revcomment}
 \begin{revresponse}
 
-We are very sorry for our incorrect writing. We have carefully checked the manuscript and corrected the typos. Thanks for the valuable feedback.
+We are very sorry for our incorrect writing, and have carefully checked the manuscript and corrected the typos. 
   
 \end{revresponse}
 
@@ -157,9 +156,9 @@ We are very sorry for our incorrect writing. We have carefully checked the manus
 \end{revcomment}
 \begin{revresponse}
 
-We understand the reviewer's concern, and we agree that the explanation on the reason why the solution quality of our proposed approach is much better than the others is important to the academic value of the paper. 
-However, as metioned in the response to Comment 2,
-we have not found any other works on MAC determination of RBSs, which means there is no other solution to compare with.
+We appreciate the reviewer's concern regarding the explanation of why the solution quality of our proposed approach is better to others. 
+However, after careful literature research, we would like to clarify that there are currently no existing works on the MAC determination of RBSs that we could compare our solution with. 
+Therefore, it is not possible to directly compare the solution quality of our proposed approach with others.
   
 \end{revresponse}
 
@@ -175,11 +174,9 @@ We believe that these works represent the innovation and recent advances in the 
 
 The reviewer also specially mentioned the work published in 2023: An efficient lightweight algorithm for scheduling tasks onto dynamically reconfigurable hardware using graph-oriented simulated annealing.
 We have carefully read this paper, and after fully discussion, we finally agreed that this paper is not relevant to our research.
-Although this paper also uses a graph-based method, it mainly studies the task scheduling problem in time series, while our research is about the maximum allowable current of RBS structure, which belongs to the field of structure analysis.
+Although this paper uses a graph-based method, whose name is similar to the method described in our paper, it mainly studies the task scheduling problem in time series.
+While our research is about the maximum allowable current of RBS structure, which belongs to the field of structure analysis.
 Therefore, we believe that it is not appropriate to include this paper in our introduction and will not cite it.
-
-
-Thanks again for the valuable feedback from the reviewer.
   
 \end{revresponse}
 
@@ -188,9 +185,156 @@ Thanks again for the valuable feedback from the reviewer.
   Authors need to explain about the accuracy, sufficiency and reliability of their results? How do they verify and validate the results?
 \end{revcomment}
 \begin{revresponse}
-  
+
+TODO: explain about the accuracy, sufficiency and reliability of our results with Xu and Qian.
+
+Thanks for the reviewer's valuable feedback. We have carefully considered the reviewer's question.
+In response, we complemented the computation with the brute force method and provided more detailed explanation and discussion.
+
+
+In the Case Study section of the paper, we investigated the MACs of three RBS structures, two of which are from published literatures \cite{lawsonSoftwareConfigurableBattery2012,visairoReconfigurableBatteryPack2008} and the other is designed by ourselves, as shown in Figure \ref{fig:study-stru-Lawson}, \ref{fig:study-stru-Visairo} and \ref{fig:study-stru-my}, respectively.
+The results of the three RBS structures calculated by our proposed method are shown in Tables \ref{tab:study-results-Lawson-greedy}, \ref{tab:study-results-Visairo-greedy} and \ref{tab:study-results-my-greedy}, respectively.
+The results by brute force method are shown in Tables \ref{tab:study-results-Lawson-brute}, \ref{tab:study-results-Visairo-brute} and \ref{tab:study-results-my-brute}, respectively.
+
+
+On the one hand, as shown in the Tables \ref{tab:study-results-Lawson-greedy} to \ref{tab:study-results-my-brute}, the reconfigured structure results from our greedy algorithm are consistent with the results from the brute force algorithm, which enumerates all possible reconfigured structures.
+It shows that our algorithm does find the global optimal solution.
+On the other hand, the output current of the system calculated by our directed graph model is consistent with the experience and common sense.
+To illustrate this, the RBS structure shown in Figure \ref{fig:study-stru-my} is taken as an example here.
+The four batteries in this structure can be divided into two groups: $B_1$ and $B_2$, $B_3$ and $B_4$.
+The relationship between the two batteries in each group can be switched between series and parallel by reconfiguration.
+While the two groups can only form a series connection or be disconnected, rather than a parallel connection.
+Therefore, the MAC of this structure is the maximum of the output current of the two groups, which is twice the maximum allowable current of a single battery, consistented with the result $\max \eta = 2$ shown in Table \ref{tab:study-results-my-greedy}.
+
+
+We hope that our above content can address the reviewer's concerns.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{stru-L-origin.png}
+        \caption{}
+        \label{fig:study-stru-Lawson}
+    \end{subfigure}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{stru-V-origin.png}
+        \caption{}
+        \label{fig:study-stru-Visairo}
+    \end{subfigure}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\textwidth]{stru-my-origin.png}
+        \caption{}
+        \label{fig:study-stru-my}
+    \end{subfigure}
+    \caption{The 4-battery RBS structures proposed by (a)Lawson\cite{lawsonSoftwareConfigurableBattery2012}, (b)Visairo\cite{visairoReconfigurableBatteryPack2008} and (c)this paper.}
+\end{figure}
+
+\begin{table}[htbp]
+  \centering
+    \caption{MAC Calculating result of the RBS structure in Figure \ref{fig:study-stru-Lawson} with our method.}
+    \begin{tabular}{cc}
+    \toprule
+        Structure & Figure \ref{fig:study-stru-Lawson} with 4 batteries and 15 switches  \\
+    \midrule
+    Switch ON & $S_1$,$S_3$,$S_5$,$S_7$,$S_{10}$,$S_{13}$,$S_{14}$,$S_{15}$ \\
+    $I_o$ & $u_b/(R_o+r_b)$ \\
+    $\bm{I}_b$ & $[u_b/(R_o+r_b),0,0,0]$ \\
+    $\max  \eta$     & 1 \\
+    computed structure count & 11 \\
+    \bottomrule
+    \end{tabular}
+  \label{tab:study-results-Lawson-greedy}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+    \caption{MAC Calculating result of the RBS structure in Figure \ref{fig:study-stru-Visairo} with our method.}
+    \begin{tabular}{cc}
+    \toprule
+        Structure & Figure \ref{fig:study-stru-Visairo} with 4 batteries and 13 switches  \\
+    \midrule
+    Switch ON & $S_1$,$S_2$,$S_3$,$S_4$,$S_5$,$S_9$,$S_{10}$,$S_{11}$,$S_{12}$,$S_{13}$ \\
+    $I_o$ & $4u_b/(4R_o+r_b)$ \\
+    $\bm{I}_b$ & $[u_b/(4R_o+r_b),u_b/(4R_o+r_b),u_b/(4R_o+r_b),u_b/(4R_o+r_b)]$ \\
+    $\max \eta$     & 4 \\
+    computed structure count & 1 \\
+    \bottomrule
+    \end{tabular}
+  \label{tab:study-results-Visairo-greedy}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+    \caption{MAC Calculating result of the RBS structure in Figure \ref{fig:study-stru-my} with our method.}
+    \begin{tabular}{cc}
+    \toprule
+        Structure & Figure \ref{fig:study-stru-my} with 4 batteries and 19 switches  \\
+    \midrule
+    Switch ON & $S_1$,$S_3$,$S_5$,$S_6$,$S_8$,$S_9$,$S_{10}$,$S_{12}$,$S_{18}$,$S_{19}$ \\
+    $I_o$ & $2u_b/(2R_o+r_b)$ \\
+    $\bm{I}_b$ & $[u_b/(2R_o+r_b),u_b/(2R_o+r_b),0,0]$ \\
+    $\max  \eta$     & 2 \\
+    computed structure count & 11 \\
+    \bottomrule
+    \end{tabular}
+  \label{tab:study-results-my-greedy}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+    \caption{MAC Calculating result of the RBS structure in Figure \ref{fig:study-stru-Lawson} with brute force method.}
+    \begin{tabular}{cc}
+    \toprule
+        Structure & Figure \ref{fig:study-stru-Lawson} with 4 batteries and 15 switches  \\
+    \midrule
+    Switch ON & $S_1$,$S_3$,$S_5$,$S_7$,$S_{10}$,$S_{13}$,$S_{14}$,$S_{15}$ \\
+    $I_o$ & $u_b/(R_o+r_b)$ \\
+    $\bm{I}_b$ & $[u_b/(R_o+r_b),0,0,0]$ \\
+    $\max \eta$     & 1 \\
+    computed structure count & 32768 \\
+    \bottomrule
+    \end{tabular}
+  \label{tab:study-results-Lawson-brute}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+    \caption{MAC Calculating result of the RBS structure in Figure \ref{fig:study-stru-Visairo} with brute force method.}
+    \begin{tabular}{cc}
+    \toprule
+        Structure & Figure \ref{fig:study-stru-Visairo} with 4 batteries and 13 switches  \\
+    \midrule
+    Switch ON & $S_1$,$S_2$,$S_3$,$S_4$,$S_5$,$S_9$,$S_{10}$,$S_{11}$,$S_{12}$,$S_{13}$ \\
+    $I_o$ & $4u_b/(4R_o+r_b)$ \\
+    $\bm{I}_b$ & $[u_b/(4R_o+r_b),u_b/(4R_o+r_b),u_b/(4R_o+r_b),u_b/(4R_o+r_b)]$ \\
+    $\max \eta$     & 4 \\
+    computed structure count & 8192 \\
+    \bottomrule
+    \end{tabular}
+  \label{tab:study-results-Visairo-brute}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+    \caption{MAC Calculating result of the RBS structure in Figure \ref{fig:study-stru-my} with brute force method.}
+    \begin{tabular}{cc}
+    \toprule
+        Structure & Figure \ref{fig:study-stru-my} with 4 batteries and 19 switches  \\
+    \midrule
+    Switch ON & $S_1$,$S_3$,$S_5$,$S_6$,$S_8$,$S_9$,$S_{10}$,$S_{12}$,$S_{18}$,$S_{19}$ \\
+    $I_o$ & $2u_b/(2R_o+r_b)$ \\
+    $\bm{I}_b$ & $[u_b/(2R_o+r_b),u_b/(2R_o+r_b),0,0]$ \\
+    $\max \eta$     & 2 \\
+    computed structure count & 524288 \\
+    \bottomrule
+    \end{tabular}
+  \label{tab:study-results-my-brute}
+\end{table}
+
 \end{revresponse}
 
-
+\printbibliography
 
 \end{document}
