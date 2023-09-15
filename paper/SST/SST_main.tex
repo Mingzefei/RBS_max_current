@@ -29,6 +29,8 @@
 % =====0913
 % 1. 按师兄的修改意见修改（0912晚）
 % 2. 调整文献顺序，改用 biber
+% =====0915
+% my structure, my method 的计算结构数为 11，而不是 7
 
 % 【doing】
 
@@ -641,7 +643,7 @@ Similarly, the MAC calculation results of the structures in Figures \ref{fig:stu
 In order to verify and compare the results from the greedy algorithm, we also utilized a brute force algorithm that go through all possible switch states to calculate the MAC of the same three RBS. 
 For a given RBS structure with $N_s$ switches, the final $\max$ $\eta$ is the maximum of $\eta$s from all $2^{N_s}$ reconfigured structures.
 The final results are the same as the results shown in Tables \ref{tab:study-results-my}-\ref{tab:study-results-Visairo}.
-It is worth noting that the method used the greedy algorithm only calculated 7, 11, and 1 reconfigured structures for the RBS structure in Figures \ref{fig:study-stru-my}, \ref{fig:study-stru-Lawson}, \ref{fig:study-stru-Visairo}, respectively. 
+It is worth noting that the method used the greedy algorithm only calculated 11, 11, and 1 reconfigured structures for the RBS structure in Figures \ref{fig:study-stru-my}, \ref{fig:study-stru-Lawson}, \ref{fig:study-stru-Visairo}, respectively. 
 While for the same RBS, the method counted all possible switch states computed $2^{19}$, $2^{15}$, and $2^{13}$ structures, respectively.
 }
 
@@ -759,7 +761,7 @@ Based on currently proposed RBS structures\cite{ciNovelDesignAdaptive2007,alahma
 After simplifying, the time complexity of the greedy algorithm is $O(2^{N_b}N_s^2\log N_b)$, while it is $O(2^{N_s}N_s^3)$ for brute force algorithm.
 Therefore, it is reasonable to believe that as the size of the RBS increases, especially the number of the switches, the greedy algorithm will have an advantage over the algorithm that goes through all reconfigured structures.
 This can be confirmed from the number of structures required for MAC determination in the previous subsection. 
-Compared to the brute force algorithm, the efficiency of the method based on the greedy algorithm has been improved by 3000 to 75000 times, which is theoretically $N_s 2^{N_s - N_b} \log N_b$ times according to the above time complexity analysis.
+Compared to the brute force algorithm, the efficiency of the method based on the greedy algorithm has been improved by 3000 to 48000 times, which is theoretically $N_s 2^{N_s - N_b} \log N_b$ times according to the above time complexity analysis.
 Among the three RBS structures, the highest is the RBS structure with 19 switches (Figure \ref{fig:study-stru-my}).
 This benefit from two key points:
 (1) The $SP$s guide the RBS to reconfigure reasonable structures, rather than blindly going through all possible structures. This reduces the factor in complexity from $2^{N_s}$ to $2^{N_b}$, which is the main reason for the improvement in efficiency;

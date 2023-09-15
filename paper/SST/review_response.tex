@@ -36,7 +36,7 @@
 \end{revcomment}
 \begin{revresponse}
 
-Thank you for your valuable feedback. We have carefully considered your suggestion and made the following modifications to address your concern:
+Thanks for the reviewer's valuable feedback. We have carefully considered this suggestion and made the following modifications to address the reviewer's concern:
 
 
 By introducing the shortest path($SP$) of the battery, the greedy algorithm transforms the enumeration of switch states in the brute force algorithm into the combination of the $SP$s, which greatly increases the efficiency of determining the maximum allowable current (MAC) of reconfigurable battery systems (RBSs). We have also provided a theoretical estimation of the improved efficiency, which is proportional to $N_s 2^{N_s - N_b} \log N_b$, where $N_s$ is the number of switches and $N_b$ is the number of batteries.
@@ -49,7 +49,6 @@ Here is the specific modification we made in the abstract:
 
 
 We believe that these modifications provide a more quantitative explanation of the achievements of our proposed method in the abstract. 
-Thank you once again for your valuable input, which has greatly improved the clarity and effectiveness of our paper.
 
 \end{revresponse}
 
@@ -61,7 +60,7 @@ Thank you once again for your valuable input, which has greatly improved the cla
 
 Dear Reviewer,
 
-Thank you for your valuable feedback on our manuscript. We have carefully considered your comments and made the necessary revisions to address the concerns raised. Below, we provide a detailed response to your specific points.
+
 
 
 We have expanded the literature review in the introduction section to provide a comprehensive overview of the existing RBS structures and related works on structure analysis. 
@@ -77,7 +76,7 @@ Here is the specific modification we made in the introduction:
 \end{changes}
 
   
-Thank you once again for your comments, which have greatly improved the quality and comprehensiveness of our manuscript. We believe that the revised introduction section now provides a thorough review of the literature and addresses the existing research gaps in the field of RBS structures.
+Thanks once again for the reviewer's comments, which have greatly improved the quality and comprehensiveness of our manuscript. We believe that the revised introduction section now provides a thorough review of the literature and addresses the existing research gaps in the field of RBS structures.
   
 \end{revresponse}
 
@@ -103,7 +102,7 @@ We believe that these additions enhance the clarity of our manuscript.
 \end{revcomment}
 \begin{revresponse}
 
-Thank you for your valuable feedback. We have carefully considered your suggestion regarding the complexity of our proposed method and have made the following explanation to address this concern:
+Thanks for the reviewer's valuable feedback. We have carefully considered the reviewer's suggestion regarding the complexity of our proposed method and have made the following explanation to address this concern:
 
 
 We have derived the average time complexity of our proposed greedy algorithm-based MAC determination method to be approximately $O(2^{N_b}N_s^2\log N_b)$, where $N_b$ and $N_s$ are the number of batteries and switches, respectively.
@@ -131,9 +130,14 @@ Here is the specific modification:
 \end{revcomment}
 \begin{revresponse}
 
-The time complexity of the proposed method is $O(2^{N_b}N_s^2\log N_b)$, which still has a exponential relationship with the number of batteries.
-That means unsufferable time cost will be caused when the number of batteries is large.
-  
+We are sorry for our negligence of the limitations of the study. As far as we are concerned, although the method we proposed is strongly efficient than the brute force method, it still has a exponential relationship with the number of batteries, which means unsufferable time cost will be caused for systems with large number of batteries.
+
+
+Here is the specific content we added in the discussion:
+\begin{changes}
+  changes in discussion
+\end{changes}
+
 \end{revresponse}
 
 
@@ -142,6 +146,8 @@ That means unsufferable time cost will be caused when the number of batteries is
   Some typos should be double check.
 \end{revcomment}
 \begin{revresponse}
+
+We are very sorry for our incorrect writing. We have carefully checked the manuscript and corrected the typos. Thanks for the valuable feedback.
   
 \end{revresponse}
 
@@ -150,6 +156,10 @@ That means unsufferable time cost will be caused when the number of batteries is
   The author should explain more why solution quality of their proposed approach is much better than the others?
 \end{revcomment}
 \begin{revresponse}
+
+We understand the reviewer's concern, and we agree that the explanation on the reason why the solution quality of our proposed approach is much better than the others is important to the academic value of the paper. 
+However, as metioned in the response to Comment 2,
+we have not found any other works on MAC determination of RBSs, which means there is no other solution to compare with.
   
 \end{revresponse}
 
@@ -158,6 +168,18 @@ That means unsufferable time cost will be caused when the number of batteries is
   Authors should mention some novel works in the field in the introduction, specially refer to this 2023 reference: An efficient lightweight algorithm for scheduling tasks onto dynamically reconfigurable hardware using graph-oriented simulated annealing, which uses graph-based method. Mention and refer to it in the introduction section.
 \end{revcomment}
 \begin{revresponse}
+
+Thanks to the reviewer's suggestion, we have introduced two novel works in the RBS structure analysis field in the introduction, which respectively study the maximum switch current \cite{han2021analysis} and the short-circuit problem \cite{chenSneakCircuitTheory2021} in RBS structures.
+We believe that these works represent the innovation and recent advances in the field of RBS structure analysis.
+
+
+The reviewer also specially mentioned the work published in 2023: An efficient lightweight algorithm for scheduling tasks onto dynamically reconfigurable hardware using graph-oriented simulated annealing.
+We have carefully read this paper, and after fully discussion, we finally agreed that this paper is not relevant to our research.
+Although this paper also uses a graph-based method, it mainly studies the task scheduling problem in time series, while our research is about the maximum allowable current of RBS structure, which belongs to the field of structure analysis.
+Therefore, we believe that it is not appropriate to include this paper in our introduction and will not cite it.
+
+
+Thanks again for the valuable feedback from the reviewer.
   
 \end{revresponse}
 
@@ -170,15 +192,5 @@ That means unsufferable time cost will be caused when the number of batteries is
 \end{revresponse}
 
 
-
-% \begin{revcomment}
-%   Everything else is really good.
-% \end{revcomment}
-% \begin{revresponse}
-%   We totally agree. We also added the following to the new version of the manuscript
-%   \begin{changes}
-%     This really important sentence was added to the paper.
-%   \end{changes}
-% \end{revresponse}
 
 \end{document}
