@@ -234,10 +234,10 @@ The following  provides a detailed explanation of the method for equating compon
 
 
 To use circuit analysis methods to solve the MAC of the RBS, the components in the RBS are equated to ideal circuit elements.
-For instance, as shown in Fig. \ref{fig:battery_simple}, the battery in the RBS is represented as a black-box circuit consisting of two resistors $r_1$ and $r_2$ and a capacitor  $C$, known as the Thevenin model \cite{hongwenheStateofChargeEstimationLithiumIon2011,mousavig.VariousBatteryModels2014}.
+For instance, as shown in Fig. \ref{fig:battery_simple}, the battery in the RBS is represented as a black-box circuit consisting of two resistors $r_1$ and $r_2$ and a capacitor $C$, known as the Thevenin model \cite{hongwenheStateofChargeEstimationLithiumIon2011,mousavig.VariousBatteryModels2014}.
 With an emphasis on the stable output of the RBS, the capacitor in the Thevenin model can be considered as an open circuit without affecting the steady-state current.
-Therefore,  battery $i$ in the RBS can be simplified as a series connection between a constant voltage source $u_{i}$ and a resistor $r_{i}$.
-Furthermore, the state of switch $j$ in the RBS is represented by a binary variable $x_j$, where 0 is ON and 1 is OFF.
+Therefore,  battery $B_i$ in the RBS can be simplified as a series connection between a constant voltage source $u_{i}$ and a resistor $r_{i}$.
+Furthermore, the state of switch $S_j$ in the RBS is represented by a binary variable $x_j$, where 0 is ON and 1 is OFF.
 When the switch is closed, the circuit can be regarded as a resistor with a very small resistance $r_{j}$.
 Finally, the external load is considered as a resistor with resistance $R_o$.
 
@@ -422,12 +422,12 @@ Finally, the algorithm outputs the maximum $\eta$ once $N_{\text{set}}$ converge
 \begin{tikzpicture}[font=\small, node font=\small, node distance=1.5em]
     \node[punkt]     (input) {Input: RBS structure};
     \node[punkt, below=0.3of input] (get_SP) {get SPs by Eqs. (\ref{eq:weight}) and (\ref{eq:def_sp}) and Dijkstra Search};
-    \node[punkt, below=0.3of get_SP] (get_A) {get $\bm{A}$ from Equation \ref{eq:A}};
+    \node[punkt, below=0.3of get_SP] (get_A) {get $\bm{A}$ from Eq. (\ref{eq:A})};
     \node[punkt, below=0.3of get_A] (get_Nset) {init $N_{\text{set}}=N_b$ };
     \node[punkt, below=0.3of get_Nset] (get_cb) {get $c_b$s by combinating $N_{\text{set}}$ batteries from $N_b$};
     \node[draw, diamond, aspect=2, below=0.3of get_cb] (is_check_all_cb) {are all $c_b$s checked?};
     \node[draw, diamond, aspect=2, right=1of is_check_all_cb] (is_Nset_converged) {is $N_{\text{set}}$ converged?};
-    \node[punkt, above=of is_Nset_converged] (reset_Nset) {reset $N_{\text{set}}$ by dichotomy};
+    \node[punkt, above=0.3of is_Nset_converged] (reset_Nset) {reset $N_{\text{set}}$ by dichotomy};
     \node[punkt, text width=15em, below=0.3of is_check_all_cb] (get_Xs) {
         select an unchecked $c_b$, and get its $\bm{X}_m$ by \\ 
         if switch $j$ $\in \bigcup_{i\in c_b}SP_i$:\\
