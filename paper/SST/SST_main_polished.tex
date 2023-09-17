@@ -45,19 +45,19 @@
 % Use an asterisk (*) to identify the corresponding author, and be sure to include that person’s e-mail address. Use symbols (in this order: †, ‡, §, ||, ¶, #, ††, ‡‡, etc.) for author notes, such as present addresses, “These authors contributed equally to this work” notations, and similar information.
 % You can include group authors, but please include a list of the actual authors (the group members) in the Supplementary Materials.
 \author[1]{30577}
-% \author[1$\dag$]{Binghui Xu}
-% \author[1$\dag$]{Guangbin Hua}
-% \author[1*]{Cheng Qian}
-% \author[1,2]{Quan Xia}
-% \author[1]{Bo Sun}
-% \author[1]{Yi Ren}
-% \author[1]{Zili Wang}
+\author[1$\dag$]{Binghui Xu}
+\author[1$\dag$]{Guangbin Hua}
+\author[1*]{Cheng Qian}
+\author[1,2]{Quan Xia}
+\author[1]{Bo Sun}
+\author[1]{Yi Ren}
+\author[1]{Zili Wang}
 
 %%%%%% Affiliations %%%%%%
-% \affil[1]{School of Reliability and Systems Engineering, Beihang University, Beijing, 100191, China}
-% \affil[2]{School of Aeronautic Science and Engineering at Beihang University, Beijing, China}
-% \affil[*]{Address correspondence to: cqian@buaa.edu.cn}
-% \affil[$\dag$]{These authors contributed equally to this work.}
+\affil[1]{School of Reliability and Systems Engineering, Beihang University, Beijing, 100191, China}
+\affil[2]{School of Aeronautic Science and Engineering at Beihang University, Beijing, China}
+\affil[*]{Address correspondence to: cqian@buaa.edu.cn}
+\affil[$\dag$]{These authors contributed equally to this work.}
 
 %%%%%% Date %%%%%%
 % Date is optional
@@ -111,25 +111,25 @@ Furthermore, when an unhealthy battery, for instance, the orange one $B_3$ in Fi
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/stru-V-origin.png}
+        \includegraphics[width=\textwidth]{stru-V-origin.png}
         \caption{}
         \label{fig:stru-Visairo}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/stru-V-serial.png}
+        \includegraphics[width=\textwidth]{stru-V-serial.png}
         \caption{}
         \label{fig:stru-Visairo-serial}
     \end{subfigure}
     \\
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/stru-V-parallel.png}
+        \includegraphics[width=\textwidth]{stru-V-parallel.png}
         \caption{}
         \label{fig:stru-Visairo-parallel}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/stru-V-isolate.png}
+        \includegraphics[width=\textwidth]{stru-V-isolate.png}
         \caption{}
         \label{fig:stru-Visairo-isolate}
     \end{subfigure}
@@ -214,7 +214,7 @@ Finally, a greedy algorithm is used to organize the switches, allowing the batte
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.8\textwidth}
-        \includegraphics[width=\textwidth]{figures/main.png}
+        \includegraphics[width=\textwidth]{main.png}
     \end{subfigure}
     \caption{ 
         Diagram of this method, which contains four main steps.
@@ -227,25 +227,25 @@ Finally, a greedy algorithm is used to organize the switches, allowing the batte
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{figures/direct-graph-he.png}
+        \includegraphics[width=\textwidth]{direct-graph-he.png}
         \caption{}
         \label{fig:direct-graph-he}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.23\textwidth}
-        \includegraphics[width=\textwidth]{figures/direct-graph-xu.png}
+        \includegraphics[width=\textwidth]{direct-graph-xu.png}
         \caption{}
         \label{fig:direct-graph-xu}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.24\textwidth}
-        \includegraphics[width=\textwidth]{figures/direct-graph-my.png}
+        \includegraphics[width=\textwidth]{direct-graph-my.png}
         \caption{}
         \label{fig:direct-graph-my}
     \end{subfigure}
     \\
     \begin{subfigure}[b]{0.8\textwidth}
-        \includegraphics[width=\textwidth]{figures/battery_simple.png}
+        \includegraphics[width=\textwidth]{battery_simple.png}
         \caption{}
         \label{fig:battery_simple}
     \end{subfigure}
@@ -445,54 +445,54 @@ For each combination, the algorithm constructs an effective solution if possible
 If the maximum current $\bm{I}_b$ is less than or equal to $I_m$, $\eta$ is calculated by using Eq. (\ref{eq:eta}), and the maximum $\eta$ is updated accordingly. 
 Finally, the algorithm outputs the maximum $\eta$ once $N_{\text{set}}$ converges.
 
-% \tikzset{
-%   meta box/.style={draw, black, very thick, text centered, },
-%   punkt/.style={meta box, rectangle, rounded corners, inner sep=.25em, minimum height=2em, minimum width=4em, align=center, text width=10em },
-%   round/.style={meta box, circle, minimum size=0, inner sep=0pt, outer sep=0pt },
-%   every fit/.style={draw, thick, dashed, gray, inner xsep=.5em, inner ysep=.75em }
-% }
-% \begin{figure}
-% \begin{tikzpicture}[font=\small, node font=\small, node distance=1.5em]
-%     \node[punkt]     (input) {Input: RBS structure};
-%     \node[punkt, below=0.3of input] (get_SP) {get $SP$s by Equations \ref{eq:weight} and \ref{eq:def_sp} and Dijkstra Search};
-%     \node[punkt, below=0.3of get_SP] (get_A) {get $\bm{A}$ from Equation \ref{eq:A}};
-%     \node[punkt, below=0.3of get_A] (get_Nset) {init $N_{\text{set}}=N_b$ };
-%     \node[punkt, below=0.3of get_Nset] (get_cb) {get $c_b$s by combinating $N_{\text{set}}$ batteries from $N_b$};
-%     \node[draw, diamond, aspect=2, below=0.3of get_cb] (is_check_all_cb) {are all $c_b$s checked?};
-%     \node[draw, diamond, aspect=2, right=1of is_check_all_cb] (is_Nset_converged) {is $N_{\text{set}}$ converged?};
-%     \node[punkt, above=of is_Nset_converged] (reset_Nset) {reset $N_{\text{set}}$ by dichotomy};
-%     \node[punkt, text width=15em, below=0.3of is_check_all_cb] (get_Xs) {
-%         select an unchecked $c_b$, and get its $\bm{X}_m$ by \\ 
-%         if switch $j$ $\in \bigcup_{i\in c_b}SP_i$:\\
-%         $\bm{X}[j]=1$ else $0$};
-%     \node[punkt, below=0.3of get_Xs] (get_Yn) {get $\bm{Y}_n$ by Equation \ref{eq:Yn}};
-%     \node[draw, diamond, aspect=2, below=0.3of get_Yn] (is_Yn_invertible) {is $\bm{Y}_n$ invertible?};
-%     \node[punkt, right=1.3of is_Yn_invertible] (construct) {construct an effective solution};
-%     \node[punkt, below=0.3of is_Yn_invertible] (get_I) {get $I_o$ and $\bm{I}_b$ by Equations \ref{eq:I_o} and \ref{eq:I_b}};
-%     \node[draw, diamond, aspect=2, below=0.3of get_I] (is_leq_Im) {is $\max \bm{I}_b \leq I_m$?};
-%     \node[punkt, right=1.3of is_leq_Im] (drop_eta) {drop this $\eta$};
-%     \node[punkt, below=0.3of is_leq_Im] (get_eta) {get $\eta$ by Equation \ref{eq:eta}};
-%     \node[punkt, below=0.3of get_eta] (update_max_eta) {update $\max \eta$};
-%     \node[punkt, right=1of is_Nset_converged] (output) {Output: $\max \eta$};
-%     \node[round,left=1.5of update_max_eta](point1){};
-% 
-%     \graph{
-%       (input) -> (get_SP) -> (get_A) -> (get_Nset) -> (get_cb) -> (is_check_all_cb) ->["No"] (get_Xs) -> (get_Yn) -> (is_Yn_invertible) ->["Yes"] (get_I) -> (is_leq_Im) ->["Yes"] (get_eta) -> (update_max_eta);
-%       (is_check_all_cb) ->["Yes"] (is_Nset_converged) ->["No"] (reset_Nset) -> (get_cb);
-%       (is_Yn_invertible) ->["No"] (construct) ->[to path={|- (\tikztotarget)}] (get_I);
-%       (is_leq_Im) ->["No"] (drop_eta) ->[to path={|- (\tikztotarget)}] (update_max_eta);
-%       (is_Nset_converged) ->["Yes"] (output);
-%       (update_max_eta) -- (point1) ->[to path={|- (\tikztotarget)}] (is_check_all_cb);
-%     };
-% \end{tikzpicture}
-% \caption{The computational flowchart of the MAC for a given RBS.}\label{fig:flowchart}
-% \end{figure}
+\tikzset{
+  meta box/.style={draw, black, very thick, text centered, },
+  punkt/.style={meta box, rectangle, rounded corners, inner sep=.25em, minimum height=2em, minimum width=4em, align=center, text width=10em },
+  round/.style={meta box, circle, minimum size=0, inner sep=0pt, outer sep=0pt },
+  every fit/.style={draw, thick, dashed, gray, inner xsep=.5em, inner ysep=.75em }
+}
+\begin{figure}
+\begin{tikzpicture}[font=\small, node font=\small, node distance=1.5em]
+    \node[punkt]     (input) {Input: RBS structure};
+    \node[punkt, below=0.3of input] (get_SP) {get $SP$s by Equations \ref{eq:weight} and \ref{eq:def_sp} and Dijkstra Search};
+    \node[punkt, below=0.3of get_SP] (get_A) {get $\bm{A}$ from Equation \ref{eq:A}};
+    \node[punkt, below=0.3of get_A] (get_Nset) {init $N_{\text{set}}=N_b$ };
+    \node[punkt, below=0.3of get_Nset] (get_cb) {get $c_b$s by combinating $N_{\text{set}}$ batteries from $N_b$};
+    \node[draw, diamond, aspect=2, below=0.3of get_cb] (is_check_all_cb) {are all $c_b$s checked?};
+    \node[draw, diamond, aspect=2, right=1of is_check_all_cb] (is_Nset_converged) {is $N_{\text{set}}$ converged?};
+    \node[punkt, above=of is_Nset_converged] (reset_Nset) {reset $N_{\text{set}}$ by dichotomy};
+    \node[punkt, text width=15em, below=0.3of is_check_all_cb] (get_Xs) {
+        select an unchecked $c_b$, and get its $\bm{X}_m$ by \\ 
+        if switch $j$ $\in \bigcup_{i\in c_b}SP_i$:\\
+        $\bm{X}[j]=1$ else $0$};
+    \node[punkt, below=0.3of get_Xs] (get_Yn) {get $\bm{Y}_n$ by Equation \ref{eq:Yn}};
+    \node[draw, diamond, aspect=2, below=0.3of get_Yn] (is_Yn_invertible) {is $\bm{Y}_n$ invertible?};
+    \node[punkt, right=1.3of is_Yn_invertible] (construct) {construct an effective solution};
+    \node[punkt, below=0.3of is_Yn_invertible] (get_I) {get $I_o$ and $\bm{I}_b$ by Equations \ref{eq:I_o} and \ref{eq:I_b}};
+    \node[draw, diamond, aspect=2, below=0.3of get_I] (is_leq_Im) {is $\max \bm{I}_b \leq I_m$?};
+    \node[punkt, right=1.3of is_leq_Im] (drop_eta) {drop this $\eta$};
+    \node[punkt, below=0.3of is_leq_Im] (get_eta) {get $\eta$ by Equation \ref{eq:eta}};
+    \node[punkt, below=0.3of get_eta] (update_max_eta) {update $\max \eta$};
+    \node[punkt, right=1of is_Nset_converged] (output) {Output: $\max \eta$};
+    \node[round,left=1.5of update_max_eta](point1){};
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{figures/flowchart.jpg}
-    \caption{Computational flowchart of MAC for a given RBS.}\label{fig:flowchart}
+    \graph{
+      (input) -> (get_SP) -> (get_A) -> (get_Nset) -> (get_cb) -> (is_check_all_cb) ->["No"] (get_Xs) -> (get_Yn) -> (is_Yn_invertible) ->["Yes"] (get_I) -> (is_leq_Im) ->["Yes"] (get_eta) -> (update_max_eta);
+      (is_check_all_cb) ->["Yes"] (is_Nset_converged) ->["No"] (reset_Nset) -> (get_cb);
+      (is_Yn_invertible) ->["No"] (construct) ->[to path={|- (\tikztotarget)}] (get_I);
+      (is_leq_Im) ->["No"] (drop_eta) ->[to path={|- (\tikztotarget)}] (update_max_eta);
+      (is_Nset_converged) ->["Yes"] (output);
+      (update_max_eta) -- (point1) ->[to path={|- (\tikztotarget)}] (is_check_all_cb);
+    };
+\end{tikzpicture}
+\caption{The computational flowchart of the MAC for a given RBS.}\label{fig:flowchart}
 \end{figure}
+
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=\textwidth]{flowchart.jpg}
+%     \caption{Computational flowchart of MAC for a given RBS.}\label{fig:flowchart}
+% \end{figure}
 
 \section{Case Study}
 
@@ -501,19 +501,19 @@ Finally, the algorithm outputs the maximum $\eta$ once $N_{\text{set}}$ converge
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[width=\textwidth]{figures/stru-L-origin.png}
+        \includegraphics[width=\textwidth]{stru-L-origin.png}
         \caption{}
         \label{fig:study-stru-Lawson}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=\textwidth]{figures/stru-V-origin.png}
+        \includegraphics[width=\textwidth]{stru-V-origin.png}
         \caption{}
         \label{fig:study-stru-Visairo}
     \end{subfigure}
     \hspace{0.02\textwidth}
     \begin{subfigure}[b]{0.31\textwidth}
-        \includegraphics[width=\textwidth]{figures/stru-my-origin.png}
+        \includegraphics[width=\textwidth]{stru-my-origin.png}
         \caption{}
         \label{fig:study-stru-my}
     \end{subfigure}
@@ -537,44 +537,44 @@ Figure \ref{fig:study-dirgraph-my} shows the corresponding directed graph, which
 Batteries $B_1$, $B_2$, $B_3$, and $B_4$ are denoted by green directed edges in the graph, and the 19 switches are represented by gray directed edges with bidirectional arrows. 
 The external electrical load is treated as a directed edge from the cathode of the RBS (i.e., node 18) to the anode (i.e., node 1), as indicated by the blue directed edge in the graph.
 Using Eq. (\ref{eq:weight}) and the Dijkstra algorithm, the $SP$s of the four batteries in the RBS structure of Fig. \ref{fig:study-stru-my} are highlighted in red in Figs. \ref{fig:sp1} and \ref{fig:sp4}.
-Finally, the calculated MACs of the structure in Fig. \ref{fig:study-stru-my} are listed in Table \ref{tab:study-results-my} and Fig. \ref{fig:study-results-my}, as obtained by the greedy algorithm 1. % \ref{alg:greedy}.
+Finally, the calculated MACs of the structure in Fig. \ref{fig:study-stru-my} are listed in Table \ref{tab:study-results-my} and Fig. \ref{fig:study-results-my}, as obtained by the greedy algorithm \ref{alg:greedy}.
 Table \ref{tab:study-results-my} contains the states of the switches, the output current $I_o$, the battery current $\bm{I}_b$, and the ratio $\eta$ of the RBS structure with all batteries in good health when the RBS output reaches the MAC.
 Figure \ref{fig:study-results-my} presents the corresponding circuit, with the red highlight indicating that the current is flowing through the respective branches.
 
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{figures/ef-topo.png}
+        \includegraphics[width=\textwidth]{ef-topo.png}
         \caption{}
         \label{fig:study-dirgraph-my}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{figures/ef-sp1.png}
+        \includegraphics[width=\textwidth]{ef-sp1.png}
         \caption{}
         \label{fig:sp1}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{figures/ef-sp2.png}
+        \includegraphics[width=\textwidth]{ef-sp2.png}
         \caption{}
         \label{fig:sp2}
     \end{subfigure}
     \\
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{figures/ef-sp3.png}
+        \includegraphics[width=\textwidth]{ef-sp3.png}
         \caption{}
         \label{fig:sp3}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{figures/ef-sp4.png}
+        \includegraphics[width=\textwidth]{ef-sp4.png}
         \caption{}
         \label{fig:sp4}
     \end{subfigure}
     \hspace{0.05\textwidth}
     \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{figures/ef-mac.png}
+        \includegraphics[width=\textwidth]{ef-mac.png}
         \caption{}
         \label{fig:study-results-my}
     \end{subfigure}
@@ -675,25 +675,25 @@ Figures \ref{fig:my-isolated-1}--\ref{fig:my-isolated-3} illustrate the correspo
   \begin{figure}[htbp]
       \centering
       \begin{subfigure}[b]{0.31\textwidth}
-          \includegraphics[width=\textwidth]{figures/my-isolated-1.png}
+          \includegraphics[width=\textwidth]{my-isolated-1.png}
           \caption{}
           \label{fig:my-isolated-1}
       \end{subfigure}
       \hspace{0.02\textwidth}
       \begin{subfigure}[b]{0.31\textwidth}
-          \includegraphics[width=\textwidth]{figures/my-isolated-2b.png}
+          \includegraphics[width=\textwidth]{my-isolated-2b.png}
           \caption{}
           \label{fig:my-isolated-2b}
       \end{subfigure}
       \\
       \begin{subfigure}[b]{0.31\textwidth}
-          \includegraphics[width=\textwidth]{figures/my-isolated-2w.png}
+          \includegraphics[width=\textwidth]{my-isolated-2w.png}
           \caption{}
           \label{fig:my-isolated-2w}
       \end{subfigure}
       \hspace{0.02\textwidth}
       \begin{subfigure}[b]{0.31\textwidth}
-          \includegraphics[width=\textwidth]{figures/my-isolated-3.png}
+          \includegraphics[width=\textwidth]{my-isolated-3.png}
           \caption{}
           \label{fig:my-isolated-3}
       \end{subfigure}
@@ -720,8 +720,7 @@ Therefore, the time complexity of the brute-force algorithm is $O\bm(2^{N_s}(N^3
 The greedy algorithm proposed in this paper requires  that $SP$ be found for each battery, which requires $N_b$ iterations.
 Each $SP$ can be obtained by several applications of Dijkstra's algorithms.
 Therefore, the total time complexity for calculating all $SP$s is $O\bm(2N_b(N_b+2N_s)\log_{10} N\bm)$.
-According to  Appendix 1, % \ref{alg:greedy},
-the RBS can reconfigure $C^{N_{\text{set}}}_{N_b}$ structures by selecting $N_{\text{set}}$ batteries from $N_b$ batteries, which gives $\sum^{N_b}_{N_{\text{set}}=1}C^{N_{\text{set}}}_{N_b}/N_b \approx 2^{N_b}/N_b$ on average.
+According to  Appendix \ref{alg:greedy}, the RBS can reconfigure $C^{N_{\text{set}}}_{N_b}$ structures by selecting $N_{\text{set}}$ batteries from $N_b$ batteries, which gives $\sum^{N_b}_{N_{\text{set}}=1}C^{N_{\text{set}}}_{N_b}/N_b \approx 2^{N_b}/N_b$ on average.
 Thus, with the bisection method, the time complexity of the greedy algorithm is $O\bm(2^{N_b}/N_b(N^3+2N^2N_b+N^2N_s+NN^2_b)\log_{10} N_b+2N_b(N_b+2N_s)\log_{10} N\bm)$ [i.e., $O\bm(2^{N_b}/N_b(N^3+2N^2N_b+N^2N_s+NN^2_b)\log_{10} N_b\bm)$].
 Based on currently proposed RBS structures \cite{ciNovelDesignAdaptive2007,alahmadBatterySwitchArray2008,kimDependableEfficientScalable2010b,kimBalancedReconfigurationStorage2011a,taesickimSeriesconnectedSelfreconfigurableMulticell2012a,6843711}, the number $N_b$ of batteries, $N_s$ of switches, and $N$ of nodes are quantitatively related as follows: $N_s \approx (3\text{--} 5)N_b$, $N \approx N_s$. 
 After simplifying, the time complexity of the greedy algorithm is $O(2^{N_b}N_s^2\log N_b)$, while it is $O(2^{N_s}N_s^3)$ for brute force algorithm.
@@ -791,67 +790,67 @@ Future research could focus on developing new indictors to evaluate the performa
 
 \section{Appendix} 
 
-% \begin{algorithm}
-%     \caption{Get the max available currents of a certain RBS}\label{alg:greedy}
-%     \KwData{Directed graph model $G(V,E)$ of the RBS}
-%     \KwResult{$\max \eta$}
-%     \For{$i \in E_b$}{
-%         $P_i \leftarrow \{path| \text{starts at $v_1$ and ends at $v_n$} \}$\;
-%         $SP_i \leftarrow p_i \text{ which has the minimum}~\omega(p_i)~\text{among all}~p_i \in P_i. $
-%     }
-%     get $\bm{A}$ by Equation \ref{eq:A}\;
-%     \While{not yet determine $\max \eta$ }
-%     {
-%         $N_{\text{set}} \leftarrow \text{number of setected $SP$s calculated by dichotomy}$\;
-%         $C_b    \leftarrow \text{set of all combinations of $N_{\text{set}} $~batteries from $N_b$}$\;
-%         \For{$c_b \in C_b$}{
-%             $\bm{x}_s \leftarrow \text{list of all switches' state: $x_s[j]=1$ if $ j \in \bigcup_{i\in c_b}SP_i $ else 0}$\;
-%             $\bm{X} \leftarrow diag[1,1,\cdots,1,\bm{x}_s] $\;
-%             get $\bm{Y}_n$ by Equation \ref{eq:Yn}\;
-%             \eIf{$\bm{Y}_n$ is invertible}{
-%               \added{pass}
-%             }{construct an effective solution}
-%             get $I_o$ by Equation \ref{eq:I_o}\;
-%             get $\bm{I}_b$ by Equation \ref{eq:I_b}\;
-%             \eIf{$\max(\bm{I}_b)\leq I_m$}{
-%                 $\eta \leftarrow I_o/\max(\bm{I}_b)$\;
-%             }{break}
-%         }
-%     }
-% \end{algorithm}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{figures/algorithm.jpg}
-\end{figure}
+\begin{algorithm}
+    \caption{Get the max available currents of a certain RBS}\label{alg:greedy}
+    \KwData{Directed graph model $G(V,E)$ of the RBS}
+    \KwResult{$\max \eta$}
+    \For{$i \in E_b$}{
+        $P_i \leftarrow \{path| \text{starts at $v_1$ and ends at $v_n$} \}$\;
+        $SP_i \leftarrow p_i \text{ which has the minimum}~\omega(p_i)~\text{among all}~p_i \in P_i. $
+    }
+    get $\bm{A}$ by Equation \ref{eq:A}\;
+    \While{not yet determine $\max \eta$ }
+    {
+        $N_{\text{set}} \leftarrow \text{number of setected $SP$s calculated by dichotomy}$\;
+        $C_b    \leftarrow \text{set of all combinations of $N_{\text{set}} $~batteries from $N_b$}$\;
+        \For{$c_b \in C_b$}{
+            $\bm{x}_s \leftarrow \text{list of all switches' state: $x_s[j]=1$ if $ j \in \bigcup_{i\in c_b}SP_i $ else 0}$\;
+            $\bm{X} \leftarrow diag[1,1,\cdots,1,\bm{x}_s] $\;
+            get $\bm{Y}_n$ by Equation \ref{eq:Yn}\;
+            \eIf{$\bm{Y}_n$ is invertible}{
+              \added{pass}
+            }{construct an effective solution}
+            get $I_o$ by Equation \ref{eq:I_o}\;
+            get $\bm{I}_b$ by Equation \ref{eq:I_b}\;
+            \eIf{$\max(\bm{I}_b)\leq I_m$}{
+                $\eta \leftarrow I_o/\max(\bm{I}_b)$\;
+            }{break}
+        }
+    }
+\end{algorithm}
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=\textwidth]{algorithm.jpg}
+% \end{figure}
 
-% 
-% \section*{Acknowledgments}
-% 
-% \subsection*{Author Contributions} 
-% 
-% B. Xu conceived the main idea, formulated the overarching research goals and aims, designed the algorithm, and reviewed and revised the manuscript.
-% G. Hua developed and analyzed the model, implemented the code and supporting algorithms, and wrote the initial draft.
-% C. Qian provided critical review, commentary, and revisions.
-% Q. Xia contributed to shaping the research, analysis, and manuscript.
-% B. Sun conducted the research and investigation process.
-% Y. Ren secured the funding and supervised the project.
-% Z. Wang verified the results and provided necessary resources.
-% 
-% \subsection*{Funding}
-% 
-% This work was supported by the National Natural Science Foundation of China (NSFC, No.52075028).
-% 
-% \subsection*{Conflicts of Interest}
-% 
-% The authors declare that there is no conflict of interest regarding the publication of this article.
-% 
-% \subsection*{Data Availability}
-% 
-% This work does not require any data to be declared or publicly disclosed.
+
+\section*{Acknowledgments}
+
+\subsection*{Author Contributions} 
+
+B. Xu conceived the main idea, formulated the overarching research goals and aims, designed the algorithm, and reviewed and revised the manuscript.
+G. Hua developed and analyzed the model, implemented the code and supporting algorithms, and wrote the initial draft.
+C. Qian provided critical review, commentary, and revisions.
+Q. Xia contributed to shaping the research, analysis, and manuscript.
+B. Sun conducted the research and investigation process.
+Y. Ren secured the funding and supervised the project.
+Z. Wang verified the results and provided necessary resources.
+
+\subsection*{Funding}
+
+This work was supported by the National Natural Science Foundation of China (NSFC, No.52075028).
+
+\subsection*{Conflicts of Interest}
+
+The authors declare that there is no conflict of interest regarding the publication of this article.
+
+\subsection*{Data Availability}
+
+This work does not require any data to be declared or publicly disclosed.
 
 % \bibliographystyle{nejm}
 % \bibliography{sst_main}
 
-% \printbibliography
+\printbibliography
 
 \end{document}
