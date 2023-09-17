@@ -1,6 +1,7 @@
-\ProvidesPackage{reviewresponse}[2021/11/10 Review Response v1.2]
+\ProvidesPackage{reviewresponse}[2023/9/15 Review Response v1.3]
 % Author: Karl-Ludwig Besser
 % Email: k.besser@tu-bs.de
+% Modify: Hua Guangbin (huagb@qq.com)
 
 %%% Indent $$$
 \usepackage{indentfirst} 
@@ -112,7 +113,7 @@
 % 	\textbf{Response:} #1\par
 % }{\vspace{4em plus 0em minus 1em}}
 
-\newenvironment{changes}{\begin{tcolorbox}[breakable,colback={colorchangebg}, colframe={colorchangeframe},enhanced jigsaw,sharp corners]
+\newenvironment{changes}{\begin{tcolorbox}[breakable,colback={colorchangebg}, colframe={colorchangeframe},enhanced jigsaw,sharp corners,before upper={\parindent2em}]
 }{\end{tcolorbox}}
 
 \newcommand{\printpartbibliography}[1]{\begin{refsegment}\nocite{#1}\printbibliography[heading=none,segment=\therefsegment]\end{refsegment}}
