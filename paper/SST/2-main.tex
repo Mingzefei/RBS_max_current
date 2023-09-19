@@ -1,3 +1,7 @@
+%  
+% introduction 第一句话 引用，分开细点
+% introduction 最后一句话，
+
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage{authblk}
@@ -70,7 +74,7 @@ sorting=none]{biblatex}
 %%%%%% Abstract %%%%%%
 \begin{abstract}
 Reconfigurable battery systems (RBSs) present a promising alternative to traditional battery systems due to their flexible and dynamically changeable topological structure that can be adapted to different battery charging and discharging strategies.
-During RBS operation, the maximum allowable current (MAC) of the system that ensures that each battery's current remains within a safe range is a critical indicator to guide the system's reconfiguration, ensuring its safety and reliability. 
+During RBS operation, the maximum allowable current (MAC) of the system that ensures that each battery's current remains within a safe range is a critical indicator to guide the system's reconfiguration, ensuring its safety and reliability. % TODO ensure
 This paper proposes a method to calculate the MAC of arbitrary RBSs using a greedy algorithm in conjunction with a directed graph model of the RBS.
 By introducing the shortest path of the battery, the greedy algorithm transforms the enumeration of switch states in the brute-force algorithm into the combination of the shortest paths, which greatly increases the efficiency with which the MAC is determined.
 The directed graph model, based on the equivalent circuit, provides a specific method for calculating the MAC of a given structure.
@@ -87,7 +91,7 @@ Battery energy storage systems (BESSs) are extensively used in various applicati
 Typically, a BESS consists of numerous batteries interconnected by series-parallel circuitry to provide the required capacity storage.
 However, traditional BESSs, in which the batteries are connected in a fixed topology, suffer from a significant weakness in their worst battery due to the so-called cask effect.
 Moreover, if the worst battery fails during operation, it is highly likely to exacerbate the degradation of the other batteries, leading to reliability and safety issues \cite{yangUnbalancedDischargingAging2016,fengPropagationMechanismsDiagnosis2019,jeevarajanBatterySafetyQualifications2012}.
-These problems have become significant technical barriers in the development of new-generation space vehicles and need to be addressed \cite{pomboHybridPowerSystem2021}.
+These problems have become significant technical barriers in the development of new-generation space vehicles and need to be addressed \cite{pomboHybridPowerSystem2021}. % TODO 落到电池可靠性上，提一句例如，space vehicle
 
 
 Reconfigurable battery systems (RBSs), which can dynamically switch as required to different circuit topologies, are expected to solve this problem \cite{hanNextGenerationBatteryManagement2020a}.
@@ -155,7 +159,7 @@ However, this method is inefficient and time-consuming, especially for RBSs with
 
 To solve this issue, this paper proposes an efficient method to evaluate the MAC of RBSs. 
 First, a greedy algorithm is designed to efficiently search the possible circuit topology of RBSs with MAC.
-Moreover, the method provides an improved direct graph model that considers the voltage, the internal resistance, the MAC of the battery, and the external load. The model obtains the accurate current of the RBS under a specific circuit topology. 
+Moreover, the method provides an improved direct graph model that considers the voltage, the internal resistance, the MAC of the battery, and the external load. The model obtains the accurate current of the RBS under a specific circuit topology. % TODO 和句话风格（主语）一致；和下面区分
 The main contributions of this paper can be summarized as follows:
 \begin{itemize}
   \item An efficient method is proposed to determine the MAC of RBSs with arbitrary structures, including scenarios with isolated batteries.
@@ -729,6 +733,7 @@ This result indicates that the structure proposed in this paper has a larger MAC
 \section{Conclusion}
 
 This paper proposes a pervasive and automated method to efficiently compute the MAC of an RBS.
+% TODO 先写研究成果，数值方面的结论（提升的具体数值，具体的条件下）
 The method is implemented by a greedy algorithm combined with an improved directed graph model.
 The main advantage of this method is its ability to calculate the MAC of RBSs with arbitrary structures.
 Even in scenarios with random isolated batteries, the proposed method remains effective.
