@@ -19,21 +19,26 @@
 \usepackage{booktabs}
 \usepackage{footnote}
 \usepackage{bm}
-\usepackage[style=nejm, citestyle=numeric-comp, sorting=none]{biblatex}
-\addbibresource{ref.bib}
+% \usepackage[style=nejm, citestyle=numeric-comp, sorting=none]{biblatex}
+% \addbibresource{ref.bib}
 \usepackage{indentfirst} 
 \setlength{\parindent}{2em}
 
+% copy labels
 \usepackage{xr}
-\externaldocument{2-main}
+\externaldocument[main]{2-main}
+% copy citations
+\usepackage{xcite}
+\externalcitedocument{2-main}
 
+\usepackage{catchfilebetweentags}
 
 \title{Maximum Allowable Current Determination of RBS By Using a Directed Graph Model and Greedy Algorithm}
 \author{Dr. Cheng Qian, on behalf of all authors}
 
 
 \begin{document}
-\maketitle
+% \maketitle
 
 % Cover Letter
 \include{2-cover_letter}
@@ -41,6 +46,10 @@
 % Reviewer 1
 \include{2-response_reviewer1}
 
-\printbibliography
+
+% \bibliographystyle{unsrt}
+% \bibliography{ref}
+
+% \printbibliography
 
 \end{document}
