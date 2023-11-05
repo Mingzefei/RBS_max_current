@@ -150,6 +150,7 @@ classdef RBSClass
         end
         function [out_current_ideal, ...
                 isnot_short_circuit, ...
+                isnot_charge_battery, ...
                 Io_ideal,Ib_ideal]=get_current(rbs,x_s)
 
             Us=[0,-rbs.ub*ones(1,rbs.num_b),zeros(1,rbs.num_s)]';
@@ -164,12 +165,14 @@ classdef RBSClass
             Ib=simplify(I(2:rbs.num_b+1));
             Io_ideal=subs(Io,rbs.rs,0);
             Ib_ideal=subs(Ib,rbs.rs,0);
-            % whether battery short circuit
-            isnot_short_circuit=1;
-            for ib_ideal = Ib_ideal
-                if ib_ideal == rbs.ub/rbs.rb
-                    isnot_short_circuit=0;
-                end
+            % whether battery short circuit or has charge
+            isnot_short_circuit=1;            
+            isnot_charge_battery=1;
+            for i = 1:rbs.num_b
+                isnot_short_circuit = isnot_short_circuit ...
+                    *isAlways(Ib_ideal(i)<rbs.ub/rbs.rb);
+                isnot_charge_battery = isnot_charge_battery ...
+                    *isAlways(Ib_ideal(i)>=0);
             end
             % out current
             if my_max(Ib) == 0
@@ -177,34 +180,45 @@ classdef RBSClass
             else
                 out_current=simplify(Io_ideal/my_max(Ib));
             end
-            out_current_ideal=subs(out_current,rbs.rs,0);
+            out_current_ideal=simplify(subs(out_current,rbs.rs,0));
         end
-        function [mac_under_b,xs_mac] = get_mac_under_b(rbs, under_b)
+        function [mac_under_b,xs_mac,num_iter,all_mac] = get_mac_under_b(rbs, under_b)
             % count mac with given numbers(under_b) batteries
+            num_iter = 0;
             all_choose = nchoosek(1:rbs.num_b, under_b);
             all_out_current_ideal = zeros(1,size(all_choose,1));
             all_isnot_short_circuit = ones(1,size(all_choose,1));
+            all_isnot_charge_battery = ones(1,size(all_choose,1));
             for i = 1:size(all_choose,1)
                 choose = all_choose(i,:);
                 x_s = rbs.get_x_s(choose);
                 [all_out_current_ideal(i), ...
                     all_isnot_short_circuit(i), ...
+                    all_isnot_charge_battery(i), ...
                     ]=rbs.get_current(x_s);
+                num_iter = num_iter + 1;
             end
-            all_current = all_out_current_ideal .* all_isnot_short_circuit;
+            all_current = all_out_current_ideal ...
+                .* all_isnot_short_circuit ...
+                .* all_isnot_charge_battery;
+            all_mac = all_current;
             mac_under_b = my_max(all_current);
             all_i_mac = find(all_current == mac_under_b); % index of mac
             xs_mac = rbs.get_x_s(all_choose(all_i_mac(1),:));
         end
-        function [mac, xs] = get_mac(rbs)
+        function [mac, xs, num_iter, all_mac] = get_mac(rbs)
+            num_iter = 0;
+            all_mac = [];
             n_left = 1;
             n_right = rbs.num_b;
             while (n_left <= n_right)
                 n_mid = fix((n_left + n_right) / 2);
 
-                val_left = rbs.get_mac_under_b(n_left);
-                val_mid = rbs.get_mac_under_b(n_mid);
-                val_right = rbs.get_mac_under_b(n_right);
+                [val_left,~,num_iter_left,all_mac_left] = rbs.get_mac_under_b(n_left);
+                [val_mid,~,num_iter_mid,all_mac_mid] = rbs.get_mac_under_b(n_mid);
+                [val_right,~,num_iter_right,all_mac_right] = rbs.get_mac_under_b(n_right);
+                num_iter = num_iter + num_iter_left + num_iter_mid + num_iter_right;
+                all_mac = [all_mac, all_mac_left, all_mac_mid, all_mac_right];
 
                 if (val_left > val_mid)
                     n_right = n_mid - 1;
@@ -212,18 +226,182 @@ classdef RBSClass
                     n_left = n_mid + 1;
                 else
                     n = n_mid;
-                    [mac, xs] = rbs.get_mac_under_b(n);
+                    [mac, xs,num_iter_temp,all_mac_temp] = rbs.get_mac_under_b(n);
+                    num_iter = num_iter + num_iter_temp;
+                    all_mac = [all_mac, all_mac_temp];
                     return
                 end
             end
-            [mac, xs] = rbs.get_mac_under_b(n_left);
+            [mac, xs, num_iter_temp, all_mac_temp] = rbs.get_mac_under_b(n_left);
+            num_iter = num_iter + num_iter_temp;
+            all_mac = [all_mac, all_mac_temp];
         end
+        function [mac,xs,num_iter,all_mac] = get_mac_SA(rbs)
+            % calculate mac by SA
+            % mac: max average current
+            % xs: switch state
+            % num_iter: number of iterations
+            % all_mac: all mac in each iteration
+
+            is_open_waitbar = 1;
+            if is_open_waitbar
+                h=waitbar(0,'SA 初始化');
+            end
+
+            rng('default');
+            T_initial = rbs.num_s*rbs.num_b;
+            T_final = 1;
+            cooling_rate = 0.9;
+            total_num_cold = ceil(log(T_final/T_initial)/log(cooling_rate));
+            Markov_length = rbs.num_s*rbs.num_b;
+            total_num_iter = total_num_cold * Markov_length;
+            current_xs = randi([0,1],[1,rbs.num_s]);
+            best_solution = current_xs;
+            all_mac = zeros(1,total_num_iter);
+            num_iter = 0;
+            [out_current_ideal, ...
+                isnot_short_circuit, ...
+                isnot_charge_battery] = rbs.get_current(current_xs);
+            current_energy = - out_current_ideal * isnot_short_circuit ...
+                * isnot_charge_battery;
+            best_energy = current_energy;
+
+            temperature = T_initial;
+            while temperature > T_final
+                for i = 1:Markov_length
+                    num_iter = num_iter + 1;
+                    % create new solution: change rand % of switch state
+                    new_xs = current_xs;
+                    rand_idx = randperm(rbs.num_s);
+                    rand_idx = rand_idx(1:fix(rbs.num_s*rand));
+                    new_xs(rand_idx) = 1 - new_xs(rand_idx);
+
+                    % calculate energy
+                    [out_current_ideal, ...
+                        isnot_short_circuit, ...
+                        isnot_charge_battery] = rbs.get_current(new_xs);
+                    new_energy = -out_current_ideal*isnot_short_circuit ...
+                        *isnot_charge_battery;
+                    all_mac(num_iter) = -new_energy;
+
+                    % judge whether accept new solution
+                    try
+                        if (new_energy < current_energy)
+                            current_xs = new_xs;
+                            current_energy = new_energy;
+                            if (new_energy < best_energy)
+                                best_solution = new_xs;
+                                best_energy = new_energy;
+                            end
+                        else
+                            if rand < exp(-(new_energy-current_energy) ...
+                                    /temperature)
+                                current_xs = new_xs;
+                                current_energy = new_energy;
+                            end
+                        end
+                    catch
+                        disp('get wrong new_xs')
+                        disp(new_xs)
+                    end
+
+                    % waitbar
+                    if is_open_waitbar
+                        str=['SA 计算中...',num2str(num_iter),'/', ...
+                            num2str(total_num_iter)];
+                        waitbar(num_iter/total_num_iter,h,str);
+                    end                
+                    % record mac
+                end
+                % 降低温度
+                temperature = temperature * cooling_rate;
+            end
+            % 更新xs变量
+            xs = best_solution;
+            mac = -best_energy;
+            delete(h);
+        end
+
+        function [mac, xs, num_iter, all_mac] = get_mac_GA(rbs)
+            % calculate mac by GA
+            % mac: max average current
+            % xs: switch state
+            % num_iter: total number of iterations
+            % all_mac: all mac during the calculation
+
+            is_open_waitbar = 1;
+            if is_open_waitbar
+                h=waitbar(0,'GA 初始化');
+            end
+
+            rng('default');
+            % GA parameters
+            pop_size = rbs.num_s*rbs.num_b; % population size
+            max_gen = rbs.num_s*rbs.num_b; % maximum number of generations
+            crossover_prob = 0.8; % crossover probability
+            mutation_prob = 0.02; % mutation probability
+            total_num_iter = pop_size * max_gen;
+            best_solution = zeros(1,rbs.num_s);
+            best_fitness = 0;
+
+            % Initialize population
+            pop = randi([0,1], pop_size, rbs.num_s);
+
+            % Initialize num_iter and all_mac
+            num_iter = 0;
+            all_mac = zeros(1,total_num_iter);
+
+            for gen = 1:max_gen
+                % Calculate fitness
+                fitness = zeros(pop_size, 1);
+                for i = 1:pop_size
+                    [out_current_ideal, isnot_short_circuit, isnot_charge_battery] = rbs.get_current(pop(i,:));
+                    fitness(i) = out_current_ideal * isnot_short_circuit * isnot_charge_battery;
+                    num_iter = num_iter + 1;
+                    all_mac(num_iter) = fitness(i);
+
+                    if is_open_waitbar
+                        str=['GA 计算中...',num2str(num_iter),'/', ...
+                            num2str(total_num_iter)];
+                        waitbar(num_iter/total_num_iter,h,str);
+                    end    
+                end
+
+                % Selection and record
+                [sorted_fitness, sorted_idx] = sort(fitness, 'descend');
+                pop = pop(sorted_idx,:);
+                if sorted_fitness(1) > best_fitness
+                    best_solution = pop(1,:);
+                    best_fitness = sorted_fitness(1);
+                end
+
+                % Crossover
+                for i = 1:2:pop_size
+                    if rand < crossover_prob
+                        crossover_point = randi([1, rbs.num_s-1]);
+                        pop([i, i+1],:) = [pop(i,1:crossover_point), pop(i+1,crossover_point+1:end); pop(i+1,1:crossover_point), pop(i,crossover_point+1:end)];
+                    end
+                end
+
+                % Mutation
+                for i = 1:pop_size
+                    if rand < mutation_prob
+                        mutation_point = randi([1, rbs.num_s]);
+                        pop(i,mutation_point) = 1 - pop(i,mutation_point);
+                    end
+                end
+            end
+
+            % Return the best solution
+            mac = best_fitness;
+            xs = best_solution;
+            delete(h);
+        end
+
+
     end
     methods (Static)
-        function save_plot(p, file_name)
-            % saveas(p,file_name)
-            
-            % print(file_name, '-dpng', '-r300')
+        function save_plot(file_name)
             cmd = sprintf('export_fig %s -transparent -m2',file_name);
             eval(cmd);
         end

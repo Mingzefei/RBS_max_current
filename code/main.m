@@ -1,78 +1,65 @@
-delete main.out
-diary('main.out');
-%% RBS-f
-for i = [2,4,6]
-    % 创建RBSClass_f对象
-    rbs_f = RBSClass_f(i);
-    % 绘制并保存对象结构
-    path_file = sprintf('.\\attachments\\f-dege-%d.png',i);
-    rbs_f.save_plot(rbs_f.plot_G_dege(),path_file)
-    % 获取MAC和x_s并打印相关信息
-    [mac, x_s] = rbs_f.get_mac();
-    fprintf('MAC of RBS_f(%d): %.2f\n', i, mac)
-    [~,~,Io_ideal,Ib_ideal] = rbs_f.get_current(x_s);
-    fprintf('Io_ideal: %s\n', Io_ideal)
-    for battery=1:i
-        fprintf('Ib_ideal(%d): %s\n',battery, Ib_ideal(battery))
-    end
-    fprintf('those switches are close: ')
-    for j = 1:length(x_s)
-        if (x_s(j)==1)
-            fprintf('%d ',j)
+clear;clc;
+outfile_path = sprintf('.\\main.out');
+delete(outfile_path);
+diary(outfile_path);
+
+struct_list = {'f','e','e2f'};
+num_b_list = [2,4,6];
+method_list = {'Greedy','SA','GA'};
+
+for i = 1:length(struct_list)
+    id = struct_list{i};
+    for j = 1:length(num_b_list)
+        num_b = num_b_list(j);
+        % create RBS
+        if strcmp(id, 'f')
+            rbs = RBSClass_f(num_b);
+            str_id = [id,num2str(num_b)];
+        elseif strcmp(id, 'e')
+            rbs = RBSClass_e(num_b);
+            str_id = [id,num2str(num_b)];
+        elseif strcmp(id, 'e2f') && num_b == 2
+            rbs = RBSClass_e2f1();
+            str_id = 'e2f1';
+        elseif strcmp(id, 'e2f') && num_b == 4
+            rbs = RBSClass_e2f2();
+            str_id = 'e2f2';
+        elseif strcmp(id, 'e2f') && num_b == 6
+            rbs = RBSClass_e2f3();
+            str_id = 'e2f3';
+        else
+            continue
+        end
+        for k = 1:length(method_list)
+            method = method_list{k}; 
+            fprintf('Solve %s by %s\n',str_id, method)
+            % solve RBS
+            if strcmp(method, 'Greedy')
+                [mac, x_s, num_iter, all_mac] = rbs.get_mac();
+            elseif strcmp(method, 'SA')
+                [mac, x_s, num_iter, all_mac] = rbs.get_mac_SA();
+            elseif strcmp(method, 'GA')
+                [mac, x_s, num_iter, all_mac] = rbs.get_mac_GA();
+            end
+            % print result
+            fprintf('MAC: %.2f\n', mac)
+            fprintf('num_iter: %d\n', num_iter)
+            fid = fopen(sprintf('.\\%s-%s.txt',str_id,method),'w');
+            fprintf(fid,'%g\n',all_mac);
+            fclose(fid);
+            [~,~,~,Io_ideal,Ib_ideal] = rbs.get_current(x_s);
+            fprintf('Io_ideal: %s\n', Io_ideal)
+            for battery=1:num_b
+                fprintf('Ib_ideal(%d): %s\n',battery, Ib_ideal(battery))
+            end
+            fprintf('those switches are close: ')
+            for l = 1:length(x_s)
+                if (x_s(l)==1)
+                    fprintf('%d ',l)
+                end
+            end
+            fprintf('\n\n');
         end
     end
-    fprintf('\n\n');
-    % 绘制并保存结果
-    path_file = sprintf('.\\attachments\\f-dege-mac-%d.png',i);
-    rbs_f.save_plot(rbs_f.plot_G_dege_hl_swithch(x_s),path_file)
 end
-
-%% RBS-e
-for i = 2:4
-    % 创建RBSClass_e对象
-    rbs_e = RBSClass_e(i);
-    % 绘制并保存对象结构
-    path_file = sprintf('.\\attachments\\e-dege-%d.png',i);
-    rbs_e.save_plot(rbs_e.plot_G_dege(),path_file)
-    % 获取MAC和x_s并打印相关信息
-    [mac, x_s] = rbs_e.get_mac();
-    fprintf('MAC of RBS_e(%d): %.2f\n', i, mac)
-    [~,~,Io_ideal,Ib_ideal] = rbs_e.get_current(x_s);
-    fprintf('Io_ideal: %s\n', Io_ideal)
-    for battery=1:i
-        fprintf('Ib_ideal(%d): %s\n',battery, Ib_ideal(battery))
-    end
-    fprintf('those switches are close: ')
-    for j = 1:length(x_s)
-        if (x_s(j)==1)
-            fprintf('%d ',j)
-        end
-    end
-    fprintf('\n\n');
-    % 绘制并保存结果
-    path_file = sprintf('.\\attachments\\e-dege-mac-%d.png',i);
-    rbs_e.save_plot(rbs_e.plot_G_dege_hl_swithch(x_s),path_file)
-end
-
-%% RBS-e2f2
-rbs_e2f2 = RBSClass_e2f2();
-path_file = sprintf('.\\attachments\\e2f2-dege.png');
-rbs_e2f2.save_plot(rbs_e2f2.plot_G_dege(),path_file)
-[mac, x_s] = rbs_e2f2.get_mac();
-fprintf('MAC of RBS_e2f2: %.2f\n', mac)
-[~,~,Io_ideal,Ib_ideal] = rbs_e2f2.get_current(x_s);
-fprintf('Io_ideal: %s\n', Io_ideal)
-for battery=1:i
-    fprintf('Ib_ideal(%d): %s\n',battery, Ib_ideal(battery))
-end
-fprintf('those switches are close: ')
-for j = 1:length(x_s)
-    if (x_s(j)==1)
-        fprintf('%d ',j)
-    end
-end
-fprintf('\n\n');
-path_file = sprintf('.\\attachments\\e2f2-dege-mac.png');
-rbs_e2f2.save_plot(rbs_e2f2.plot_G_dege_hl_swithch(x_s),path_file)
-
 diary off;
