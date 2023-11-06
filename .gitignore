@@ -8,3 +8,6 @@ paper/*.out
 
 # vsdx
 attachments/fig.vsdx
+
+# wsl
+**Zone.Identifier
