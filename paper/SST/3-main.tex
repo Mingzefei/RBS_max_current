@@ -6,13 +6,14 @@
 % 2. case study 增加实验 模拟退火、遗传算法；增加b结构的2，6数量的电池
 %   2.1 structures and details
 %       2.1.1 4-battery 不同结构（3个tab：our method；1个图）
-%       2.1.2 2/4/6-battery 结构b
+%       2.1.2 2/4/6-battery 结构c
 %       2.1.3 4-battery 不同结构 isolated battery
+%       2.1.4 四种计算方法
 %   2.2 result: 删去table4和前面一段话；添加文字，描述figure7；使用子图子表格
 %       2.1.1 c结构的计算细节：1组fig（有向图、SP、最终结果）
 %       2.1.2 4-battery 不同结构的计算结果：1组tab（各结构计算结果）、2组fig（各结构MAC正确闭合方案+算法迭代过程中的MAC折线图）
 %       2.1.3 2/4/6-battery 结构c（1,2,3 *2）的计算结果：1组tab（各结构计算结果）、2组fig（各结构MAC正确闭合方案+算法迭代过程中的MAC折线图）
-%       2.1.4 4-battery 不同结构 isolated battery 的计算结果：1组fig（不同电池数的开关闭合方案）
+%       2.1.4 4-battery c 不同 isolated battery 的计算结果：1组fig（不同电池数的开关闭合方案）
 %   2.3 discussion:
 %       2.3.1 结果正确性和准确性：a. 电路分析；b. 与 force-brute 结果的验证
 %       2.3.2 算法的有效性和优劣：a. 复杂度；b. 与 SA、GA 的比较(启发式算法仅找到局部最优；收敛时间)；c. 本算法的优劣和原因
@@ -20,6 +21,10 @@
 % 3. conclusion 相关内容修改
 % 4. abstract 相关内容修改
 
+% ! NOTE
+% 1. red mark -> blue mark
+% 2. check ref
+% 3. rewrite the last two paragraphs of the introduction if time permits
 
 \documentclass{article}
 \usepackage[utf8]{inputenc}
@@ -110,47 +115,46 @@ Battery energy storage systems (BESSs) are extensively used in various applicati
 Typically, a BESS consists of numerous batteries interconnected by series-parallel circuitry to provide the required capacity storage.
 However, traditional BESSs, in which the batteries are connected in a fixed topology, suffer from a significant weakness in their worst battery due to the so-called cask effect.
 Moreover, if the worst battery fails during operation, it is highly likely to exacerbate the degradation of the other batteries, leading to reliability and safety issues \cite{yangUnbalancedDischargingAging2016,fengPropagationMechanismsDiagnosis2019,jeevarajanBatterySafetyQualifications2012}.
-These problems have become significant technical barriers in many engineering projects requiring high reliability, such as developing new-generation space vehicles \cite{pomboHybridPowerSystem2021}. 
-
-
-Reconfigurable battery systems (RBSs), which can dynamically switch as required to different circuit topologies, are expected to solve this problem \cite{hanNextGenerationBatteryManagement2020a}.
+These problems have become significant technical barriers in many engineering projects requiring high reliability, such as developing new-generation space vehicles \cite{pomboHybridPowerSystem2021}.  
+Reconfigurable battery systems (RBSs), which can dynamically switch as required to different circuit topologies, are expected to solve those problem \cite{hanNextGenerationBatteryManagement2020a}.
+% TODO : rewrite
 The switching circuit helps to isolate unhealthy batteries, thereby improving the safety and reliability of the battery system.
-To illustrate the working principle of an RBS, we consider a typical RBS structure developed by Visairo \cite{visairoReconfigurableBatteryPack2008} (Fig. \ref{fig:stru-Visairo}), which is taken as an example to show the reconfiguration process.
-In this structure, the batteries can be connected not only in series when the switches $S_1$, $S_5$, $S_6$, $S_7$, $S_8$, $S_9$, and $S_{13}$ are closed (see Fig. \ref{fig:stru-Visairo-serial}) but also in parallel when $S_1$, $S_2$, $S_3$, $S_4$, $S_5$, $S_9$, $S_{10}$, $S_{11}$, $S_{12}$, and $S_{13}$ are closed (Fig. \ref{fig:stru-Visairo-parallel}).
-Furthermore, when an unhealthy battery, for instance, the orange one $B_3$ in Fig. \ref{fig:stru-Visairo-isolate}, appears in the RBS, it can be isolated by opening its two adjacent switches (i.e., $S_4$ and $S_{11}$), ensuring that the system remains in a reliable working mode.
-
-\begin{figure}[htbp]
-    \centering
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{stru-V-origin.png}
-        \caption{}
-        \label{fig:stru-Visairo}
-    \end{subfigure}
-    \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{stru-V-serial.png}
-        \caption{}
-        \label{fig:stru-Visairo-serial}
-    \end{subfigure}
-    \\
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{stru-V-parallel.png}
-        \caption{}
-        \label{fig:stru-Visairo-parallel}
-    \end{subfigure}
-    \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{stru-V-isolate.png}
-        \caption{}
-        \label{fig:stru-Visairo-isolate}
-    \end{subfigure}
-    \caption{
-        (a) The RBS structure proposed by Visairo\cite{visairoReconfigurableBatteryPack2008}, with
-        all batteries in (b) series connection, (c) parallel connection, and
-        (d) battery $B_3$ isolated.
-        }
-    \label{fig:arch}
-\end{figure}
+% To illustrate the working principle of an RBS, we consider a typical RBS structure developed by Visairo \cite{visairoReconfigurableBatteryPack2008} (Fig. \ref{fig:stru-Visairo}), which is taken as an example to show the reconfiguration process.
+% In this structure, the batteries can be connected not only in series when the switches $S_1$, $S_5$, $S_6$, $S_7$, $S_8$, $S_9$, and $S_{13}$ are closed (see Fig. \ref{fig:stru-Visairo-serial}) but also in parallel when $S_1$, $S_2$, $S_3$, $S_4$, $S_5$, $S_9$, $S_{10}$, $S_{11}$, $S_{12}$, and $S_{13}$ are closed (Fig. \ref{fig:stru-Visairo-parallel}).
+% Furthermore, when an unhealthy battery, for instance, the orange one $B_3$ in Fig. \ref{fig:stru-Visairo-isolate}, appears in the RBS, it can be isolated by opening its two adjacent switches (i.e., $S_4$ and $S_{11}$), ensuring that the system remains in a reliable working mode.
+% 
+% \begin{figure}[htbp]
+%     \centering
+%     \begin{subfigure}[b]{0.45\textwidth}
+%         \includegraphics[width=\textwidth]{stru-V-origin.png}
+%         \caption{}
+%         \label{fig:stru-Visairo}
+%     \end{subfigure}
+%     \hspace{0.05\textwidth}
+%     \begin{subfigure}[b]{0.45\textwidth}
+%         \includegraphics[width=\textwidth]{stru-V-serial.png}
+%         \caption{}
+%         \label{fig:stru-Visairo-serial}
+%     \end{subfigure}
+%     \\
+%     \begin{subfigure}[b]{0.45\textwidth}
+%         \includegraphics[width=\textwidth]{stru-V-parallel.png}
+%         \caption{}
+%         \label{fig:stru-Visairo-parallel}
+%     \end{subfigure}
+%     \hspace{0.05\textwidth}
+%     \begin{subfigure}[b]{0.45\textwidth}
+%         \includegraphics[width=\textwidth]{stru-V-isolate.png}
+%         \caption{}
+%         \label{fig:stru-Visairo-isolate}
+%     \end{subfigure}
+%     \caption{
+%         (a) The RBS structure proposed by Visairo\cite{visairoReconfigurableBatteryPack2008}, with
+%         all batteries in (b) series connection, (c) parallel connection, and
+%         (d) battery $B_3$ isolated.
+%         }
+%     \label{fig:arch}
+% \end{figure}
 
 The early research on RBSs mainly focused on the topological design of the structure with different flexibility and reconfigurability to meet application requirements.
 For example, Ci et al. \cite{ci2007novel} proposed an RBS structure that dynamically adjusts the battery discharge rate to fully exploit the available capacity of each battery. 
@@ -502,7 +506,7 @@ Finally, the algorithm outputs the maximum $\eta$ once $N_{\text{set}}$ converge
 
 \section{Case Study}
 
-\subsection{Structures}
+\subsection{Structures and details}
 
 \begin{figure}[htbp]
     \centering
@@ -532,9 +536,36 @@ Lawson et al. designed the RBS structure shown in Fig. \ref{fig:study-stru-Lawso
 Although this structure easily isolates batteries, it cannot dynamically adjust the output current of the RBS. 
 Based on the structures of Visairo and Lawson, this paper proposes the structure shown in Fig. \ref{fig:study-stru-my}.
 By integrating the Visairo RBS structure into the Lawson RBS structure, the proposed structure not only has the flexibility to switch the batteries between series, parallel, and mixed series-parallel modes but also allows the isolation of highly degraded batteries from the RBS.
-These four-battery RBS structures are investigated in the case study, including the scenarios with random isolated batteries.
+
+
+In the case study, these RBS systems are investigated and compared: (a) three different structures (Figs. \ref{fig:study-stru-Visairo}-\ref{fig:study-stru-my}) with the same four batteries; (b) the same structure in Figs. \ref{fig:study-stru-my} with two/four/six batteries; and (c) the four-battery structure in Figs. \ref{fig:study-stru-my} with random isolated batteries. 
+The greedy algorithm proposed in this work is also compared with the brute-force algorithm, SA, and GA to validate its effectiveness and efficiency.
+In order to adapt the two heuristic algorithms to the system's structure and scale, the number of the state neighbours of SA and the population size of GA are both set to $N_b \cdot N_s$, which increase with the number of batteries and switches in the system. 
+The other algorithms' parameters are set as shown in Tab. \ref{tab:algorithm-parameter}.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Algorithms parameters of SA and GA.}
+    \begin{tabular}{lr}
+    \toprule
+    algorithm/paramter & \multicolumn{1}{l}{value} \\
+    \midrule
+    SA/initial temperature & 100 \\
+    SA/final temperature & 1 \\
+    SA/cooling rate & 0.95 \\
+    GA/total generations & 100 \\
+    GA/crossover probability & 0.8 \\
+    GA/mutation probability & 0.02 \\
+    \bottomrule
+    \end{tabular}
+  \label{tab:algorithm-parameter}
+\end{table}
 
 \subsection{Result}
+
+% SP 结果：三种结构 4battery
+% 重新画图，在实际电路图中表示
+% e4-sp f4-sp e2f2-sp
 
 As shown in Fig. \ref{fig:study-stru-my}, the new RBS structure consists of four batteries and 19 switches. 
 Figure \ref{fig:study-dirgraph-my} shows the corresponding directed graph, which is composed of 18 nodes and 43 edges. 
@@ -609,6 +640,11 @@ Fig. \ref{fig:study-results-my} presents the corresponding circuit, with the red
 
 Similarly, the results of the MAC calculation for the structures in Figs. \ref{fig:study-stru-Lawson} and \ref{fig:study-stru-Visairo} are listed in Tabs. \ref{tab:study-results-Lawson} and  \ref{tab:study-results-Visairo}, respectively.
 
+% 4-battery 结构结果，不同算法
+% tab：三种结构greedy的结果细节 3个子表
+% fig：三种结构的闭合方案 3并列子图
+% tab：三种结构不同算法的 eta 计算值 1个tab
+% fig：不同算法的迭代 MAC 值 3并列子图
 
 To verify and compare the results from the greedy algorithm, we also used a brute-force algorithm that iterates through all possible switch states to calculate the MAC of the same three RBSs. 
 The final results are the same as the results shown in Tabs. \ref{tab:study-results-my}--\ref{tab:study-results-Visairo}.
@@ -646,6 +682,15 @@ For the same RBS, the method counts all possible switch states, which equates to
     \end{tabular}
   \label{tab:study-results-Visairo}
 \end{table}
+
+% c:2/4/6-battery 结构结果，不同算法
+% fig：两种结构的闭合方案 2并列子图
+% tab：两种结构不同算法的 eta 计算值 1个tab
+% fig：不同算法的迭代 MAC 值 2并列子图
+
+% 4-battery 结构，随机隔离
+% fig：四种情况的闭合方案 4个子图
+% 文字描述 4个图的 eta
 
 Furthermore, the RBS with isolated batteries is taken into consideration and calculated. 
 The MAC calculation results for the three structures under study, with varying numbers of isolated batteries, are presented in Tab. \ref{tab:isolated_mac}. 
