@@ -99,7 +99,7 @@ This paper proposes a method to calculate the MAC of arbitrary RBSs using a gree
 By introducing the shortest path of the battery, the greedy algorithm transforms the enumeration of switch states in the brute-force algorithm into the combination of the shortest paths, which greatly increases the efficiency with which the MAC is determined.
 The directed graph model, based on the equivalent circuit, provides a specific method for calculating the MAC of a given structure.
 The proposed method is validated on two published four-battery-RBSs and one with a more complex structure.
-The results are the same as those of the brute-force algorithm, but the proposed method significantly improves the computational efficiency ($N_s 2^{N_s - N_b} \log_{10} N_b$ times faster than the brute force algorithm for an RBS with $N_b$ batteries and $N_s$ switches, theoretically).
+The results are the same as those of the brute-force algorithm, but the proposed method significantly improves the computational efficiency ($N_s 2^{N_s - N_b} \log_{10} N_b$ times faster than the brute-force algorithm for an RBS with $N_b$ batteries and $N_s$ switches, theoretically).
 The main advantage of the proposed method is its ability to calculate the MAC of RBSs with arbitrary structures, even in scenarios with random isolated batteries.
 %</reviewer1-comment1>
 \end{abstract}
@@ -155,14 +155,14 @@ Furthermore, when an unhealthy battery, for instance, the orange one $B_3$ in Fi
 \end{figure}
 
 %<*reviewer1-comment2>
-The early research on RBSs focused on the design of the structure with different flexibility and reconfigurability to meet application requirements.
+The early research on RBSs mainly focused on the topological design of the structure with different flexibility and reconfigurability to meet application requirements.
 For example, Ci et al. \cite{ci2007novel} proposed an RBS structure that dynamically adjusts the battery discharge rate to fully exploit the available capacity of each battery. 
-Jan's \cite{9209774,engelhardt2021double} structures  reconfigure structures with variant batteries in series to reach the (constantly changing) voltage requirements during electric vehicle charging.
-As shown in Fig. \ref{fig:stru-Visairo}, the structure proposed by Visairo et al. \cite{visairoReconfigurableBatteryPack2008}  changes the system's output voltage based on the load conditions, thereby reducing the power loss of the voltage regulator during the power supply process and improving the efficiency of energy use. 
+Jan's \cite{9209774,engelhardt2021double} structures reconfigure circuits with variant batteries in series to reach the constantly changing voltage requirements during electric vehicle charging.
+As shown in Fig. \ref{fig:stru-Visairo}, the structure proposed by Visairo et al. \cite{visairoReconfigurableBatteryPack2008} changes the system's output voltage based on the load conditions, thereby reducing the power loss of the voltage regulator during the power supply process and improving the efficiency of energy use. 
 Also, to enhance the energy efficiency of the system, Lawson et al. \cite{lawsonSoftwareConfigurableBattery2012} and He et al. \cite{he2014reconfiguration}  proposed simplified structures that have fewer switches than Visairo's design.
 Kim et al. \cite{kim2009dynamic} improved the system's ability to recover from battery failures by introducing multiple ports into the structure. 
-Those complex structures between batteries and switches give RBSs flexibility but also creates the challenge in the design of the hardware. 
-The variation of current occurs during the system reconfigurating.
+Those complex structures between batteries and switches give RBSs flexibility but also create the challenge in the design of the hardware. 
+Current deviation and fluctuation occur when the system is reconfigurating.
 Specifically, when the system connect is swithed from series to parallel, circulating current between parallel cells can be triggered due to their voltage imbalance \cite{hanAnalysisEstimationMaximum2020}.
 It will bring damage to the batteries, switches, and wires if not fully considered during the design of the RBSs.
 For instance, Engelhardt et al. \cite{engelhardtDoubleStringBatterySystem2021} applied the RBS to a fast-charging scenario with adaptive cell switching, which can balance cell states while following the voltage request, but the switching of batteries leads to untolerant current variations. 
@@ -175,32 +175,30 @@ The state estimation, one of the essential technologies of the traditional batte
 Couto et al. \cite{coutoPartitionbasedUnscentedKalman2018a} proposed a partition-based unscented Kalman filter to estimate the state of a given large-scale RBS, using an enhanced reduced-order electrochemical model.
 Kersten et al. \cite{kerstenOnlineOnBoardBattery2020a} used the balancing current of neighboring cells in parallel operation to determine the battery impedances, yielding state of health and power capability.
 Schmid et al. \cite{schmidActiveModelBasedFault2021a} further token advantage of the system's reconfigured characteristic to actively diagnose fault, whose algorithm changes the structure of the system in order to improve the fault isolability. 
-To develop the effective control strategies of RBSs to achieve the optimal performance, such as better stability \cite{kacetlDesignAnalysisModular2023b} and efficiency \cite{yangAdaptiveControlFramework2022}, is another hot research topic.
+Developing the effective control strategies of RBSs to achieve the optimal performance, such as better stability \cite{kacetlDesignAnalysisModular2023b} and efficiency \cite{yangAdaptiveControlFramework2022}, is another hot research topic.
 Han et al. \cite{hanNearFastestBatteryBalancing2019a} proposed a near-fastest battery balancing algorithm to minimize the battery charge equalization time.
-Liu et al. \cite{liuFlexiblePathPlanningbased2023a} also proposed a maximum capacity utilization scheme based on a path planning algorithm to improve the battery consistency in the system.
+Liu et al. \cite{liuFlexiblePathPlanningbased2023a} also proposed a maximum capacity utilization scheme based on a path planning algorithm to improve the battery consistency within the system.
 To break through the bootleneck of the potential short-circuit paths increase exponentially with the RBS's scale, Chen et al. \cite{chenSneakCircuitTheory2021} proposed a systematic approach based on sneak circuit theory. 
 They thoroughly analyzed all paths between the cathode and anode of each battery in the RBS and identified paths that only contain switches as short-circuit paths for pre-checking before system reconfiguration. 
-Furthermore, AI-based management is also used in the system \cite{liuLongLifetimeBattery2022a}.
+Furthermore, Artificial Intelligence also appears in the RBS management \cite{liuLongLifetimeBattery2022a}.
 The effectiveness of deep reinforcement learning method has been validated on the real-world RBSs \cite{yangAdaptiveControlFramework2022}.
 %</reviewer1-comment8>
 
 
 The maximum allowable current (MAC), defined as the maximum allowed current under the constraints of the battery cell, is a critical indicator of RBSs that needs to be evaluated during the design and control of the system. 
 The MAC helps the designers assess whether the RBS meets the output current requirements and contributes to the formulation of appropriate and safe management strategies for the battery management system. 
-Unfortunately, few studies have been proposed to determine the RBS MAC.
-% scheduling tasks onto dynamically reconfigurable hardware 的方法可以考虑资源有限和任务依存的问题，但是难以处理 RBS 的结构特征和电路方程。
-% 从 RBS 结构分析的角度分析，求解 MAC 的问题转化为在 RBS 的所有可能重构出的结构中寻找最大输出电流。
-% 但是这可能会是一个 NP-hard 问题 pinterReviewControlAlgorithms2021a 
-An intuitive and straightforward method is to enumerate all possible switch states and calculate the output current of the system under each reconfigurated structure.
-However, this method is inefficient and time-consuming, especially for RBSs with a large number of switches.
-% 启发式算法，如SA和GA，也可以用于求解该问题，但是不能完全保证获得最优解，而且收敛时间较长。z
-% 这些方法都不能满足设计和控制时，对 MAC 的快速求解需求。
+Unfortunately, few studies have been proposed to determine the RBS MAC directly, owing to the complexity from reconfiguration. 
+The computer science has the problem of scheduling tasks on dynamically reconfigurable hardware under the condition of limited resources and task interdependencies, similar to the MAC determination, and corresponding solution has been proposed \cite{mollajafariEfficientLightweightAlgorithm2023,heReconfigurationassistedChargingLargescale2014}.
+But it is hard to deal with the RBS's structural characteristics and circuit equations. 
+From the perspective of RBS structure analysis, the MAC problem can be transformed into finding the maximum output current in all possible reconfigurations of the RBS. 
+However, this may be an NP-hard problem \cite{pinterReviewControlAlgorithms2021a}. 
+Common methods, such as brute-force algorithm, simulated annealing (SA) algorithm and genetic algorithm (GA), have the disadvantages of inefficient, time-consuming, and cannot guarantee to obtain the global optimal solution.
 %</reviewer1-comment2>
 
 
 To solve this issue, this paper proposes an efficient method to evaluate the MAC of RBSs. 
 In this method, a greedy algorithm is designed to efficiently search the possible circuit topology of RBSs with MAC.
-This algorithm transforms the enumeration of switch states in the brute-force algorithm into the combination of the batteries' shortest paths.
+This algorithm transforms the inefficiently searching reconfigurations into the proactively combining of the shortest paths of batteries.
 An improved direct graph model that considers the voltage, the internal resistance, the MAC of the battery, and the external load is also introduced to analyze the current of the RBS.
 %<*reviewer1-comment3>
 The main contributions of this paper can be summarized as follows:
@@ -213,7 +211,7 @@ The main contributions of this paper can be summarized as follows:
 
 
 The remainder of this paper is organized as follows: 
-Section II presents the framework and details of the proposed directed graph model and  greedy algorithm. 
+Section II presents the framework and details of the proposed directed graph model and greedy algorithm. 
 Section III discusses a case study that uses the proposed method to determine the MACs of two published four-battery RBSs and one with a more complex structure. 
 The calculation results, the algorithm's computational complexity, and scenarios such as battery random isolation are also discussed. 
 Finally, the concluding remarks are presented in Section IV.
