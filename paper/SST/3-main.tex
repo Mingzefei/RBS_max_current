@@ -33,7 +33,8 @@
 \usepackage[margin=1.25in]{geometry}
 \usepackage{graphicx}
 % \graphicspath{ {./figures/} }
-\graphicspath{ {../figures/} }
+% \graphicspath{ {../figures/} }
+\graphicspath{ {../../attachments} }
 \usepackage{subcaption}
 \usepackage{amsmath}
 \usepackage{lineno}
@@ -114,52 +115,19 @@ The main advantage of the proposed method is its ability to calculate the MAC of
 Battery energy storage systems (BESSs) are extensively used in various applications \cite{yangBatteryEnergyStorage2018}, such as wind power plants \cite{desiqueiraControlStrategySmooth2021} and space power systems \cite{schwanbeckInternationalSpaceStation2019,zhangDevelopmentProspectChinese2021}, to store and release high-quality electrical energy \cite{choCommercialResearchBattery2015}.
 Typically, a BESS consists of numerous batteries interconnected by series-parallel circuitry to provide the required capacity storage.
 However, traditional BESSs, in which the batteries are connected in a fixed topology, suffer from a significant weakness in their worst battery due to the so-called cask effect.
-Moreover, if the worst battery fails during operation, it is highly likely to exacerbate the degradation of the other batteries, leading to reliability and safety issues \cite{yangUnbalancedDischargingAging2016,fengPropagationMechanismsDiagnosis2019,jeevarajanBatterySafetyQualifications2012}.
+Moreover, if the worst battery fails during operation, it is highly likely to exacerbate the degradation of the other batteries, leading to system-level reliability and safety issues \cite{yangUnbalancedDischargingAging2016,fengPropagationMechanismsDiagnosis2019,jeevarajanBatterySafetyQualifications2012}.
 These problems have become significant technical barriers in many engineering projects requiring high reliability, such as developing new-generation space vehicles \cite{pomboHybridPowerSystem2021}.  
 Reconfigurable battery systems (RBSs), which can dynamically switch as required to different circuit topologies, are expected to solve those problem \cite{hanNextGenerationBatteryManagement2020a}.
-% TODO : rewrite
-The switching circuit helps to isolate unhealthy batteries, thereby improving the safety and reliability of the battery system.
-% To illustrate the working principle of an RBS, we consider a typical RBS structure developed by Visairo \cite{visairoReconfigurableBatteryPack2008} (Fig. \ref{fig:stru-Visairo}), which is taken as an example to show the reconfiguration process.
-% In this structure, the batteries can be connected not only in series when the switches $S_1$, $S_5$, $S_6$, $S_7$, $S_8$, $S_9$, and $S_{13}$ are closed (see Fig. \ref{fig:stru-Visairo-serial}) but also in parallel when $S_1$, $S_2$, $S_3$, $S_4$, $S_5$, $S_9$, $S_{10}$, $S_{11}$, $S_{12}$, and $S_{13}$ are closed (Fig. \ref{fig:stru-Visairo-parallel}).
-% Furthermore, when an unhealthy battery, for instance, the orange one $B_3$ in Fig. \ref{fig:stru-Visairo-isolate}, appears in the RBS, it can be isolated by opening its two adjacent switches (i.e., $S_4$ and $S_{11}$), ensuring that the system remains in a reliable working mode.
-% 
-% \begin{figure}[htbp]
-%     \centering
-%     \begin{subfigure}[b]{0.45\textwidth}
-%         \includegraphics[width=\textwidth]{stru-V-origin.png}
-%         \caption{}
-%         \label{fig:stru-Visairo}
-%     \end{subfigure}
-%     \hspace{0.05\textwidth}
-%     \begin{subfigure}[b]{0.45\textwidth}
-%         \includegraphics[width=\textwidth]{stru-V-serial.png}
-%         \caption{}
-%         \label{fig:stru-Visairo-serial}
-%     \end{subfigure}
-%     \\
-%     \begin{subfigure}[b]{0.45\textwidth}
-%         \includegraphics[width=\textwidth]{stru-V-parallel.png}
-%         \caption{}
-%         \label{fig:stru-Visairo-parallel}
-%     \end{subfigure}
-%     \hspace{0.05\textwidth}
-%     \begin{subfigure}[b]{0.45\textwidth}
-%         \includegraphics[width=\textwidth]{stru-V-isolate.png}
-%         \caption{}
-%         \label{fig:stru-Visairo-isolate}
-%     \end{subfigure}
-%     \caption{
-%         (a) The RBS structure proposed by Visairo\cite{visairoReconfigurableBatteryPack2008}, with
-%         all batteries in (b) series connection, (c) parallel connection, and
-%         (d) battery $B_3$ isolated.
-%         }
-%     \label{fig:arch}
-% \end{figure}
+In a typical RBS, the extra switches are added between the batteries to form a reconfigurable network, where the circuit's topology can be changed by opening or closing the switches. 
+The unhealthy batteries can be isolated from the system by opening the switches adjacent to them, thereby ensuring that the system remains in a reliable working mode \cite{ci2016reconfigurable}. 
+Furthermore, the RBS can be reconfigured to adapt to different charging and discharging strategies, thereby improving the system's efficiency and extending the battery's life \cite{bouchhima2018lifetime}. 
+Those advantages make RBSs a promising alternative to traditional BESSs. 
+
 
 The early research on RBSs mainly focused on the topological design of the structure with different flexibility and reconfigurability to meet application requirements.
 For example, Ci et al. \cite{ci2007novel} proposed an RBS structure that dynamically adjusts the battery discharge rate to fully exploit the available capacity of each battery. 
 Jan's \cite{9209774,engelhardt2021double} structures reconfigure circuits with variant batteries in series to reach the constantly changing voltage requirements during electric vehicle charging.
-As shown in Fig. \ref{fig:stru-Visairo}, the structure proposed by Visairo et al. \cite{visairoReconfigurableBatteryPack2008} changes the system's output voltage based on the load conditions, thereby reducing the power loss of the voltage regulator during the power supply process and improving the efficiency of energy use. 
+The structure proposed by Visairo et al. \cite{visairoReconfigurableBatteryPack2008} changes the system's output voltage based on the load conditions, thereby reducing the power loss of the voltage regulator during the power supply process and improving the efficiency of energy use. 
 Also, to enhance the energy efficiency of the system, Lawson et al. \cite{lawsonSoftwareConfigurableBattery2012} and He et al. \cite{he2014reconfiguration}  proposed simplified structures that have fewer switches than Visairo's design.
 Kim et al. \cite{kim2009dynamic} improved the system's ability to recover from battery failures by introducing multiple ports into the structure. 
 Those complex structures between batteries and switches give RBSs flexibility but also create the challenge in the design of the hardware. 
@@ -498,12 +466,6 @@ Finally, the algorithm outputs the maximum $\eta$ once $N_{\text{set}}$ converge
 \caption{The computational flowchart of the MAC for a given RBS.}\label{fig:flowchart}
 \end{figure}
 
-% \begin{figure}[htbp]
-%     \centering
-%     \includegraphics[width=\textwidth]{flowchart.jpg}
-%     \caption{Computational flowchart of MAC for a given RBS.}\label{fig:flowchart}
-% \end{figure}
-
 \section{Case Study}
 
 \subsection{Structures and details}
@@ -563,93 +525,40 @@ The other algorithms' parameters are set as shown in Tab. \ref{tab:algorithm-par
 
 \subsection{Result}
 
-% SP 结果：三种结构 4battery
-% 重新画图，在实际电路图中表示
-% e4-sp f4-sp e2f2-sp
+\subsubsection{the shortest path}
 
-As shown in Fig. \ref{fig:study-stru-my}, the new RBS structure consists of four batteries and 19 switches. 
-Figure \ref{fig:study-dirgraph-my} shows the corresponding directed graph, which is composed of 18 nodes and 43 edges. 
-Batteries $B_1$, $B_2$, $B_3$, and $B_4$ are denoted by green directed edges in the graph, and the 19 switches are represented by gray directed edges with bidirectional arrows. 
-The external electrical load is treated as a directed edge from the cathode of the RBS (i.e., node 18) to the anode (i.e., node 1), as indicated by the blue directed edge in the graph.
-Using Eq. (\ref{eq:weight}) and the Dijkstra algorithm, the SPs of the four batteries in the RBS structure of Fig. \ref{fig:study-stru-my} are highlighted in red in Figs. \ref{fig:sp1} and \ref{fig:sp4}.
-Finally, the calculated MACs of the structure in Fig. \ref{fig:study-stru-my} are listed in Tab. \ref{tab:study-results-my} and shown in Fig. \ref{fig:study-results-my}, as obtained by the greedy algorithm \ref{alg:greedy}.
-Tab. \ref{tab:study-results-my} contains the states of the switches, the output current $I_o$, the battery current $\bm{I}_b$, and the ratio $\eta$ of the RBS structure with all batteries in good health when the RBS output reaches the MAC.
-Fig. \ref{fig:study-results-my} presents the corresponding circuit, with the red highlight indicating that the current is flowing through the respective branches.
+Using Eq. (\ref{eq:weight}) and the Dijkstra algorithm, the SPs of the four batteries in the RBS structures of Figs. \ref{fig:study-stru-Lawson}, \ref{fig:study-stru-Visairo}, and \ref{fig:study-stru-my} are calculated and highlighted with difference colors in Figs. \ref{fig:e4-sp}, \ref{fig:f4-sp}, and \ref{fig:e2f2-sp}, respectively.
 
 \begin{figure}[htbp]
     \centering
-    \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{ef-topo.png}
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{e4-sp.png}
         \caption{}
-        \label{fig:study-dirgraph-my}
+        \label{fig:e4-sp}
     \end{subfigure}
-    \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{ef-sp1.png}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{f4-sp.png}
         \caption{}
-        \label{fig:sp1}
+        \label{fig:f4-sp}
     \end{subfigure}
-    \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{ef-sp2.png}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\textwidth]{e2f2-sp.png}
         \caption{}
-        \label{fig:sp2}
+        \label{fig:e2f2-sp}
     \end{subfigure}
-    \\
-    \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{ef-sp3.png}
-        \caption{}
-        \label{fig:sp3}
-    \end{subfigure}
-    \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{ef-sp4.png}
-        \caption{}
-        \label{fig:sp4}
-    \end{subfigure}
-    \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.28\textwidth}
-        \includegraphics[width=\textwidth]{ef-mac.png}
-        \caption{}
-        \label{fig:study-results-my}
-    \end{subfigure}
-    \caption{
-        For the RBS structure in Fig. \ref{fig:study-stru-my}, 
-        (a) its directed graph 
-        and the SPs (highlighted in red) of battery (b) $B_1$, (c) $B_2$, (d) $B_3$, and (e) $B_4$.
-        (f) Circuit of RBS with its output reaching the MAC.
-        }
-    \label{fig:all-results-my}
+    \caption{The SPs of the four batteries in the RBS structures of (a) Fig. \ref{fig:study-stru-Lawson}, (b) Fig. \ref{fig:study-stru-Visairo}, and (c) Fig. \ref{fig:study-stru-my}.}
 \end{figure}
 
-\begin{table}[htbp]
-  \centering
-    \caption{Calculated MAC for four-battery RBS structure in Fig. \ref{fig:study-stru-my}.}
-    \begin{tabular}{cc}
-    \toprule
-        Structure & Figure \ref{fig:study-stru-my} with four batteries and 19 switches  \\
-    \midrule
-    Switch on & $S_1$,$S_3$,$S_5$,$S_6$,$S_8$,$S_9$,$S_{10}$,$S_{12}$,$S_{18}$,$S_{19}$ \\
-    $I_o$ & $2u_b/(2R_o+r_b)$ \\
-    $\bm{I}_b$ & $[u_b/(2R_o+r_b),u_b/(2R_o+r_b),0,0]$ \\
-    $\max \eta$     & 2 \\
-    \bottomrule
-    \end{tabular}
-  \label{tab:study-results-my}
-\end{table}
+\subsubsection{three structures with four batteries}
 
-Similarly, the results of the MAC calculation for the structures in Figs. \ref{fig:study-stru-Lawson} and \ref{fig:study-stru-Visairo} are listed in Tabs. \ref{tab:study-results-Lawson} and  \ref{tab:study-results-Visairo}, respectively.
-
-% 4-battery 结构结果，不同算法
-% tab：三种结构greedy的结果细节 3个子表
-% fig：三种结构的闭合方案 3并列子图
-% tab：三种结构不同算法的 eta 计算值 1个tab
-% fig：不同算法的迭代 MAC 值 3并列子图
-
-To verify and compare the results from the greedy algorithm, we also used a brute-force algorithm that iterates through all possible switch states to calculate the MAC of the same three RBSs. 
-The final results are the same as the results shown in Tabs. \ref{tab:study-results-my}--\ref{tab:study-results-Visairo}.
-The method uses the greedy algorithm to calculate 11, 11, and 1 reconfigured structures for the RBS structure in Figs. \ref{fig:study-stru-my}, \ref{fig:study-stru-Lawson}, and \ref{fig:study-stru-Visairo}, respectively. 
-For the same RBS, the method counts all possible switch states, which equates to $2^{19}$, $2^{15}$, and $2^{13}$ structures, respectively.
+After obtaining the SPs, the MACs of the three RBS structures with four batteries are calculated using the proposed greedy algorithm, and the results are shown in Tabs. \ref{tab:study-results-Lawson}, \ref{tab:study-results-Visairo}, and \ref{tab:study-results-my}, each of which contains the states of the switches, the output current $I_o$, the battery current $\bm{I}_b$, and the ratio $\eta$ when the system output reaches the MAC.
+The correspond switch-control schemes are shown as blue-highlighted electric current in Figs. \ref{fig:e4-mac}, \ref{fig:f4-mac}, and \ref{fig:e2f2-mac}, respectively.
+To verify and compare the proposed greedy algorithm, we also used the brute-force algorithm, which iterates through all possible switch states, and heuristic algorithms (SA and GA) to calculate the MAC of the same three RBSs. 
+The final results of the brute-force algorithm are the same as the ones of the greedy algorithm, which are shown in Tabs. \ref{tab:study-results-Lawson}, \ref{tab:study-results-Visairo}, and \ref{tab:study-results-my}.
+But, the brute-force algorithm counts all possible switch states, which equates to $2^{15}$, $2^{13}$, and $2^{19}$ structures, respectively.
+The two heuristic algorithms' temporal variation of the objective values during the iteration process are shown in Figs. \ref{fig:e4-alg}, \ref{fig:f4-alg}, and \ref{fig:e2f2-alg}, respectively, compared with the greedy algorithm.
 
 \begin{table}[htbp]
   \centering
@@ -683,71 +592,141 @@ For the same RBS, the method counts all possible switch states, which equates to
   \label{tab:study-results-Visairo}
 \end{table}
 
-% c:2/4/6-battery 结构结果，不同算法
-% fig：两种结构的闭合方案 2并列子图
-% tab：两种结构不同算法的 eta 计算值 1个tab
-% fig：不同算法的迭代 MAC 值 2并列子图
-
-% 4-battery 结构，随机隔离
-% fig：四种情况的闭合方案 4个子图
-% 文字描述 4个图的 eta
-
-Furthermore, the RBS with isolated batteries is taken into consideration and calculated. 
-The MAC calculation results for the three structures under study, with varying numbers of isolated batteries, are presented in Tab. \ref{tab:isolated_mac}. 
-Figs. \ref{fig:my-isolated-1}--\ref{fig:my-isolated-3} illustrate the corresponding switch-control schemes for the new structure proposed in this paper under different conditions of isolated batteries.
-
 \begin{table}[htbp]
+  \centering
+    \caption{Calculated MAC for four-battery RBS structure in Fig. \ref{fig:study-stru-my}.}
+    \begin{tabular}{cc}
+    \toprule
+        Structure & Figure \ref{fig:study-stru-my} with four batteries and 19 switches  \\
+    \midrule
+    Switch on & $S_1$,$S_3$,$S_5$,$S_6$,$S_8$,$S_9$,$S_{10}$,$S_{12}$,$S_{18}$,$S_{19}$ \\
+    $I_o$ & $2u_b/(2R_o+r_b)$ \\
+    $\bm{I}_b$ & $[u_b/(2R_o+r_b),u_b/(2R_o+r_b),0,0]$ \\
+    $\max \eta$     & 2 \\
+    \bottomrule
+    \end{tabular}
+  \label{tab:study-results-my}
+\end{table}
+  
+\begin{figure}[htbp]
     \centering
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{e4-mac.png}
+        \caption{}
+        \label{fig:e4-mac}
+    \end{subfigure}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{f4-mac.png}
+        \caption{}
+        \label{fig:f4-mac}
+    \end{subfigure}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\textwidth]{e2f2-mac.png}
+        \caption{}
+        \label{fig:e2f2-mac}
+    \end{subfigure}
+    \caption{The RBSs' switch-control schemes with the output reaching the MAC.}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{e4-alg.png}
+        \caption{}
+        \label{fig:e4-alg}
+    \end{subfigure}
+    % \hspace{0.02\textwidth}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{f4-alg}
+        \caption{}
+        \label{fig:f4-alg}
+    \end{subfigure}
+    % \hspace{0.02\textwidth}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{e2f2-alg}
+        \caption{}
+        \label{fig:e2f2-alg}
+    \end{subfigure}
+    \caption{The temporal variation of the objective values during the iteration process of calculating the RBS structures in (a) Fig. \ref{fig:study-stru-Lawson}, (b) Fig. \ref{fig:study-stru-Visairo}, and (c) Fig. \ref{fig:study-stru-my}}
+\end{figure}
+
+\subsubsection{structures with different numbers of batteries}
+
+We next consider the RBS structure in Fig. \ref{fig:study-stru-my} with two, four, and six batteries.
+The result of four-battery structure has been shown in Tab. \ref{tab:study-results-my}, Fig. \ref{fig:e2f2-mac}, and Fig. \ref{fig:e2f2-alg}. 
+The structures and final switch-control schemes of the others are shown in Figs. \ref{fig:e2f1-mac} and \ref{fig:e2f3-mac}, respectively. 
+And the temporal variation of the objective values during the iteration process are shown in Figs. \ref{fig:e2f1-alg} and \ref{fig:e2f3-alg}, respectively.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.27\textwidth}
+        \includegraphics[width=\textwidth]{e2f1-mac.png}
+        \caption{}
+        \label{fig:e2f1-mac}
+    \end{subfigure}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\textwidth]{e2f3-mac.png}
+        \caption{}
+        \label{fig:e2f3-mac}
+    \end{subfigure}
+    \caption{The (a) two-battery and (b) six-battery RBSs' switch-control schemes with the output reaching the MAC.}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.34\textwidth}
+        \includegraphics[width=\textwidth]{e2f1-alg.png}
+        \caption{}
+        \label{fig:e2f1-alg}
+    \end{subfigure}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[b]{0.33\textwidth}
+        \includegraphics[width=\textwidth]{e2f3-alg.png}
+        \caption{}
+        \label{fig:e2f3-alg}
+    \end{subfigure}
+    \caption{The temporal variation of the objective values during the iteration process of calculating the RBS structures in (a) Fig. \ref{fig:e2f1-mac} and (b) Fig. \ref{fig:e2f3-mac}.}
+\end{figure}
+
+\subsubsection{random isolated batteries}
+
+To validate the proposed algorithm's effectiveness in the scenario of unhealthy batteries, the RBS with isolated batteries is also taken into consideration and calculated. 
+For the four-battery RBS structure shown in Fig. \ref{fig:study-stru-my}, there are four possible cases of isolated batteries: (a) only one unhealthy battery, (b) two unhealthy batteries which are separated in the two subsections, (c) two batteries located in the same subsection, and (d) three batteries. 
+The final calculated MAC($\eta$)s of these four cases are 2, 2, 1, and 1, respectively.
+And the corresponding switch-control schemes of these four cases are shown in Figs. \ref{fig:my-isolated-1}--\ref{fig:my-isolated-3}.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\textwidth]{e2f2-isolate-1.png}
+        \caption{}
+        \label{fig:my-isolated-1}
+    \end{subfigure}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\textwidth]{e2f2-isolate-2b.png}
+        \caption{}
+        \label{fig:my-isolated-2b}
+    \end{subfigure}
+    \\
+    \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\textwidth]{e2f2-isolate-2w.png}
+        \caption{}
+        \label{fig:my-isolated-2w}
+    \end{subfigure}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\textwidth]{e2f2-isolate-3.png}
+        \caption{}
+        \label{fig:my-isolated-3}
+    \end{subfigure}
     \caption{
-      Variation of MAC with the number of isolated batteries for different RBS structures, including the structure proposed by Lawson et al., Visairo et al., and the structure proposed in this paper.
-      }
-      \label{tab:isolated_mac}
-      \begin{tabular}{cccc}
-      \toprule
-      \multirow{2}[4]{*}{Number of isolated batteries} & \multicolumn{3}{c}{$\eta$ of RBS structure} \\
-  \cmidrule{2-4}          & This paper  & Visairo  & Lawson  \\
-      \midrule
-      0     & 2     & 4     & 1 \\
-      1     & 2     & 3     & 1 \\
-      2     & 2$^{\mathrm{a}}$ or 1$^{\mathrm{b}}$ & 2     & 1 \\
-      3     & 1     & 1     & 1 \\
-      \bottomrule
-      \end{tabular}
-      \\
-      \footnotesize{$^{\mathrm{a}}$ Isolate two batteries within the same substructure, as shown in Fig. \ref{fig:my-isolated-2b}.}\\
-      \footnotesize{$^{\mathrm{b}}$ Isolate one battery in each of the two substructures, as shown in Fig. \ref{fig:my-isolated-2w}.}
-  \end{table}
-  
-  
-  \begin{figure}[htbp]
-      \centering
-      \begin{subfigure}[b]{0.31\textwidth}
-          \includegraphics[width=\textwidth]{my-isolated-1.png}
-          \caption{}
-          \label{fig:my-isolated-1}
-      \end{subfigure}
-      \hspace{0.02\textwidth}
-      \begin{subfigure}[b]{0.31\textwidth}
-          \includegraphics[width=\textwidth]{my-isolated-2b.png}
-          \caption{}
-          \label{fig:my-isolated-2b}
-      \end{subfigure}
-      \\
-      \begin{subfigure}[b]{0.31\textwidth}
-          \includegraphics[width=\textwidth]{my-isolated-2w.png}
-          \caption{}
-          \label{fig:my-isolated-2w}
-      \end{subfigure}
-      \hspace{0.02\textwidth}
-      \begin{subfigure}[b]{0.31\textwidth}
-          \includegraphics[width=\textwidth]{my-isolated-3.png}
-          \caption{}
-          \label{fig:my-isolated-3}
-      \end{subfigure}
-      \caption{
-          Circuit states of MACs when isolating (a) one, (b) two (best case), (c) two (worst case), and (d) three batteries for the structure in Fig. \ref{fig:study-stru-my}.
-          }
-  \end{figure}
+        Circuit states of MACs when isolating (a) one, (b) two (in different substructures), (c) two (in the same substructure), and (d) three batteries for the structure in Fig. \ref{fig:study-stru-my}.
+        }
+\end{figure}
 
 \subsection{Discussion}
 

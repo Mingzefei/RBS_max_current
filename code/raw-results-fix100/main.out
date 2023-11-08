@@ -1,0 +1,270 @@
+Solve f2 by Greedy
+MAC: 2.00
+num_iter: 9
+Io_ideal: (2*ub)/(2*Ro + rb)
+Ib_ideal(1): ub/(2*Ro + rb)
+Ib_ideal(2): ub/(2*Ro + rb)
+those switches are close: 1 2 3 5 6 7 
+
+Solve f2 by SA
+MAC: 2.00
+num_iter: 1260
+Io_ideal: (2*ub)/(2*Ro + rb)
+Ib_ideal(1): ub/(2*Ro + rb)
+Ib_ideal(2): ub/(2*Ro + rb)
+those switches are close: 1 2 3 5 6 7 
+
+Solve f2 by GA
+MAC: 2.00
+num_iter: 1400
+Io_ideal: (2*ub)/(2*Ro + rb)
+Ib_ideal(1): ub/(2*Ro + rb)
+Ib_ideal(2): ub/(2*Ro + rb)
+those switches are close: 1 2 3 5 6 7 
+
+Solve f4 by Greedy
+MAC: 4.00
+num_iter: 24
+Io_ideal: (4*ub)/(4*Ro + rb)
+Ib_ideal(1): ub/(4*Ro + rb)
+Ib_ideal(2): ub/(4*Ro + rb)
+Ib_ideal(3): ub/(4*Ro + rb)
+Ib_ideal(4): ub/(4*Ro + rb)
+those switches are close: 1 2 3 4 5 9 10 11 12 13 
+
+Solve f4 by SA
+MAC: 4.00
+num_iter: 4680
+Io_ideal: (4*ub)/(4*Ro + rb)
+Ib_ideal(1): ub/(4*Ro + rb)
+Ib_ideal(2): ub/(4*Ro + rb)
+Ib_ideal(3): ub/(4*Ro + rb)
+Ib_ideal(4): ub/(4*Ro + rb)
+those switches are close: 1 2 3 4 5 9 10 11 12 13 
+
+Solve f4 by GA
+MAC: 4.00
+num_iter: 5200
+Io_ideal: (4*ub)/(4*Ro + rb)
+Ib_ideal(1): ub/(4*Ro + rb)
+Ib_ideal(2): ub/(4*Ro + rb)
+Ib_ideal(3): ub/(4*Ro + rb)
+Ib_ideal(4): ub/(4*Ro + rb)
+those switches are close: 1 2 3 4 5 9 10 11 12 13 
+
+Solve f6 by Greedy
+MAC: 6.00
+num_iter: 53
+Io_ideal: (6*ub)/(6*Ro + rb)
+Ib_ideal(1): ub/(6*Ro + rb)
+Ib_ideal(2): ub/(6*Ro + rb)
+Ib_ideal(3): ub/(6*Ro + rb)
+Ib_ideal(4): ub/(6*Ro + rb)
+Ib_ideal(5): ub/(6*Ro + rb)
+Ib_ideal(6): ub/(6*Ro + rb)
+those switches are close: 1 2 3 4 5 6 7 13 14 15 16 17 18 19 
+
+Solve f6 by SA
+MAC: 5.00
+num_iter: 10260
+Io_ideal: (5*ub)/(5*Ro + rb)
+Ib_ideal(1): ub/(5*Ro + rb)
+Ib_ideal(2): 0
+Ib_ideal(3): ub/(5*Ro + rb)
+Ib_ideal(4): ub/(5*Ro + rb)
+Ib_ideal(5): ub/(5*Ro + rb)
+Ib_ideal(6): ub/(5*Ro + rb)
+those switches are close: 1 2 4 5 6 7 13 14 15 16 17 18 19 
+
+Solve f6 by GA
+MAC: 4.00
+num_iter: 11400
+Io_ideal: (4*ub)/(4*Ro + rb)
+Ib_ideal(1): ub/(4*Ro + rb)
+Ib_ideal(2): ub/(4*Ro + rb)
+Ib_ideal(3): 0
+Ib_ideal(4): ub/(4*Ro + rb)
+Ib_ideal(5): 0
+Ib_ideal(6): ub/(4*Ro + rb)
+those switches are close: 1 2 3 5 7 9 11 13 14 16 18 19 
+
+Solve e2 by Greedy
+MAC: 1.00
+num_iter: 7
+Io_ideal: ub/(Ro + rb)
+Ib_ideal(1): ub/(Ro + rb)
+Ib_ideal(2): 0
+those switches are close: 1 3 5 7 8 9 
+
+Solve e2 by SA
+MAC: 1.00
+num_iter: 1620
+Io_ideal: (2*ub)/(Ro + 2*rb)
+Ib_ideal(1): (2*ub)/(Ro + 2*rb)
+Ib_ideal(2): (2*ub)/(Ro + 2*rb)
+those switches are close: 1 3 6 8 9 
+
+Solve e2 by GA
+MAC: 1.00
+num_iter: 1800
+Io_ideal: (2*ub)/(Ro + 2*rb)
+Ib_ideal(1): (2*ub)/(Ro + 2*rb)
+Ib_ideal(2): (2*ub)/(Ro + 2*rb)
+those switches are close: 1 2 3 5 6 7 9 
+
+Solve e4 by Greedy
+MAC: 1.00
+num_iter: 27
+Io_ideal: ub/(Ro + rb)
+Ib_ideal(1): ub/(Ro + rb)
+Ib_ideal(2): 0
+Ib_ideal(3): 0
+Ib_ideal(4): 0
+those switches are close: 1 3 5 7 10 13 14 15 
+
+Solve e4 by SA
+MAC: 1.00
+num_iter: 5400
+Io_ideal: ub/(Ro + rb)
+Ib_ideal(1): 0
+Ib_ideal(2): 0
+Ib_ideal(3): 0
+Ib_ideal(4): ub/(Ro + rb)
+those switches are close: 1 2 4 6 7 9 10 11 12 14 15 
+
+Solve e4 by GA
+MAC: 1.00
+num_iter: 6000
+Io_ideal: ub/(Ro + rb)
+Ib_ideal(1): 0
+Ib_ideal(2): 0
+Ib_ideal(3): 0
+Ib_ideal(4): ub/(Ro + rb)
+those switches are close: 1 2 4 6 7 9 10 11 12 14 15 
+
+Solve e6 by Greedy
+MAC: 1.00
+num_iter: 60
+Io_ideal: ub/(Ro + rb)
+Ib_ideal(1): ub/(Ro + rb)
+Ib_ideal(2): 0
+Ib_ideal(3): 0
+Ib_ideal(4): 0
+Ib_ideal(5): 0
+Ib_ideal(6): 0
+those switches are close: 1 3 5 7 10 13 16 19 20 21 
+
+Solve e6 by SA
+MAC: 1.00
+num_iter: 11340
+Io_ideal: (2*ub)/(Ro + 2*rb)
+Ib_ideal(1): 0
+Ib_ideal(2): 0
+Ib_ideal(3): 0
+Ib_ideal(4): 0
+Ib_ideal(5): (2*ub)/(Ro + 2*rb)
+Ib_ideal(6): (2*ub)/(Ro + 2*rb)
+those switches are close: 1 2 4 6 7 9 10 11 13 14 15 16 18 21 
+
+Solve e6 by GA
+MAC: 1.00
+num_iter: 12600
+Io_ideal: (4*ub)/(Ro + 4*rb)
+Ib_ideal(1): (4*ub)/(Ro + 4*rb)
+Ib_ideal(2): (4*ub)/(Ro + 4*rb)
+Ib_ideal(3): 0
+Ib_ideal(4): (4*ub)/(Ro + 4*rb)
+Ib_ideal(5): (4*ub)/(Ro + 4*rb)
+Ib_ideal(6): 0
+those switches are close: 1 3 4 5 6 8 10 11 12 14 15 17 19 20 21 
+
+Solve e2f1 by Greedy
+MAC: 1.00
+num_iter: 7
+Io_ideal: ub/(Ro + rb)
+Ib_ideal(1): ub/(Ro + rb)
+Ib_ideal(2): 0
+those switches are close: 1 3 5 6 7 9 12 13 
+
+Solve e2f1 by SA
+MAC: 1.00
+num_iter: 2340
+Io_ideal: ub/(Ro + rb)
+Ib_ideal(1): 0
+Ib_ideal(2): ub/(Ro + rb)
+those switches are close: 1 2 3 4 6 7 8 9 10 11 13 
+
+Solve e2f1 by GA
+MAC: 1.00
+num_iter: 2600
+Io_ideal: ub/(Ro + rb)
+Ib_ideal(1): 0
+Ib_ideal(2): ub/(Ro + rb)
+those switches are close: 1 2 4 5 7 8 9 10 11 13 
+
+Solve e2f2 by Greedy
+MAC: 2.00
+num_iter: 17
+Io_ideal: (2*ub)/(2*Ro + rb)
+Ib_ideal(1): ub/(2*Ro + rb)
+Ib_ideal(2): ub/(2*Ro + rb)
+Ib_ideal(3): 0
+Ib_ideal(4): 0
+those switches are close: 1 3 5 6 8 9 10 12 18 19 
+
+Solve e2f2 by SA
+MAC: 2.00
+num_iter: 6840
+Io_ideal: (2*ub)/(2*Ro + rb)
+Ib_ideal(1): ub/(2*Ro + rb)
+Ib_ideal(2): ub/(2*Ro + rb)
+Ib_ideal(3): 0
+Ib_ideal(4): 0
+those switches are close: 1 3 4 5 6 8 9 10 12 13 17 18 19 
+
+Solve e2f2 by GA
+MAC: 2.00
+num_iter: 7600
+Io_ideal: (2*ub)/(2*Ro + rb)
+Ib_ideal(1): 0
+Ib_ideal(2): 0
+Ib_ideal(3): ub/(2*Ro + rb)
+Ib_ideal(4): ub/(2*Ro + rb)
+those switches are close: 1 2 4 6 10 11 12 13 14 16 17 19 
+
+Solve e2f3 by Greedy
+MAC: 3.00
+num_iter: 47
+Io_ideal: (3*ub)/(3*Ro + rb)
+Ib_ideal(1): ub/(3*Ro + rb)
+Ib_ideal(2): ub/(3*Ro + rb)
+Ib_ideal(3): ub/(3*Ro + rb)
+Ib_ideal(4): 0
+Ib_ideal(5): 0
+Ib_ideal(6): 0
+those switches are close: 1 3 5 6 7 10 11 12 13 15 24 25 
+
+Solve e2f3 by SA
+MAC: 2.00
+num_iter: 13500
+Io_ideal: (2*ub)/(2*Ro + rb)
+Ib_ideal(1): 0
+Ib_ideal(2): ub/(2*Ro + rb)
+Ib_ideal(3): ub/(2*Ro + rb)
+Ib_ideal(4): 0
+Ib_ideal(5): 0
+Ib_ideal(6): 0
+those switches are close: 1 3 6 7 10 11 12 13 15 17 23 24 25 
+
+Solve e2f3 by GA
+MAC: 3.00
+num_iter: 15000
+Io_ideal: (3*ub)/(3*Ro + rb)
+Ib_ideal(1): 0
+Ib_ideal(2): 0
+Ib_ideal(3): 0
+Ib_ideal(4): ub/(3*Ro + rb)
+Ib_ideal(5): ub/(3*Ro + rb)
+Ib_ideal(6): ub/(3*Ro + rb)
+those switches are close: 1 2 3 4 5 7 11 13 14 16 17 18 21 22 23 24 25 
+
