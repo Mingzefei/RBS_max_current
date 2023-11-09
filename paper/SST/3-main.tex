@@ -107,7 +107,7 @@ This significantly enhances the efficiency with which the MAC is determined.
 The directed graph model, based on the equivalent circuit, provides a specific method for calculating the MAC of a given structure.
 The proposed method is validated on two published RBS structures and one with a more complex structure.
 The results are the same as those of the brute-force algorithm, but the proposed method significantly improves the computational efficiency ($N_s 2^{N_s - N_b} \log_{10} N_b$ times faster than the brute-force algorithm for an RBS with $N_b$ batteries and $N_s$ switches, theoretically).
-Another advantage of the proposed method is its ability to calculate the MAC of RBSs with arbitrary structures and variable battries, even in scenarios with random isolated batteries.
+Another advantage of the proposed method is its ability to calculate the MAC of RBSs with arbitrary structures and variable batteries, even in scenarios with random isolated batteries.
 \end{abstract}
 
 \section{Introduction}
@@ -139,12 +139,12 @@ To address this problem, Han et al. \cite{han2021analysis} derived an analytical
 Recently, there has been increasing attention given to the estimation and control of the system state of RBSs, and several approaches have been proposed to optimize the performance of the system. 
 State estimation, which is an essential technology in traditional battery management systems, serves as the foundation for system control and holds great potential in the context of RBSs \cite{komsiyskaCriticalReviewIntelligent2021}.
 Couto et al. \cite{coutoPartitionbasedUnscentedKalman2018a} introduced a partition-based unscented Kalman filter to estimate the state of a large-scale RBS, utilizing an enhanced reduced-order electrochemical model. 
-Kersten et al. \cite{kerstenOnlineOnBoardBattery2020a} utilized the balancing current of neighboring cells in parallel operation to determine battery impedances, thereby obtaining information about the state of health and power capability. 
+Kersten et al. \cite{kerstenOnlineOnBoardBattery2020a} utilized the balancing current of neighboring cells in parallel operation to determine battery impedance, thereby obtaining information about the state of health and power capability. 
 Schmid et al. \cite{schmidActiveModelBasedFault2021a} further leveraged the reconfigurable nature of the system to actively diagnose faults, employing an algorithm that changes the system structure to enhance fault isolability. 
 Another active research topic is the development of effective control strategies for RBSs to achieve optimal performance, including improved stability \cite{kacetlDesignAnalysisModular2023b} and efficiency \cite{yangAdaptiveControlFramework2022}.
 Han et al. \cite{hanNearFastestBatteryBalancing2019a} proposed a near-fastest battery balancing algorithm to minimize the time required for battery charge equalization.
 Liu et al. \cite{liuFlexiblePathPlanningbased2023a} also proposed a scheme for maximizing capacity utilization based on a path planning algorithm, aiming to enhance battery consistency within the system.
-To break through the bootleneck of the potential short-circuit paths increase exponentially with the RBS's scale, Chen et al. \cite{chenSneakCircuitTheory2021} proposed a systematic approach based on sneak circuit theory. 
+To break through the bottleneck of the potential short-circuit paths increase exponentially with the RBS's scale, Chen et al. \cite{chenSneakCircuitTheory2021} proposed a systematic approach based on sneak circuit theory. 
 They conducted a comprehensive analysis of all paths between the cathode and anode of each battery in the RBS, identifying paths that only consist of switches as short-circuit paths for pre-checking before system reconfiguration. 
 Furthermore, Artificial Intelligence also appears in the RBS management \cite{liuLongLifetimeBattery2022a}.
 The effectiveness of deep reinforcement learning method has been validated in real-world RBSs \cite{yangAdaptiveControlFramework2022}.
@@ -237,7 +237,7 @@ The model captures all potential system configurations and offers a direct metri
 We previously proposed a directed graph model that differs completely from He's model by using nodes to represent the connections between batteries and switches and directed edges to represent batteries and switches (Fig. \ref{fig:direct-graph-xu}), allowing for a one-to-one correspondence between the RBS structure and the directed graph model. 
 This model accurately and comprehensively represents the RBS topological structure but cannot be used for quantitative MAC calculations because it does not consider  the voltage, internal resistance, and MAC of the battery. 
 To address this issue, we improve our previous model by adding electromotive force and resistance attributes on the edges based on its equivalent circuits.
-The model also considers the external load as an equivalent resistance and integrates it into the analysis, making it a complete circuit model for later circuit analyses.
+The model also considers the external load as an equivalent resistance and integrates it into the analysis, making it a complete circuit model for later circuit analyzes.
 Fig. \ref{fig:direct-graph-my} shows the improved directed graph model used in this paper.
 The following  provides a detailed explanation of the method for equating components in RBSs and constructing the directed graph model.
 
@@ -298,7 +298,7 @@ Since each directed edge has one node to leave and one to enter, the values in e
 Therefore, removing the last row will not result in a loss of information. 
 Conversely, since each switch in the RBS is represented by a pair of directed edges with two-way directions, the two columns corresponding to the switch are mutually opposite.
 Thus, for the submatrix $\bm{A}_s$, only one column is retained for each pair of columns representing the same switch.
-As a result, $\bm{A}$ can be reduced to an $(N-1)\times(N_b+N_s+1)$ matrix, denoted  $\bm{\tilde{A}}$, for further calculation of current and voltage.
+As a result, $\bm{A}$ can be reduced to a $(N-1)\times(N_b+N_s+1)$ matrix, denoted $\bm{\tilde{A}}$, for further calculation of current and voltage.
 Similar to Eq. (\ref{eq:A_bso}), $\bm{\tilde{A}}$ can be rewritten as
 \begin{equation}\label{eq:A_bso_tilde}
     \bm{\tilde{A}} =
@@ -366,7 +366,7 @@ To characterize the current output capacity of the RBS structure under different
 \begin{equation}\label{eq:eta}
     \eta = \frac{I_o}{\max (\bm{I}_b)}.
 \end{equation}
-Finally the problem of finding the MAC can be formulated as
+Finally, the problem of finding the MAC can be formulated as
 \begin{align}
     & \max \eta(\bm{X}_s) \label{eq:max_eta}\\
     \text{s.t. } & \max (\bm{I}_b) \leq I_m, \label{eq:Ib_leq_Im}
@@ -392,7 +392,7 @@ Therefore, the distance $\omega$ of path $p$ is
     \omega(p) = N_s  n_b (p) + n_s (p),
 \end{equation}
 where $N_s$ is the total number of switches in the system, 
-and $n_b(p)$ and $n_s(p)$ are number of batteries and switches in path $p$, respectively. 
+and $n_b(p)$ and $n_s(p)$ are the number of batteries and switches in path $p$, respectively. 
 Moreover, the shortest path $SP_i$ is defined as the path with the minimum $\omega$ for battery $B_i$:
 \begin{equation}\label{eq:def_sp}
     SP_i = \mathop{\arg\min}_{p \in P_i} \omega(p),
@@ -403,7 +403,7 @@ where $P_i$ is the set of all paths from $v_1$ to $v_N$ that pass through direct
 $SP_i$ can be solved by the Dijkstra algorithm.
 The Dijkstra algorithm is a graph-search method that finds the shortest path between two given nodes in a weighted graph, efficiently solving the single-source shortest-path problem.
 Denoting the cathode and anode of battery $B_i$ as $v_i^-$ and $v_i^+$ respectively, then path $p$ of battery $B_i$  can be divided into three segments: $v_1 \rightarrow v_i^-$, $v_i^+ \rightarrow v_N$, and $v_i^- \rightarrow v_i^+$. $v_i^- \rightarrow v_i^+$ is the directed edge corresponding to battery $B_i$. 
-With the Dijkstra algorithm, shortest paths for $v_1 \rightarrow v_i^-$ and $v_i^+ \rightarrow v_N$ can be calculated under the weights given in Eq. (\ref{eq:weight}) and denoted $SP(v_i^- \rightarrow v_i^+)$ and $SP(v_i^+ \rightarrow v_N)$, respectively.
+With the Dijkstra algorithm, the shortest paths for $v_1 \rightarrow v_i^-$ and $v_i^+ \rightarrow v_N$ can be calculated under the weights given in Eq. (\ref{eq:weight}) and denoted $SP(v_i^- \rightarrow v_i^+)$ and $SP(v_i^+ \rightarrow v_N)$, respectively.
 Finally, $SP_i$ for battery $B_i$ is formed by the complete path, which consists of $SP(v_1 \rightarrow v_i^-)$, $v_i^- \rightarrow v_i^+$, and $SP(v_i^+ \rightarrow v_N)$.
 
 \subsection{Greedy algorithm}\label{subsec:greedy_solution}
@@ -413,7 +413,7 @@ However, conflicts may arise between the SPs of different batteries.
 For instance, the SPs of two batteries might form a short-circuit RBS structure, which is not allowed. 
 To address this issue, a greedy algorithm incorporates as many SPs as possible while satisfying the reconstruction requirements.
 
-The algorithm (see pseudo-code in Algorithm 1) is illustrated in Fig. \ref{fig:flowchart} and is summarized as follows:
+The algorithm (see pseudocode in Algorithm 1) is illustrated in Fig. \ref{fig:flowchart} and is summarized as follows:
 First, the SPs are obtained by using Eqs. (\ref{eq:weight}) and (\ref{eq:def_sp}) in conjunction with the Dijkstra search. 
 Next, the matrix $\bm{A}$ is calculated using Eq. (\ref{eq:A}), and the initial $N_{\text{set}}$ is set to $N_b$. 
 The algorithm uses a dichotomy method to iteratively check until convergence different combinations of $c_b$ batteries from $N_b$ and updates $N_{\text{set}}$. 
@@ -500,7 +500,7 @@ By integrating the Visairo RBS structure into the Lawson RBS structure, the prop
 
 In the case study, these RBS systems are investigated and compared: (a) three different structures (Figs. \ref{fig:study-stru-Lawson}--\ref{fig:study-stru-my}) with the same four batteries; (b) the same structure in Figs. \ref{fig:study-stru-my} with two/four/six batteries; and (c) the four-battery structure in Figs. \ref{fig:study-stru-my} with random isolated batteries. 
 The greedy algorithm proposed in this work is also compared with the brute-force algorithm, SA, and GA to validate its effectiveness and efficiency.
-In order to adapt the two heuristic algorithms to the system's structure and scale, the number of the state neighbours of SA and the population size of GA are both set to $N_b \cdot N_s$, which increase with the number of batteries and switches in the system. 
+In order to adapt the two heuristic algorithms to the system's structure and scale, the number of the state neighbors of SA and the population size of GA are both set to $N_b \cdot N_s$, which increase with the number of batteries and switches in the system. 
 The other algorithms' parameters are shown in Tab. \ref{tab:algorithm-parameter}.
 
 \begin{table}[htbp]
@@ -508,7 +508,7 @@ The other algorithms' parameters are shown in Tab. \ref{tab:algorithm-parameter}
   \caption{Algorithms parameters of SA and GA.}
     \begin{tabular}{lr}
     \toprule
-    Algorithm/paramter & \multicolumn{1}{l}{Value} \\
+    Algorithm/parameter & \multicolumn{1}{l}{Value} \\
     \midrule
     SA/initial temperature & 100 \\
     SA/final temperature & 1 \\
@@ -523,7 +523,7 @@ The other algorithms' parameters are shown in Tab. \ref{tab:algorithm-parameter}
 
 \subsection{Result}
 
-\subsubsection{the shortest path}
+\subsubsection{The shortest path}
 
 Using Eq. (\ref{eq:weight}) and the Dijkstra algorithm, the SPs of the four batteries in the RBS structures of Figs. \ref{fig:study-stru-Lawson}, \ref{fig:study-stru-Visairo}, and \ref{fig:study-stru-my} are calculated and highlighted with difference colors in Figs. \ref{fig:e4-sp}, \ref{fig:f4-sp}, and \ref{fig:e2f2-sp}, respectively.
 
@@ -549,10 +549,10 @@ Using Eq. (\ref{eq:weight}) and the Dijkstra algorithm, the SPs of the four batt
     \caption{The SPs of the four batteries in the RBS structures of (a) Fig. \ref{fig:study-stru-Lawson}, (b) Fig. \ref{fig:study-stru-Visairo}, and (c) Fig. \ref{fig:study-stru-my}.}
 \end{figure}
 
-\subsubsection{three structures with four batteries}
+\subsubsection{Three structures with four batteries}
 
 After obtaining the SPs, the MACs of the three RBS structures with four batteries are calculated using the proposed greedy algorithm, and the results are shown in Tabs. \ref{tab:study-results-Lawson}, \ref{tab:study-results-Visairo}, and \ref{tab:study-results-my}, each of which contains the states of the switches, the output current $I_o$, the battery current $\bm{I}_b$, and the ratio $\eta$ when the system output reaches the MAC.
-The correspond switch-control schemes are shown as blue-highlighted electric current in Figs. \ref{fig:e4-mac}, \ref{fig:f4-mac}, and \ref{fig:e2f2-mac}, respectively.
+The corresponding switch-control schemes are shown as blue-highlighted electric current in Figs. \ref{fig:e4-mac}, \ref{fig:f4-mac}, and \ref{fig:e2f2-mac}, respectively.
 To verify and compare the proposed greedy algorithm, we also used the brute-force algorithm, which iterates through all possible switch states, and the heuristic algorithms (SA and GA) to calculate the MAC of the same RBSs. 
 The final results of the brute-force algorithm are the same as the ones of the greedy algorithm, which are shown in Tabs. \ref{tab:study-results-Lawson}, \ref{tab:study-results-Visairo}, and \ref{tab:study-results-my}.
 But, the brute-force algorithm counts all possible switch states, which equates to $2^{15}$, $2^{13}$, and $2^{19}$ structures, respectively.
@@ -651,14 +651,14 @@ Comparing to the SA and GA, the proposed greedy algorithm solves the correct res
     \caption{The temporal evolution of the objective values during the iteration process of calculating the RBS structures in (a) Fig. \ref{fig:study-stru-Lawson}, (b) Fig. \ref{fig:study-stru-Visairo}, and (c) Fig. \ref{fig:study-stru-my}}
 \end{figure}
 
-\subsubsection{structures with different numbers of batteries}
+\subsubsection{Structures with different numbers of batteries}
 
 We next examine the RBS configuration depicted in Fig. \ref{fig:study-stru-my}, which consists of two, four, and six batteries.
 The results for the four-battery configuration are presented in Tab. \ref{tab:study-results-my}, Figs. \ref{fig:e2f2-mac}, and \ref{fig:e2f2-alg}.
 The structures and final switch-control schemes for the two-battery and six-battery systems are illustrated in Figs. \ref{fig:e2f1-mac} and \ref{fig:e2f3-mac}, respectively.
 Furthermore, the temporal evolutions of the objective values throughout the iteration process are shown in Figs. \ref{fig:e2f1-alg} and \ref{fig:e2f3-alg}, respectively.
 The proposed greedy algorithm is still the one that converges the fastest and achieves the correct MAC. 
-And the SA algorithm fails to obstain the correct MAC within the given iteration steps in the case of six-battery RBS structure. 
+And the SA algorithm fails to obtain the correct MAC within the given iteration steps in the case of six-battery RBS structure. 
 
 \begin{figure}[htbp]
     \centering
@@ -692,7 +692,7 @@ And the SA algorithm fails to obstain the correct MAC within the given iteration
     \caption{The temporal variation of the objective values during the iteration process of calculating the RBS structures in (a) Fig. \ref{fig:e2f1-mac} and (b) Fig. \ref{fig:e2f3-mac}.}
 \end{figure}
 
-\subsubsection{random isolated batteries}
+\subsubsection{Random isolated batteries}
 
 To assess the effectiveness of the proposed algorithm in the scenario of unhealthy batteries, the RBS with random isolated batteries is also taken into account and computed. 
 In the case of the four-battery RBS structure depicted in Fig. \ref{fig:study-stru-my}, there are four possible scenarios of isolated batteries: (a) only one unhealthy battery, (b) two unhealthy batteries that are separated in the two substructure, (c) two batteries located in the same substructure, and (d) three batteries. 
@@ -731,7 +731,7 @@ Furthermore, the corresponding switch-control schemes for these four scenarios a
 
 \subsection{Discussion}
 
-\subsubsection{correctness of the results}
+\subsubsection{Correctness of the results}
 
 The correctness of the outcomes provided by the proposed greedy algorithm will be discussed from two perspectives: circuit analysis and validation against the brute-force algorithm. 
 Let's take the four-battery RBS structure shown in Fig. \ref{fig:study-stru-my} as an example.
@@ -741,7 +741,7 @@ Therefore, the switch-control scheme provided in Tab. \ref{tab:study-results-my}
 On the other hand, the brute-force method, which examines all possible switch states, also yields the same $\eta$.
 This indicates that the proposed greedy algorithm successfully identifies the MAC among all the potential reconfigured structures.
 
-\subsubsection{advantages and disadvantages of our method}
+\subsubsection{Advantages and disadvantages of our method}
 
 The proposed greedy algorithm possesses a significant advantage in terms of its effectiveness and efficiency. 
 In this paper, it is compared with the brute-force algorithm, SA, and GA. 
@@ -785,7 +785,7 @@ Additionally, all batteries are assumed to be identical for the sake of simplifi
 However, there may exist a small balancing current, which could introduce a minor bias to the MAC, due to variations in open-circuit voltage $u_b$ and internal resistance $r_b$ in reality.
 Nevertheless, the proposed greedy algorithm remains a viable choice for the RBS design and optimization in the early stage, and the issue of balancing current bias can be addressed by considering the variations in batteries and replacing the internal resistance with impedance when constructing the directed graph model.
 
-\subsubsection{application scenarios}
+\subsubsection{Application scenarios}
 
 Note that $\eta$ is used as the objective function instead of $I_o$ in solving for the MAC. 
 This choice makes the resulting MAC more reasonable and applicable in practical scenarios. 
@@ -793,7 +793,7 @@ As shown in Tab. \ref{tab:study-results-my}, $I_o$ and $\bm{I}_b$ are functions 
 However, when $I_o$ is used as the objective function, even for the same RBS structure, the MAC solution and corresponding switch states could change due to different external electrical appliances.
 This would increase the difficulty and uncertainty of designing the RBS structure. 
 To eliminate this problem, the ratio $\eta=I_o/\max(\bm{I}_b)$ is adopted as the objective function in our research.
-Recall that $\eta$ reflects only the structure's ability to output current, rather than the actual current outputing by the battery system.
+Recall that $\eta$ reflects only the structure's ability to output current, rather than the actual current outputting by the battery system.
 Assuming that the MAC of batteries in the RBS is $I_m$, the maximum output current of the RBS structure can be calculated as $\eta I_m$ by determining the value of $\eta$ for the structure. 
 
 
@@ -816,7 +816,7 @@ Therefore, the battery management system can adjust the output current and contr
 
 This paper proposes a pervasive and automated method to efficiently compute the MAC of an RBS.
 The method is implemented by a greedy algorithm combined with an improved directed graph model.
-Not only does the method provides the same global MAC calculation results as the brute-force method, but it also demonstrates superior computational efficiency compared to both the brute-force algorithm and the heuristic algorithms (SA and GA). 
+Not only does the method provide the same global MAC calculation results as the brute-force method, but it also demonstrates superior computational efficiency compared to both the brute-force algorithm and the heuristic algorithms (SA and GA). 
 Theoretically, for an RBS with $N_s$ switches and $N_b$ batteries, the efficiency of the proposed method is $N_s 2^{N_s - N_b} \log_{10} N_b$ times that of the brute-force method. 
 This is primarily due to the utilization of the batteries' SPs to guide the RBS to reconfigure reasonable structures rather than blindly going through all possible structures.
 Another advantage of this method is its capability to calculate the MAC of RBSs with arbitrary structures and variant batteries. 
@@ -833,23 +833,19 @@ This method facilitates the full utilization of the RBS's current output potenti
         $P_i \leftarrow \{path| \text{starts at $v_1$ and ends at $v_n$} \}$\;
         $SP_i \leftarrow p_i \text{ which has the minimum}~\omega(p_i)~\text{among all}~p_i \in P_i. $
     }
-    get $\bm{A}$ by Eq. \ref{eq:A}\;
+    Get $\bm{A}$ by Eq. \ref{eq:A}\;
     \While{not yet determine $\max \eta$ }
     {
-        $N_{\text{set}} \leftarrow$ number of setected SPs calculated by dichotomy\;
+        $N_{\text{set}} \leftarrow$ number of selected SPs calculated by dichotomy\;
         $C_b    \leftarrow$ set of all combinations of $N_{\text{set}} $~batteries from $N_b$\;
         \For{$c_b \in C_b$}{
             $\bm{x}_s \leftarrow \text{list of all switches' state: $x_s[j]=1$ if $ j \in \bigcup_{i\in c_b}SP_i $ else 0}$\;
             $\bm{X} \leftarrow diag[1,1,\cdots,1,\bm{x}_s] $\;
             get $\bm{Y}_n$ by Eq. \ref{eq:Yn}\;
-            \eIf{$\bm{Y}_n$ is invertible}{
-              pass
-            }{construct an effective solution}
+            \eIf{$\bm{Y}_n$ is invertible}{pass}{construct an effective solution}
             get $I_o$ by Eq. \ref{eq:I_o}\;
             get $\bm{I}_b$ by Eq. \ref{eq:I_b}\;
-            \eIf{$\max(\bm{I}_b)\leq I_m$}{
-                $\eta \leftarrow I_o/\max(\bm{I}_b)$\;
-            }{break}
+            \eIf{$\max(\bm{I}_b)\leq I_m$}{$\eta \leftarrow I_o/\max(\bm{I}_b)$\;}{break}
         }
     }
 \end{algorithm}

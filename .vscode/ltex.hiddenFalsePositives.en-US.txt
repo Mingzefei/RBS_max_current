@@ -1,0 +1,3 @@
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\QThe structure proposed by Visairo et al. \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q alters the system's output voltage based on the load conditions, thereby reducing power loss in the voltage regulator during the power supply process and enhancing energy efficiency.\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\QAlso, to enhance the energy efficiency of the system, Lawson et al. \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q and He et al. \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q proposed simplified structures that have fewer switches than Visairo's design.\\E$"}
+{"rule":"WHITESPACE_RULE","sentence":"^\\Q\\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q  break\\E$"}
