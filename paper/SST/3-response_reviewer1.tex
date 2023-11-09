@@ -1,0 +1,60 @@
+% Reviewer 1
+\reviewer
+% Comment 1
+\begin{revcomment}
+  Grammatical and spelling errors are still observed. Please check and fix carefully.
+\end{revcomment}
+\begin{revresponse}
+
+We are sorry for our negligence of the grammatical and spelling errors, and have carefully checked the manuscript and corrected them. 
+
+\end{revresponse}
+
+% Comment 2
+\begin{revcomment}
+  Since authors stated that there is no existing works on the MAC determination of RBSs that they could compare their solution with. So how the authors validate their works and their results.
+\end{revcomment}
+\begin{revresponse}
+
+We infer that the reviewer may desire to convey: since the authors stated that there are no existing works on the MAC determination of RBSs that they could compare their solution with, it is important to meticulously and comprehensively elucidate how the authors validate their works and the results.
+
+
+To address the concern raised by the reviewer, we have incorporated a comprehensive discussion in the Case study section, specifically titled "Correctness of the results". 
+In this part, we thoroughly examine the correctness of the results obtained through the proposed greedy algorithm from two distinct perspectives: circuit analysis and validation against the brute-force algorithm. 
+Additionally, we have included a comparison between the proposed greedy algorithm and two heuristic algorithms, namely simulated annealing and genetic algorithm, in the revised manuscript. 
+There is a reference ([35] in the manuscript) claiming that the path selection problem under consideration may be NP-hard.
+Therefore, it is reasonable to compare the performance of the proposed greedy algorithm with these heuristic approaches, which are commonly employed to tackle NP-hard problems.
+Remarkably, our results demonstrate that the proposed greedy algorithm consistently achieves the same or superior outcomes compared to the heuristic algorithms.
+
+
+Here is the specific modification we made in the Discussion:
+\begin{changes}
+  \ExecuteMetaData[3-main]{reviewer1-comment2}
+\end{changes}
+And here is the comparison between the proposed greedy algorithm and the heuristic algorithms in the "Result":
+\begin{changes}
+  \ExecuteMetaData[3-main]{reviewer1-comment2a}
+  \ExecuteMetaData[3-main]{reviewer1-comment2b}
+\end{changes}
+
+\end{revresponse}
+
+% Comment 3
+\begin{revcomment}
+  Refer to the mentioned article as previously stated in comment 8 of the first revision.
+\end{revcomment}
+\begin{revresponse}
+
+We have reconsidered and modified the corresponding content about the analysis on MAC problem in the introduction. 
+The mentioned article becomes important to this paper, therefore, we have cited it in the introduction and accept the reviewer's suggestion.
+
+
+We have reevaluated and revised the relevant content regarding the analysis of the MAC problem in the introduction. The mentioned article holds significance in this paper, hence we have referenced it in the introduction and acknowledged the suggestion made by the reviewer.
+
+
+Here is the specific modification we made in the introduction:
+\begin{changes}
+  \ExecuteMetaData[3-main]{reviewer1-comment3}
+\end{changes}
+
+\end{revresponse}

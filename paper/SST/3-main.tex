@@ -130,6 +130,7 @@ Jan's \cite{9209774,engelhardt2021double} structures reconfigure circuits with v
 The structure proposed by Visairo et al. \cite{visairoReconfigurableBatteryPack2008} alters the system's output voltage based on the load conditions, thereby reducing power loss in the voltage regulator during the power supply process and enhancing energy efficiency. 
 Also, to enhance the energy efficiency of the system, Lawson et al. \cite{lawsonSoftwareConfigurableBattery2012} and He et al. \cite{he2014reconfiguration}  proposed simplified structures that have fewer switches than Visairo's design.
 Kim et al. \cite{kim2009dynamic} improved the system's ability to recover from battery failures by introducing multiple ports into the structure. 
+%<*reviewer2-comment1>
 However, these complex structures between batteries and switches provide flexibility to RBSs while also posing challenges in hardware design. 
 During the reconfiguration process, current deviation and fluctuation may occur. Specifically, when the system switches from series to parallel connection, circulating current between parallel cells can be triggered due to voltage imbalance \cite{hanAnalysisEstimationMaximum2020}. Failure to fully consider this issue during the design of RBSs can result in damage to the batteries, switches, and wires. 
 For example, Engelhardt et al. \cite{engelhardtDoubleStringBatterySystem2021} applied RBS to a fast-charging scenario with adaptive cell switching, which can balance cell states while adhering to voltage requests. However, the switching of batteries leads to intolerable current variations. 
@@ -148,14 +149,17 @@ To break through the bottleneck of the potential short-circuit paths increase ex
 They conducted a comprehensive analysis of all paths between the cathode and anode of each battery in the RBS, identifying paths that only consist of switches as short-circuit paths for pre-checking before system reconfiguration. 
 Furthermore, Artificial Intelligence also appears in the RBS management \cite{liuLongLifetimeBattery2022a}.
 The effectiveness of deep reinforcement learning method has been validated in real-world RBSs \cite{yangAdaptiveControlFramework2022}.
+%</reviewer2-comment1>
 
 
 The maximum allowable current (MAC), which is defined as the maximum current allowed within the constraints of the battery cell, is a crucial indicator of RBSs that needs to be evaluated during the design and control of the system. 
 The MAC assists designers in assessing whether the RBS meets the requirements for output current and contributes to the development of appropriate and safe management strategies for the battery management system. 
+%<*reviewer1-comment3>
 Unfortunately, there have been few studies proposed to directly determine the MAC of RBSs, primarily due to the complexity arising from reconfiguration. 
 In the field of computer science, there is a similar problem of scheduling tasks on dynamically reconfigurable hardware with limited resources and task interdependencies, which is analogous to the determination of MAC. 
 A corresponding method has been proposed \cite{mollajafariEfficientLightweightAlgorithm2023,heReconfigurationassistedChargingLargescale2014}. 
 However, dealing with the structural characteristics and circuit equations of RBSs is challenging for this method.  
+%</reviewer1-comment3>
 From the perspective of RBS structure analysis, the MAC problem can be transformed into finding the maximum output current among all possible reconfigurations of the RBS. 
 However, this may be an NP-hard problem \cite{pinterReviewControlAlgorithms2021a}. 
 Common methods such as brute-force algorithms, simulated annealing (SA) algorithms, and genetic algorithms (GA) have the drawbacks of inefficiency, time consumption, and inability to guarantee the globally optimal solution.
@@ -553,11 +557,13 @@ Using Eq. (\ref{eq:weight}) and the Dijkstra algorithm, the SPs of the four batt
 
 After obtaining the SPs, the MACs of the three RBS structures with four batteries are calculated using the proposed greedy algorithm, and the results are shown in Tabs. \ref{tab:study-results-Lawson}, \ref{tab:study-results-Visairo}, and \ref{tab:study-results-my}, each of which contains the states of the switches, the output current $I_o$, the battery current $\bm{I}_b$, and the ratio $\eta$ when the system output reaches the MAC.
 The corresponding switch-control schemes are shown as blue-highlighted electric current in Figs. \ref{fig:e4-mac}, \ref{fig:f4-mac}, and \ref{fig:e2f2-mac}, respectively.
+%<*reviewer1-comment2a>
 To verify and compare the proposed greedy algorithm, we also used the brute-force algorithm, which iterates through all possible switch states, and the heuristic algorithms (SA and GA) to calculate the MAC of the same RBSs. 
 The final results of the brute-force algorithm are the same as the ones of the greedy algorithm, which are shown in Tabs. \ref{tab:study-results-Lawson}, \ref{tab:study-results-Visairo}, and \ref{tab:study-results-my}.
 But, the brute-force algorithm counts all possible switch states, which equates to $2^{15}$, $2^{13}$, and $2^{19}$ structures, respectively.
 The two heuristic algorithms' temporal evaluation of the objective values during the iteration process are shown in Figs. \ref{fig:e4-alg}, \ref{fig:f4-alg}, and \ref{fig:e2f2-alg}, respectively, compared with the proposed greedy algorithm. 
 Comparing to the SA and GA, the proposed greedy algorithm solves the correct results with fewer iteration steps. 
+%</reviewer1-comment2a>
 
 \begin{table}[htbp]
   \centering
@@ -629,6 +635,7 @@ Comparing to the SA and GA, the proposed greedy algorithm solves the correct res
     \caption{The RBSs' switch-control schemes with the output reaching the MAC.}
 \end{figure}
 
+%<*reviewer1-comment2b>
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.32\textwidth}
@@ -650,6 +657,7 @@ Comparing to the SA and GA, the proposed greedy algorithm solves the correct res
     \end{subfigure}
     \caption{The temporal evolution of the objective values during the iteration process of calculating the RBS structures in (a) Fig. \ref{fig:study-stru-Lawson}, (b) Fig. \ref{fig:study-stru-Visairo}, and (c) Fig. \ref{fig:study-stru-my}}
 \end{figure}
+%</reviewer1-comment2b>
 
 \subsubsection{Structures with different numbers of batteries}
 
@@ -733,6 +741,7 @@ Furthermore, the corresponding switch-control schemes for these four scenarios a
 
 \subsubsection{Correctness of the results}
 
+%<*reviewer1-comment2>
 The correctness of the outcomes provided by the proposed greedy algorithm will be discussed from two perspectives: circuit analysis and validation against the brute-force algorithm. 
 Let's take the four-battery RBS structure shown in Fig. \ref{fig:study-stru-my} as an example.
 When $B_1$ and $B_2$ or $B_3$ and $B_4$ are connected in parallel, the RBS produces the maximum current, which is $\eta=2$ (i.e., twice the current output of a single battery in the RBS). 
@@ -740,6 +749,7 @@ Adding more batteries to the main circuit only creates a series structure and do
 Therefore, the switch-control scheme provided in Tab. \ref{tab:study-results-my} maximizes the RBS output current.
 On the other hand, the brute-force method, which examines all possible switch states, also yields the same $\eta$.
 This indicates that the proposed greedy algorithm successfully identifies the MAC among all the potential reconfigured structures.
+%</reviewer1-comment2>
 
 \subsubsection{Advantages and disadvantages of our method}
 

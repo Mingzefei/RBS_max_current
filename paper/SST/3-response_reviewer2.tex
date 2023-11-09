@@ -1,0 +1,58 @@
+% Reviewer 2
+\reviewer
+% Comment 1
+\begin{revcomment}
+  The latest related works need to be reviewed carlfully please, expecicially the works published in recent year 2022,2023.
+\end{revcomment}
+\begin{revresponse}
+
+We concur with the reviewer's assertion that it is important for our paper to undergo a thorough review of the most recent relevant literature. 
+We have carefully scrutinized the pertinent works from the past five years and made appropriate revisions to the manuscript.
+In the "Introduction" section, we provide an overview of the challenges posed by the complex RBS structures in hardware design. 
+Furthermore, the estimation and control of the system state of RBSs have been receiving increasing attention in recent time.
+Consequently, we have chosen several corresponding methodologies aimed at optimizing the system's performance.
+
+
+Here is the specific modification in the introduction:
+\begin{changes}
+  \ExecuteMetaData[3-main]{reviewer2-comment1}
+\end{changes}
+
+\end{revresponse}
+
+% Comment 2
+\begin{revcomment}
+  The greedy algorithm and the brute force algorithm are compared in this paper, but the advantages and disadvantages of this algorithm compared with other algorithms cannot be determined.
+\end{revcomment}
+\begin{revresponse}
+
+Thanks to the suggestion of the reviewer! 
+We have revised the "Discussion" subsection and included a specific part to analyze the advantages and disadvantages of the proposed greedy algorithm in comparison to other algorithms. 
+Based on our discussion and comparison, the proposed greedy algorithm demonstrates a significant advantage in terms of its effectiveness and efficiency.
+It is also capable of handling RBSs with diverse structures. 
+However, this algorithm may encounter challenges when dealing with large-scale problems due to its exponential time complexity.
+Furthermore, the simplification of the derivation by assuming that all batteries are identical may introduce a slight bias to the MAC due to variations in open-circuit voltage $u_b$ and internal resistance $r_b$ in reality.
+We have also provided a solution to address this issue.
+
+
+The relevant content has been added to the "Advantages and disadvantages of our method" part within the "Discussion" subsection. 
+Once again, we appreciate this constructive comment from the reviewer.
+
+\end{revresponse}
+
+% Comment 3
+\begin{revcomment}
+  This paper mainly applies to the four-battery system, but the usability of other structures of RBS should also be discussed.
+\end{revcomment}
+\begin{revresponse}
+
+Thanks for the valuable feedback. 
+We have thoroughly considered the comment made by the reviewer.
+In response, we have supplemented the case study with a series of experiments on RBSs with variant batteries. 
+Overall, the proposed greedy algorithm has been applied to RBSs with three different structures, variant batteries, and scenarios involving random isolated batteries. 
+The correctness and efficiency of the proposed greedy algorithm have been verified through the comparison with other algorithms.
+
+The relevant content has been added to the "Case study" section. 
+We hope it can address the reviewer's concerns.
+
+\end{revresponse}
