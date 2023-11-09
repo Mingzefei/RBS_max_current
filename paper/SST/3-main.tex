@@ -556,7 +556,8 @@ The correspond switch-control schemes are shown as blue-highlighted electric cur
 To verify and compare the proposed greedy algorithm, we also used the brute-force algorithm, which iterates through all possible switch states, and the heuristic algorithms (SA and GA) to calculate the MAC of the same RBSs. 
 The final results of the brute-force algorithm are the same as the ones of the greedy algorithm, which are shown in Tabs. \ref{tab:study-results-Lawson}, \ref{tab:study-results-Visairo}, and \ref{tab:study-results-my}.
 But, the brute-force algorithm counts all possible switch states, which equates to $2^{15}$, $2^{13}$, and $2^{19}$ structures, respectively.
-The two heuristic algorithms' temporal evaluation of the objective values during the iteration process are shown in Figs. \ref{fig:e4-alg}, \ref{fig:f4-alg}, and \ref{fig:e2f2-alg}, respectively, compared with the proposed greedy algorithm.
+The two heuristic algorithms' temporal evaluation of the objective values during the iteration process are shown in Figs. \ref{fig:e4-alg}, \ref{fig:f4-alg}, and \ref{fig:e2f2-alg}, respectively, compared with the proposed greedy algorithm. 
+Comparing to the SA and GA, the proposed greedy algorithm solves the correct results with fewer iteration steps. 
 
 \begin{table}[htbp]
   \centering
@@ -652,10 +653,12 @@ The two heuristic algorithms' temporal evaluation of the objective values during
 
 \subsubsection{structures with different numbers of batteries}
 
-We next consider the RBS structure in Fig. \ref{fig:study-stru-my} with two, four, and six batteries.
-The result of four-battery structure has been shown in Tab. \ref{tab:study-results-my}, Figs. \ref{fig:e2f2-mac}, and \ref{fig:e2f2-alg}. 
-The structures and final switch-control schemes of the remaining two-battery and six-battery systems are illustrated in Figs. \ref{fig:e2f1-mac} and \ref{fig:e2f3-mac}, respectively. 
-And the temporal evolution of the objective values throughout the iteration process are shown in Figs. \ref{fig:e2f1-alg} and \ref{fig:e2f3-alg}, respectively.
+We next examine the RBS configuration depicted in Fig. \ref{fig:study-stru-my}, which consists of two, four, and six batteries.
+The results for the four-battery configuration are presented in Tab. \ref{tab:study-results-my}, Figs. \ref{fig:e2f2-mac}, and \ref{fig:e2f2-alg}.
+The structures and final switch-control schemes for the two-battery and six-battery systems are illustrated in Figs. \ref{fig:e2f1-mac} and \ref{fig:e2f3-mac}, respectively.
+Furthermore, the temporal evolutions of the objective values throughout the iteration process are shown in Figs. \ref{fig:e2f1-alg} and \ref{fig:e2f3-alg}, respectively.
+The proposed greedy algorithm is still the one that converges the fastest and achieves the correct MAC. 
+And the SA algorithm fails to obstain the correct MAC within the given iteration steps in the case of six-battery RBS structure. 
 
 \begin{figure}[htbp]
     \centering
