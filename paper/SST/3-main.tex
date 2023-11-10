@@ -1,32 +1,3 @@
-% =====2-review outline======
-% 1. intro 文献综述部分：重写、补充，引用c8的文献；对RBS性能的分析
-%   1.1 任务分配：如果从电流分配的角度考虑，这是一个 NP-hard 问题，求解这类问题的开销一般很大，通过针对性地改进传统算法来解决计算开销，例如 Mollajafari 提出了 a meta-heuristic method named Graph-Oriented Simulated Annealing (GOSA) )(结合 gammoudiEnergyEfficientSchedulingRealTime2020 这篇可重构任务调度的文章)
-%   1.2 对RBS性能的分析
-%   1.3 多说一点启发式算法
-% 2. case study 增加实验 模拟退火、遗传算法；增加b结构的2，6数量的电池
-%   2.1 structures and details
-%       2.1.1 4-battery 不同结构（3个tab：our method；1个图）
-%       2.1.2 2/4/6-battery 结构c
-%       2.1.3 4-battery 不同结构 isolated battery
-%       2.1.4 四种计算方法
-%   2.2 result: 删去table4和前面一段话；添加文字，描述figure7；使用子图子表格
-%       2.1.1 c结构的计算细节：1组fig（有向图、SP、最终结果）
-%       2.1.2 4-battery 不同结构的计算结果：1组tab（各结构计算结果）、2组fig（各结构MAC正确闭合方案+算法迭代过程中的MAC折线图）
-%       2.1.3 2/4/6-battery 结构c（1,2,3 *2）的计算结果：1组tab（各结构计算结果）、2组fig（各结构MAC正确闭合方案+算法迭代过程中的MAC折线图）
-%       2.1.4 4-battery c 不同 isolated battery 的计算结果：1组fig（不同电池数的开关闭合方案）
-%   2.3 discussion:
-%       2.3.1 结果正确性和准确性：a. 电路分析；b. 与 force-brute 结果的验证
-%       2.3.2 算法的有效性和优劣：a. 复杂度；b. 与 SA、GA 的比较(启发式算法仅找到局部最优；收敛时间)；c. 本算法的优劣和原因
-%       2.3.3 this work 的意义和应用：a. 说明 eta 的意义、应用方法；b. 结合 isolated battery 说明应用场景
-% 3. conclusion 相关内容修改
-% 4. abstract 相关内容修改
-
-% ! NOTE
-% [DONE]
-% 1. red mark -> blue mark
-% 2. check ref
-% 3. rewrite the last two paragraphs of the introduction if time permits
-
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage{authblk}
@@ -737,11 +708,11 @@ Furthermore, the corresponding switch-control schemes for these four scenarios a
 
 \subsection{Discussion}
 
-\subsubsection{Correctness of the results}
+\subsubsection{Result validation}
 
 %<*reviewer1-comment2>
 The correctness of the outcomes provided by the proposed greedy algorithm will be discussed from two perspectives: circuit analysis and validation against the brute-force algorithm. 
-Let's take the four-battery RBS structure shown in Fig. \ref{fig:study-stru-my} as an example.
+The result of the four-battery RBS structure shown in Fig. \ref{fig:study-stru-my} is determined as an example.
 When $B_1$ and $B_2$ or $B_3$ and $B_4$ are connected in parallel, the RBS produces the maximum current, which is $\eta=2$ (i.e., twice the current output of a single battery in the RBS). 
 Adding more batteries to the main circuit only creates a series structure and does not improve the MAC. 
 Therefore, the switch-control scheme provided in Tab. \ref{tab:study-results-my} maximizes the RBS output current.
@@ -749,7 +720,7 @@ On the other hand, the brute-force method, which examines all possible switch st
 This indicates that the proposed greedy algorithm successfully identifies the MAC among all the potential reconfigured structures.
 %</reviewer1-comment2>
 
-\subsubsection{Advantages and disadvantages of our method}
+\subsubsection{Pros and cons analysis}
 
 The proposed greedy algorithm possesses a significant advantage in terms of its effectiveness and efficiency. 
 In this paper, it is compared with the brute-force algorithm, SA, and GA. 
