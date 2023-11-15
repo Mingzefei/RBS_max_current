@@ -1,7 +1,7 @@
 \documentclass{article}
 %DIF LATEXDIFF DIFFERENCE FILE
 %DIF DEL 2-main.tex   Wed Sep 20 17:14:25 2023
-%DIF ADD 3-main.tex   Wed Nov 15 20:49:44 2023
+%DIF ADD 3-main.tex   Wed Nov 15 21:46:06 2023
 \usepackage[utf8]{inputenc}
 \usepackage{authblk}
 \usepackage{setspace}
@@ -43,7 +43,7 @@
 %DIF 37c38
 %DIF < \title{Maximum Allowable Current Determination of RBS By Using a Directed Graph Model and Greedy Algorithm}
 %DIF -------
-\title{Determining the Maximum Allowable Current of an RBS using a Directed Graph Model and Greedy Algorithm} %DIF > 
+\title{Determining Maximum Allowable Current of an RBS using a Directed Graph Model and Greedy Algorithm} %DIF > 
 %DIF -------
 
 %%%%%% Authors %%%%%%
@@ -157,17 +157,16 @@
 
 %%%%%% Abstract %%%%%%
 \begin{abstract}
-Reconfigurable battery systems (RBSs) \DIFdelbegin \DIFdel{present }\DIFdelend \DIFaddbegin \DIFadd{provide }\DIFaddend a promising alternative to traditional battery systems due to their flexible and dynamically changeable topological \DIFdelbegin \DIFdel{structure }\DIFdelend \DIFaddbegin \DIFadd{structures }\DIFaddend that can be adapted to different battery charging and discharging strategies.
+Reconfigurable battery systems \DIFdelbegin \DIFdel{(RBSs) present }\DIFdelend \DIFaddbegin \DIFadd{provide }\DIFaddend a promising alternative to traditional battery systems due to their flexible and dynamically changeable topological \DIFdelbegin \DIFdel{structure }\DIFdelend \DIFaddbegin \DIFadd{structures }\DIFaddend that can be adapted to different battery charging and discharging strategies.
 \DIFdelbegin \DIFdel{During RBS operation, a }\DIFdelend \DIFaddbegin \DIFadd{A }\DIFaddend critical system parameter known as the maximum allowable current (MAC) \DIFdelbegin \DIFdel{become pivotal }\DIFdelend \DIFaddbegin \DIFadd{is pivotal to RBS operation}\DIFaddend . This parameter is instrumental in maintaining the current of each individual battery within a safe range and serves as a guiding indicator for the system's reconfiguration, \DIFdelbegin \DIFdel{thereby }\DIFdelend ensuring its safety and reliability.
 %DIF < <*reviewer1-comment1>
-\DIFdelbegin \DIFdel{This paperproposes a method to calculate }\DIFdelend \DIFaddbegin \DIFadd{In this paper, a method is proposed for calculating }\DIFaddend the MAC of \DIFdelbegin \DIFdel{arbitrary RBSs }\DIFdelend \DIFaddbegin \DIFadd{an arbitrary RBS }\DIFaddend using a greedy algorithm in conjunction with a directed graph model of the RBS.
-\DIFdelbegin \DIFdel{By introducing }\DIFdelend \DIFaddbegin \DIFadd{Using }\DIFaddend the shortest path \DIFaddbegin \DIFadd{(SP) }\DIFaddend of the battery, the greedy algorithm transforms the \DIFdelbegin \DIFdel{enumeration of }\DIFdelend \DIFaddbegin \DIFadd{exhaustion of the }\DIFaddend switch states in the brute-force algorithm \DIFdelbegin \DIFdel{into the }\DIFdelend \DIFaddbegin \DIFadd{or variable search without utilizing structures in the heuristic algorithms (simulated annealing and genetic algorithms) in the }\DIFaddend combination of the shortest paths\DIFdelbegin \DIFdel{, which greatly increases }\DIFdelend \DIFaddbegin \DIFadd{.
-This significantly enhances }\DIFaddend the efficiency with which the MAC is determined.
+This paper proposes a method \DIFdelbegin \DIFdel{to calculate }\DIFdelend \DIFaddbegin \DIFadd{for calculating }\DIFaddend the MAC of \DIFdelbegin \DIFdel{arbitrary RBSs }\DIFdelend \DIFaddbegin \DIFadd{an arbitrary RBS }\DIFaddend using a greedy algorithm in conjunction with a directed graph model of the RBS.
+\DIFdelbegin \DIFdel{By introducing }\DIFdelend \DIFaddbegin \DIFadd{Using }\DIFaddend the shortest path of the battery, the greedy algorithm transforms the \DIFdelbegin \DIFdel{enumeration of }\DIFdelend \DIFaddbegin \DIFadd{exhaustion of the }\DIFaddend switch states in the brute-force algorithm \DIFdelbegin \DIFdel{into the }\DIFdelend \DIFaddbegin \DIFadd{or variable search without utilizing structures in the heuristic algorithms in the }\DIFaddend combination of the shortest paths\DIFdelbegin \DIFdel{, which greatly increases the efficiency with which the MAC is determined}\DIFdelend .
 The directed graph model, based on \DIFdelbegin \DIFdel{the }\DIFdelend \DIFaddbegin \DIFadd{an }\DIFaddend equivalent circuit, provides a specific method for calculating the MAC of a given structure.
 The proposed method is validated \DIFdelbegin \DIFdel{on two published four-battery-RBSs and }\DIFdelend \DIFaddbegin \DIFadd{using two previously published RBS structures and an additional }\DIFaddend one with a more complex structure.
-The results are the same as those \DIFdelbegin \DIFdel{of }\DIFdelend \DIFaddbegin \DIFadd{from }\DIFaddend the brute-force algorithm, but the proposed method significantly improves the computational efficiency\DIFdelbegin \DIFdel{(}\DIFdelend \DIFaddbegin \DIFadd{, being theoretically }\DIFaddend $N_s 2^{N_s - N_b} \log_{10} N_b$ times faster than the \DIFdelbegin \DIFdel{brute force }\DIFdelend \DIFaddbegin \DIFadd{brute-force }\DIFaddend algorithm for an RBS with $N_b$ batteries and $N_s$ switches\DIFdelbegin \DIFdel{, theoretically).
+The results are the same as those \DIFdelbegin \DIFdel{of }\DIFdelend \DIFaddbegin \DIFadd{from }\DIFaddend the brute-force algorithm, but the proposed method significantly improves the computational efficiency\DIFdelbegin \DIFdel{($N_s 2^{N_s - N_b} \log_{10} N_b$ }\DIFdelend \DIFaddbegin \DIFadd{, being theoretically $N_s2^{N_s-N_b}\log_{10}N_b$ }\DIFaddend times faster than the \DIFdelbegin \DIFdel{brute force }\DIFdelend \DIFaddbegin \DIFadd{brute-force }\DIFaddend algorithm for an RBS with $N_b$ batteries and $N_s$ switches\DIFdelbegin \DIFdel{, theoretically).
 The main }\DIFdelend \DIFaddbegin \DIFadd{.
-Another }\DIFaddend advantage of the proposed method is its ability to calculate the MAC of RBSs with arbitrary structures \DIFaddbegin \DIFadd{and variable batteries}\DIFaddend , even in scenarios with random isolated batteries.
+Another }\DIFaddend advantage of the proposed method is its ability to calculate the MAC of RBSs with arbitrary structures \DIFaddbegin \DIFadd{and variable batteries}\DIFaddend , even in scenarios with random isolated batteries. 
 %DIF < </reviewer1-comment1>
 \end{abstract}
 

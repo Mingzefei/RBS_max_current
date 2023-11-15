@@ -35,7 +35,7 @@
 % Full titles can be a maximum of 100 characters, including spaces. 
 % Title Format: Use title case, capitalizing the first letter of each word, except for certain small words, such as articles and short prepositions
 % \title{Using a Directed Graph Model and Greedy Algorithm to Determine the Maximum Allowable Current in a Reconfigurable Battery System}
-\title{Determining the Maximum Allowable Current of an RBS using a Directed Graph Model and Greedy Algorithm}
+\title{Determining Maximum Allowable Current of an RBS using a Directed Graph Model and Greedy Algorithm}
 
 %%%%%% Authors %%%%%%
 % Authors should be listed in order of contribution to the paper, by first name, then middle initial (if any), followed by last name.
@@ -70,15 +70,14 @@
 
 %%%%%% Abstract %%%%%%
 \begin{abstract}
-Reconfigurable battery systems (RBSs) provide a promising alternative to traditional battery systems due to their flexible and dynamically changeable topological structures that can be adapted to different battery charging and discharging strategies.
+Reconfigurable battery systems provide a promising alternative to traditional battery systems due to their flexible and dynamically changeable topological structures that can be adapted to different battery charging and discharging strategies.
 A critical system parameter known as the maximum allowable current (MAC) is pivotal to RBS operation. This parameter is instrumental in maintaining the current of each individual battery within a safe range and serves as a guiding indicator for the system's reconfiguration, ensuring its safety and reliability.
-In this paper, a method is proposed for calculating the MAC of an arbitrary RBS using a greedy algorithm in conjunction with a directed graph model of the RBS.
-Using the shortest path (SP) of the battery, the greedy algorithm transforms the exhaustion of the switch states in the brute-force algorithm or variable search without utilizing structures in the heuristic algorithms (simulated annealing and genetic algorithms) in the combination of the shortest paths.
-This significantly enhances the efficiency with which the MAC is determined.
+This paper proposes a method for calculating the MAC of an arbitrary RBS using a greedy algorithm in conjunction with a directed graph model of the RBS.
+Using the shortest path of the battery, the greedy algorithm transforms the exhaustion of the switch states in the brute-force algorithm or variable search without utilizing structures in the heuristic algorithms in the combination of the shortest paths.
 The directed graph model, based on an equivalent circuit, provides a specific method for calculating the MAC of a given structure.
 The proposed method is validated using two previously published RBS structures and an additional one with a more complex structure.
-The results are the same as those from the brute-force algorithm, but the proposed method significantly improves the computational efficiency, being theoretically $N_s 2^{N_s - N_b} \log_{10} N_b$ times faster than the brute-force algorithm for an RBS with $N_b$ batteries and $N_s$ switches.
-Another advantage of the proposed method is its ability to calculate the MAC of RBSs with arbitrary structures and variable batteries, even in scenarios with random isolated batteries.
+The results are the same as those from the brute-force algorithm, but the proposed method significantly improves the computational efficiency, being theoretically $N_s2^{N_s-N_b}\log_{10}N_b$ times faster than the brute-force algorithm for an RBS with $N_b$ batteries and $N_s$ switches.
+Another advantage of the proposed method is its ability to calculate the MAC of RBSs with arbitrary structures and variable batteries, even in scenarios with random isolated batteries. 
 \end{abstract}
 
 \section{Introduction}
